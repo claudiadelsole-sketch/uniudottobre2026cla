@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Didattica: Storia e Denaro</title>
+    <style>
+        :root {
+            --primary: #4A90E2;
+            --primary-dark: #357ABD;
+            --secondary: #2ECC71;
+            --background: #F5F7FA;
+            --text: #2C3E50;
+            --card-bg: #FFFFFF;
+            --border: #E2E8F0;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary), #63B3ED);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 { margin-bottom: 10px; font-size: 24px; }
+        header p { font-size: 14px; opacity: 0.9; }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            background-color: var(--card-bg);
+            border: 2px solid var(--border);
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .sub-nav {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .sub-btn {
+            background-color: #E2E8F0;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 13px;
+            color: #4A5568;
+            font-weight: 600;
+        }
+
+        .sub-btn.active {
+            background-color: var(--text);
+            color: white;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .hidden { display: none !important; }
+
+        h2 { color: var(--primary-dark); margin-bottom: 15px; font-size: 20px; }
+        h3 { font-size: 16px; margin-bottom: 12px; color: #4A5568; }
+        .instructions { background: #EBF8FF; border-left: 4px solid #4299E1; padding: 12px; border-radius: 4px; margin-bottom: 20px; font-size: 14px; }
+
+        /* Stili Esercizio Favola Livello Alto */
+        .story-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .story-item {
+            background: #F8FAFC;
+            border: 2px dashed #CBD5E1;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            user-select: none;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        .story-item:active { cursor: grabbing; }
+        .story-item.dragging { opacity: 0.5; background: #E2E8F0; }
+        .drag-handle { color: #94A3B8; font-size: 20px; font-weight: bold; }
+        
+        .word-clickable {
+            display: inline-block;
+            padding: 2px 4px;
+            margin: 0 2px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .word-clickable:hover { background: #E2E8F0; }
+        .word-clickable.selected { background: #F6AD55; color: white; font-weight: bold; }
+
+        /* Stili Esercizio Favola Livello Basso */
+        .qa-row {
+            background: #F8FAFC;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .qa-question { font-weight: 600; margin-bottom: 10px; color: #2D3748; }
+        .qa-options { display: flex; flex-direction: column; gap: 8px; }
+        .qa-option {
+            background: white;
+            border: 1px solid #CBD5E1;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .qa-option:hover { background: #EDF2F7; }
+        .qa-option.selected { border-color: var(--primary); background: #EBF8FF; }
+        .qa-option.correct { background: #C6F6D5; border-color: #38A169; color: #22543D; }
+        .qa-option.wrong { background: #FED7D7; border-color: #E53E3E; color: #742A2A; }
+
+        /* Stili Esercizio Denaro */
+        .money-grid { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 15px; }
+        .coin {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+            user-select: none;
+            border: 2px solid rgba(0,0,0,0.1);
+        }
+        .coin:hover { transform: scale(1.08); }
+        .coin.euro { background: linear-gradient(135deg, #ECC94B, #D69E2E); color: #2D3748; }
+        .coin.cents { background: linear-gradient(135deg, #ED8936, #C05621); color: white; }
+        .coin-label { font-size: 9px; text-transform: uppercase; }
+
+        .catalog-container { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        .catalog-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            width: 130px;
+            background: #F8FAFC;
+            cursor: pointer;
+        }
+        .catalog-card.selected { border-color: var(--primary); background: #EBF8FF; box-shadow: 0 0 8px rgba(66,153,225,0.5); }
+        .catalog-icon { font-size: 32px; margin-bottom: 5px; }
+        .catalog-price { font-weight: bold; color: var(--primary-dark); }
+
+        .desk-area {
+            background: #EDF2F7;
+            border: 2px dashed #CBD5E1;
+            border-radius: 8px;
+            min-height: 100px;
+            padding: 15px;
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-check {
+            display: block;
+            width: 100%;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.2s;
+        }
+        .btn-check:hover { background: #27AE60; }
+        
+        .btn-reset {
+            background: #A0AEC0;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .feedback.success { background: #C6F6D5; color: #22543D; }
+        .feedback.error { background: #FED7D7; color: #742A2A; }
+
+        .input-resto {
+            padding: 8px;
+            font-size: 16px;
+            width: 100px;
+            text-align: center;
+            border: 2px solid #CBD5E1;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Laboratorio Didattico Interattivo</h1>
+        <p>Comprensione del testo, sequenze temporali e uso pratico del denaro</p>
+    </header>
+
+    <!-- Navigazione Principale -->
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchMainTab('favola')">📖 Riordino Favola</button>
+        <button class="tab-btn" onclick="switchMainTab('denaro')">🪙 Uso del Denaro</button>
+    </div>
+
+    <!-- SEZIONE FAVOLA -->
+    <div id="section-favola">
+        <div class="sub-nav">
+            <button class="sub-btn active" id="btn-f-alto" onclick="switchSubTab('favola', 'alto')">Livello Alto (Ordina e Sottolinea)</button>
+            <button class="sub-btn" id="btn-f-basso" onclick="switchSubTab('favola', 'basso')">Livello Semplice (Domande Guida)</button>
+        </div>
+
+        <!-- Favola: Livello Alto -->
+        <div id="favola-alto" class="card">
+            <h2>Esercizio di Riordino e Connettivi (Livello Alto)</h2>
+            <div class="instructions">
+                <strong>Istruzioni:</strong> 
+                1. Trascina e rilascia le sequenze della favola nel giusto ordine cronologico (Inizio, Sviluppo, Conclusione).<br>
+                2. Clicca sulle parole che rappresentano dei <strong>connettivi temporali</strong> (indicatori di tempo come "Prima", "Dopo", "Inizialmente", ecc.) per sottolinearle.
+            </div>
+
+            <ul class="story-list" id="drag-list">
+                <!-- Generato via JS -->
+            </ul>
+
+            <button class="btn-check" onclick="checkFavolaAlto()">Verifica Risultato</button>
+            <div id="feedback-f-alto" class="feedback hidden"></div>
+        </div>
+
+        <!-- Favola: Livello Basso -->
+        <div id="favola-basso" class="card hidden">
+            <h2>Esercizio con Domande Guida (Livello Semplice)</h2>
+            <div class="instructions">
+                <strong>Istruzioni:</strong> Leggi le domande guida che contengono gli indicatori di tempo e seleziona la sequenza corretta della storia. Isola anche il connettivo cliccandoci sopra!
+            </div>
+
+            <div id="qa-container">
+                <!-- Generato via JS -->
+            </div>
+
+            <button class="btn-check" onclick="checkFavolaBasso()">Verifica Risposte</button>
+            <div id="feedback-f-basso" class="feedback hidden"></div>
+        </div>
+    </div>
+
+    <!-- SEZIONE DENARO -->
+    <div id="section-denaro" class="hidden">
+        <div class="sub-nav">
+            <button class="sub-btn active" id="btn-d-1" onclick="switchSubTab('denaro', '1')">Livello 1: Riconosci Monete</button>
+            <button class="sub-btn" id="btn-d-2" onclick="switchSubTab('denaro', '2')">Livello 2: Paga Oggetto</button>
+            <button class="sub-btn" id="btn-d-3" onclick="switchSubTab('denaro', '3')">Livello 3: Calcola il Resto</button>
+        </div>
+
+        <!-- Denaro Livello 1 -->
+        <div id="denaro-1" class="card">
+            <h2>Riconosci il Valore delle Monete (Livello Basso)</h2>
+            <div class="instructions">
+                <strong>Trova la moneta corretta:</strong> Clicca sulla moneta corrispondente al valore richiesto.
+            </div>
+            <h3 id="d1-question" style="font-size: 18px; text-align: center; margin-bottom: 20px;"></h3>
+            <div class="money-grid" id="d1-coins"></div>
+            <div id="feedback-d1" class="feedback hidden"></div>
+        </div>
+
+        <!-- Denaro Livello 2 -->
+        <div id="denaro-2" class="card hidden">
+            <h2>Paga un Oggetto (Livello Intermedio)</h2>
+            <div class="instructions">
+                <strong>Istruzioni:</strong> Scegli un oggetto dal catalogo e inserisci le monete necessarie sul banco per raggiungere il prezzo esatto.
+            </div>
+            
+            <h3>1. Scegli un oggetto:</h3>
+            <div class="catalog-container" id="d2-catalog"></div>
+
+            <h3 style="margin-top:20px;">2. Clicca sulle monete per metterle sul banco:</h3>
+            <div class="money-grid">
+                <div class="coin euro" onclick="addCoinToDesk(2.00)">2€ <span class="coin-label">Euro</span></div>
+                <div class="coin euro" onclick="addCoinToDesk(1.00)">1€ <span class="coin-label">Euro</span></div>
+                <div class="coin cents" onclick="addCoinToDesk(0.50)">50c <span class="coin-label">Cent</span></div>
+                <div class="coin cents" onclick="addCoinToDesk(0.20)">20c <span class="coin-label">Cent</span></div>
+                <div class="coin cents" onclick="addCoinToDesk(0.10)">10c <span class="coin-label">Cent</span></div>
+                <div class="coin cents" onclick="addCoinToDesk(0.05)">5c <span class="coin-label">Cent</span></div>
+            </div>
+
+            <h3 style="margin-top:20px;">Il tuo banco (Totale inserito: <span id="desk-total">0.00</span>€):</h3>
+            <div class="desk-area" id="d2-desk">Nessuna moneta sul banco.</div>
+            <button class="btn-reset" onclick="resetDesk()">Svuota banco</button>
+
+            <button class="btn-check" onclick="checkDenaro2()">Paga Oggetto</button>
+            <div id="feedback-d2" class="feedback hidden"></div>
+        </div>
+
+        <!-- Denaro Livello 3 -->
+        <div id="denaro-3" class="card hidden">
+            <h2>Compra e Calcola il Resto (Livello Alto)</h2>
+            <div class="instructions">
+                <strong>Istruzioni:</strong> Hai comprato un oggetto. Vedi quanto hai dato al cassiere e calcola il resto esatto eseguendo una sottrazione.
+            </div>
+            
+            <div id="d3-problem-box" style="background: #F8FAFC; padding: 15px; border-radius: 8px; border: 1px solid var(--border); font-size: 16px; line-height: 1.6;">
+                <!-- Generato JS -->
+            </div>
+
+            <div style="margin-top: 20px; text-align: center;">
+                <label style="font-weight: bold; display: block; margin-bottom: 5px;">Scrivi il resto esatto (€):</label>
+                <input type="number" step="0.01" id="d3-input" class="input-resto" placeholder="0.00">
+            </div>
+
+            <button class="btn-check" onclick="checkDenaro3()">Verifica Resto</button>
+            <div id="feedback-d3" class="feedback hidden"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- DATI DELLA STORIA (La cicala e la formica) ---
+    const storyData = [
+        {
+            id: "seq1",
+            text: "Inizialmente, durante l'estate, la formica lavorava duramente accumulando cibo per l'inverno, mentre la cicala cantava felice senza preoccuparsi del futuro.",
+            correctOrder: 0,
+            connectives: ["Inizialmente", "durante"]
+        },
+        {
+            id: "seq2",
+            text: "Successivamente, arrivò il freddo inverno e la neve coprì tutti i campi. La cicala si trovò affamata e senza un rifugio, così andò a bussare alla porta della formica per chiedere aiuto.",
+            correctOrder: 1,
+            connectives: ["Successivamente"]
+        },
+        {
+            id: "seq3",
+            text: "Alla fine, la formica le rispose che se avesse ballato d'estate anziché cantare, non si troverebbe in quella situazione, lasciando capire l'importanza del lavoro e della previdenza.",
+            correctOrder: 2,
+            connectives: ["Alla", "fine"]
+        }
+    ];
+
+    const questionsBasso = [
+        {
+            question: "Cosa succede PRIMA di tutto, all'inizio della storia?",
+            options: [
+                { text: "La cicala canta e la formica lavora accumulando cibo.", correct: true, connective: "PRIMA" },
+                { text: "La cicala va a bussare disperata alla formica.", correct: false, connective: "PRIMA" },
+                { text: "La formica nega l'aiuto alla cicala affamata.", correct: false, connective: "PRIMA" }
+            ]
+        },
+        {
+            question: "Cosa succede DOPO, quando arriva l'inverno?",
+            options: [
+                { text: "La cicala continua a cantare felice sotto la neve.", correct: false, connective: "DOPO" },
+                { text: "La cicala si ritrova senza cibo e va a chiedere aiuto alla formica.", correct: true, connective: "DOPO" },
+                { text: "La formica regala tutto il suo cibo alla cicala immediatamente.", correct: false, connective: "DOPO" }
+            ]
+        }
+    ];
+
+    // --- DATI OGGETTI CATALOGO ---
+    const catalog = [
+        { name: "Quaderno", price: 1.50, icon: "📓" },
+        { name: "Matita", price: 0.35, icon: "✏️" },
+        { name: "Gomma", price: 0.60, icon: "🧼" },
+        { name: "Merendina", price: 1.25, icon: "🍰" }
+    ];
+
+    let selectedD2Item = catalog[0];
+    let d2DeskCoins = [];
+    let currentD1Target = {};
+    let currentD3Problem = {};
+
+    // --- NAVIGAZIONE ---
+    function switchMainTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+        if(tab === 'favola') {
+            document.getElementById('section-favola').classList.remove('hidden');
+            document.getElementById('section-denaro').classList.add('hidden');
+        } else {
+            document.getElementById('section-favola').classList.add('hidden');
+            document.getElementById('section-denaro').classList.remove('hidden');
+            initDenaro();
+        }
+    }
+
+    function switchSubTab(main, level) {
+        if(main === 'favola') {
+            document.getElementById('btn-f-alto').classList.remove('active');
+            document.getElementById('btn-f-basso').classList.remove('active');
+            document.getElementById('favola-alto').classList.add('hidden');
+            document.getElementById('favola-basso').classList.add('hidden');
+            
+            document.getElementById(`btn-f-${level}`).classList.add('active');
+            document.getElementById(`favola-${level}`).classList.remove('hidden');
+        } else {
+            document.getElementById('btn-d-1').classList.remove('active');
+            document.getElementById('btn-d-2').classList.remove('active');
+            document.getElementById('btn-d-3').classList.remove('active');
+            document.getElementById('denaro-1').classList.add('hidden');
+            document.getElementById('denaro-2').classList.add('hidden');
+            document.getElementById('denaro-3').classList.add('hidden');
+
+            document.getElementById(`btn-d-${level}`).classList.add('active');
+            document.getElementById(`denaro-${level}`).classList.remove('hidden');
+            if(level === '1') generateD1();
+            if(level === '3') generateD3();
+        }
+    }
+
+    // --- LOGICA FAVOLA LIVELLO ALTO ---
+    function initFavolaAlto() {
+        const dragList = document.getElementById('drag-list');
+        dragList.innerHTML = '';
+        // Mescola le sequenze
+        const shuffled = [...storyData].sort(() => Math.random() - 0.5);
+        
+        shuffled.forEach(seq => {
+            const li = document.createElement('li');
+            li.className = 'story-item';
+            li.draggable = true;
+            li.dataset.id = seq.id;
+
+            const handle = document.createElement('span');
+            handle.className = 'drag-handle';
+            handle.innerHTML = '☰';
+            li.appendChild(handle);
+
+            const contentDiv = document.createElement('div');
+            // Dividi in parole per permettere la sottolineatura dei connettivi
+            const words = seq.text.split(' ');
+            words.forEach(word => {
+                const span = document.createElement('span');
+                span.className = 'word-clickable';
+                // Pulisci punteggiatura per il confronto di pulizia
+                const cleanWord = word.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+                span.innerText = word;
+                span.onclick = (e) => {
+                    e.stopPropagation();
+                    span.classList.toggle('selected');
+                };
+                contentDiv.appendChild(span);
+            });
+
+            li.appendChild(contentDiv);
+            dragList.appendChild(li);
+        });
+
+        // Setup Drag and Drop
+        let draggingItem = null;
+        dragList.addEventListener('dragstart', e => {
+            if(e.target.tagName === 'LI') {
+                draggingItem = e.target;
+                e.target.classList.add('dragging');
+            }
+        });
+
+        dragList.addEventListener('dragend', e => {
+            if(draggingItem) {
+                draggingItem.classList.remove('dragging');
+                draggingItem = null;
+            }
+        });
+
+        dragList.addEventListener('dragover', e => {
+            e.preventDefault();
+            const afterElement = getDragAfterElement(dragList, e.clientY);
+            if (afterElement == null) {
+                dragList.appendChild(draggingItem);
+            } else {
+                dragList.insertBefore(draggingItem, afterElement);
+            }
+        });
+    }
+
+    function getDragAfterElement(container, y) {
+        const draggableElements = [...container.querySelectorAll('.story-item:not(.dragging)')];
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    function checkFavolaAlto() {
+        const items = [...document.querySelectorAll('#drag-list .story-item')];
+        let orderCorrect = true;
+        let connettiviMancanti = false;
+        let erroriConnettivi = false;
+
+        items.forEach((item, index) => {
+            const id = item.dataset.id;
+            const original = storyData.find(s => s.id === id);
+            
+            // Verifica Ordine
+            if (original.correctOrder !== index) {
+                orderCorrect = false;
+            }
+
+            // Verifica Connettivi in questo blocco
+            const wordsSpans = item.querySelectorAll('.word-clickable');
+            wordsSpans.forEach(span => {
+                const cleanText = span.innerText.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").toLowerCase();
+                const isTarget = original.connectives.map(c => c.toLowerCase()).includes(cleanText);
+                const isSelected = span.classList.contains('selected');
+
+                if (isTarget && !isSelected) connettiviMancanti = true;
+                if (!isTarget && isSelected) erroriConnettivi = true;
+            });
+        });
+
+        const feedback = document.getElementById('feedback-f-alto');
+        feedback.classList.remove('hidden');
+
+        if (orderCorrect && !connettiviMancanti && !erroriConnettivi) {
+            feedback.className = "feedback success";
+            feedback.innerHTML = "🏆 Bravissimo! Hai ordinato la storia correttamente e hai trovato tutti i connettivi temporali!";
+        } else {
+            feedback.className = "feedback error";
+            let msg = "Ci sei quasi! Controlla questi dettagli:<br>";
+            if(!orderCorrect) msg += "- L'ordine cronologico delle sequenze non è del tutto corretto.<br>";
+            if(connettiviMancanti) msg += "- Ci sono alcuni connettivi temporali non ancora sottolineati.<br>";
+            if(erroriConnettivi) msg += "- Hai evidenziato alcune parole che non sono indicatori temporali.<br>";
+            feedback.innerHTML = msg;
+        }
+    }
+
+    // --- LOGICA FAVOLA LIVELLO BASSO ---
+    function initFavolaBasso() {
+        const container = document.getElementById('qa-container');
+        container.innerHTML = '';
+
+        questionsBasso.forEach((qObj, qIdx) => {
+            const row = document.createElement('div');
+            row.className = 'qa-row';
+
+            // Evidenzia connettivo nella domanda
+            const qDiv = document.createElement('div');
+            qDiv.className = 'qa-question';
+            
+            const words = qObj.question.split(' ');
+            words.forEach(w => {
+                const span = document.createElement('span');
+                span.className = 'word-clickable';
+                span.innerText = w + ' ';
+                const cleanW = w.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g,"").toUpperCase();
+                span.onclick = () => span.classList.toggle('selected');
+                qDiv.appendChild(span);
+            });
+            row.appendChild(qDiv);
+
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'qa-options';
+
+            qObj.options.forEach((opt, oIdx) => {
+                const optDiv = document.createElement('div');
+                optDiv.className = 'qa-option';
+                optDiv.innerText = opt.text;
+                optDiv.dataset.correct = opt.correct;
+                optDiv.onclick = () => {
+                    const siblings = optionsDiv.querySelectorAll('.qa-option');
+                    siblings.forEach(s => s.classList.remove('selected'));
+                    optDiv.classList.add('selected');
+                };
+                optionsDiv.appendChild(optDiv);
+            });
+
+            row.appendChild(optionsDiv);
+            container.appendChild(row);
+        });
+    }
+
+    function checkFavolaBasso() {
+        const rows = document.querySelectorAll('.qa-row');
+        let tuttoCorretto = true;
+        let connettiviOk = true;
+
+        rows.forEach((row, idx) => {
+            const selectedOpt = row.querySelector('.qa-option.selected');
+            const spans = row.querySelectorAll('.qa-question .word-clickable');
+            
+            // Verifica risposta
+            if(!selectedOpt || selectedOpt.dataset.correct !== "true") {
+                tuttoCorretto = false;
+                if(selectedOpt) selectedOpt.classList.add('wrong');
+            } else {
+                selectedOpt.classList.add('correct');
+            }
+
+            // Verifica connettivo isolato nella domanda
+            let trovatoConnettivo = false;
+            let erroriConnettivo = false;
+            spans.forEach(span => {
+                const clean = span.innerText.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g,"").trim().toUpperCase();
+                const isSelected = span.classList.contains('selected');
+                const isTarget = (clean === "PRIMA" || clean === "DOPO");
+
+                if(isTarget && isSelected) trovatoConnettivo = true;
+                if(!isTarget && isSelected) erroriConnettivo = true;
+            });
+
+            if(!trovatoConnettivo || erroriConnettivo) {
+                connettiviOk = false;
+            }
+        });
+
+        const fb = document.getElementById('feedback-f-basso');
+        fb.classList.remove('hidden');
+
+        if(tuttoCorretto && connettiviOk) {
+            fb.className = "feedback success";
+            fb.innerHTML = "🎉 Ottimo lavoro! Hai risposto correttamente a tutte le domande e isolato i connettivi di tempo!";
+        } else {
+            fb.className = "feedback error";
+            let msg = "Riprova! ";
+            if(!tuttoCorretto) msg += "Controlla le risposte contrassegnate o seleziona una risposta per ogni domanda. ";
+            if(!connettiviOk) msg += "Ricorda di cliccare e sottolineare la parola temporale (PRIMA/DOPO) nella domanda.";
+            fb.innerHTML = msg;
+        }
+    }
+
+    // --- LOGICA DENARO LIVELLO 1 ---
+    const avCoins = [
+        { label: "2€", val: 2.00, cl: "euro" },
+        { label: "1€", val: 1.00, cl: "euro" },
+        { label: "50c", val: 0.50, cl: "cents" },
+        { label: "20c", val: 0.20, cl: "cents" },
+        { label: "10c", val: 0.10, cl: "cents" },
+        { label: "5c", val: 0.05, cl: "cents" }
+    ];
+
+    function generateD1() {
+        document.getElementById('feedback-d1').classList.add('hidden');
+        currentD1Target = avCoins[Math.floor(Math.random() * avCoins.length)];
+        document.getElementById('d1-question').innerText = `Tocca la moneta dal valore di: ${currentD1Target.label}`;
+        
+        const grid = document.getElementById('d1-coins');
+        grid.innerHTML = '';
+        
+        // Renderizza monete in ordine fisso o casuale
+        avCoins.forEach(c => {
+            const div = document.createElement('div');
+            div.className = `coin ${c.cl}`;
+            div.innerHTML = `${c.label} <span class="coin-label">${c.cl === 'euro' ? 'Euro' : 'Cent'}</span>`;
+            div.onclick = () => {
+                const fb = document.getElementById('feedback-d1');
+                fb.classList.remove('hidden');
+                if(c.val === currentD1Target.val) {
+                    fb.className = "feedback success";
+                    fb.innerText = "⭐ Corretto! Hai riconosciuto la moneta. Proviamone un'altra fra 2 secondi!";
+                    setTimeout(generateD1, 2000);
+                } else {
+                    fb.className = "feedback error";
+                    fb.innerText = "❌ Non è quella corretta. Guarda bene il valore scritto sopra!";
+                }
+            };
+            grid.appendChild(div);
+        });
+    }
+
+    // --- LOGICA DENARO LIVELLO 2 ---
+    function initD2Catalog() {
+        const catDiv = document.getElementById('d2-catalog');
+        catDiv.innerHTML = '';
+        catalog.forEach((item, idx) => {
+            const d = document.createElement('div');
+            d.className = `catalog-card ${idx === 0 ? 'selected' : ''}`;
+            d.innerHTML = `<div class="catalog-icon">${item.icon}</div><div>${item.name}</div><div class="catalog-price">${item.price.toFixed(2)}€</div>`;
+            d.onclick = () => {
+                document.querySelectorAll('.catalog-card').forEach(c => c.classList.remove('selected'));
+                d.classList.add('selected');
+                selectedD2Item = item;
+                resetDesk();
+            };
+            catDiv.appendChild(d);
+        });
+    }
+
+    function addCoinToDesk(val) {
+        d2DeskCoins.push(val);
+        renderDesk();
+    }
+
+    function resetDesk() {
+        d2DeskCoins = [];
+        renderDesk();
+        document.getElementById('feedback-d2').classList.add('hidden');
+    }
+
+    function renderDesk() {
+        const desk = document.getElementById('d2-desk');
+        const totalSpan = document.getElementById('desk-total');
+        
+        if(d2DeskCoins.length === 0) {
+            desk.innerText = "Nessuna moneta sul banco.";
+            totalSpan.innerText = "0.00";
+            return;
+        }
+
+        desk.innerHTML = '';
+        let sum = 0;
+        d2DeskCoins.forEach((cVal, idx) => {
+            sum += cVal;
+            const coinData = avCoins.find(o => Math.abs(o.val - cVal) < 0.001);
+            const div = document.createElement('div');
+            div.className = `coin ${coinData.cl}`;
+            div.style.transform = "scale(0.85)";
+            div.innerHTML = `${coinData.label} <span class="coin-label">Rimuovi</span>`;
+            div.onclick = () => {
+                d2DeskCoins.splice(idx, 1);
+                renderDesk();
+            };
+            desk.appendChild(div);
+        });
+
+        totalSpan.innerText = sum.toFixed(2);
+    }
+
+    function checkDenaro2() {
+        const currentSum = d2DeskCoins.reduce((a, b) => a + b, 0);
+        const targetPrice = selectedD2Item.price;
+        const fb = document.getElementById('feedback-d2');
+        fb.classList.remove('hidden');
+
+        if(Math.abs(currentSum - targetPrice) < 0.005) {
+            fb.className = "feedback success";
+            fb.innerText = `🎯 Bravissimo! Hai composto esattamente ${targetPrice.toFixed(2)}€ per pagare il/la ${selectedD2Item.name}!`;
+        } else {
+            fb.className = "feedback error";
+            fb.innerHTML = `Il totale sul tuo banco è <strong>${currentSum.toFixed(2)}€</strong>, ma l'oggetto costa <strong>${targetPrice.toFixed(2)}€</strong>. Aggiungi o rimuovi le monete!`;
+        }
+    }
+
+    // --- LOGICA DENARO LIVELLO 3 ---
+    function generateD3() {
+        document.getElementById('feedback-d3').classList.add('hidden');
+        document.getElementById('d3-input').value = '';
+        
+        const randomItem = catalog[Math.floor(Math.random() * catalog.length)];
+        // Scegli una moneta o banconota data al cassiere superiore al prezzo
+        const possibiliPagamenti = [1.00, 2.00, 5.00].filter(v => v > randomItem.price);
+        const pagato = possibiliPagamenti[Math.floor(Math.random() * possibiliPagamenti.length)];
+        const restoCorretto = pagato - randomItem.price;
+
+        currentD3Problem = {
+            item: randomItem,
+            pagato: pagato,
+            resto: restoCorretto
+        };
+
+        const probBox = document.getElementById('d3-problem-box');
+        probBox.innerHTML = `Hai comprato un/a <strong>${randomItem.name}</strong> che costa <strong>${randomItem.price.toFixed(2)}€</strong>.<br>
+        Al cassiere consegni una moneta/banconota da <strong>${pagato.toFixed(2)}€</strong>.<br>
+        <span style="color:#718096; font-size:14px;">Operazione da fare: ${pagato.toFixed(2)} - ${randomItem.price.toFixed(2)}</span>`;
+    }
+
+    function checkDenaro3() {
+        const userResto = parseFloat(document.getElementById('d3-input').value);
+        const fb = document.getElementById('feedback-d3');
+        fb.classList.remove('hidden');
+
+        if(isNaN(userResto)) {
+            fb.className = "feedback error";
+            fb.innerText = "Inserisci un numero valido per il resto.";
+            return;
+        }
+
+        if(Math.abs(userResto - currentD3Problem.resto) < 0.005) {
+            fb.className = "feedback success";
+            fb.innerText = `🏆 Esatto! Il resto corretto da ricevere è proprio ${currentD3Problem.resto.toFixed(2)}€. Ottima competenza di vita reale!`;
+        } else {
+            fb.className = "feedback error";
+            fb.innerText = `Spiacente, calcolo non corretto. Riprova a fare la sottrazione con cura!`;
+        }
+    }
+
+    function initDenaro() {
+        initD2Catalog();
+        generateD1();
+    }
+
+    // Inizializzazione all'avvio
+    window.onload = () => {
+        initFavolaAlto();
+        initFavolaBasso();
+    };
+</script>
+
+</body>
+</html>
