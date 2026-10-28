@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esercizi di Riordino e Uso del Denaro</title>
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --primary-dark: #3b5984;
+            --secondary: #16a085;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #2c3e50;
+            --border: #dcdde1;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--primary-dark);
+            margin-bottom: 5px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .tab-btn {
+            background-color: #e0e0e0;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .exercise-panel {
+            display: none;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .exercise-panel.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--bg);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .meta-info {
+            background-color: #f1f2f6;
+            padding: 12px;
+            border-left: 4px solid var(--primary);
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        /* Stili Favola Riordino */
+        .sortable-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sortable-item {
+            background: #f9f9f9;
+            border: 2px dashed var(--border);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .sortable-item:active {
+            cursor: grabbing;
+        }
+
+        .word-clickable {
+            display: inline-block;
+            padding: 2px 4px;
+            margin: 0 2px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .word-clickable:hover {
+            background-color: #ffeaa7;
+        }
+
+        .word-clickable.selected {
+            background-color: #fdcb6e;
+            font-weight: bold;
+            border-bottom: 2px solid #e17055;
+        }
+
+        /* Question Box per Livello Semplice */
+        .question-box {
+            background: #f5f6fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border);
+        }
+
+        .question-box select {
+            padding: 8px;
+            font-size: 15px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        /* Stili Denaro */
+        .coin-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .coin-card {
+            background: #f9f9f9;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            width: calc(25% - 15px);
+            box-sizing: border-box;
+        }
+
+        .coin-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #f1c40f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .coin-img.copper { background: #d35400; }
+        .coin-img.silver { background: #bdc3c7; color: #2c3e50; }
+        .coin-img.gold { background: #f1c40f; color: #2c3e50; }
+
+        .coin-card input {
+            width: 60px;
+            padding: 5px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .shop-item {
+            background: #f5f6fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 2px solid var(--primary);
+        }
+
+        .item-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--secondary);
+            margin: 10px 0;
+        }
+
+        .payment-area {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #117a65;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            display: none;
+            font-weight: bold;
+        }
+
+        .feedback.success {
+            display: block;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .feedback.error {
+            display: block;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Piattaforma Didattica Inclusiva</h1>
+        <p>Esercizi personalizzati di comprensione testuale e autonomia pratica</p>
+    </header>
+
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('favola-alto')">Favola (Livello Alto)</button>
+        <button class="tab-btn" onclick="switchTab('favola-basso')">Favola (Livello Semplice)</button>
+        <button class="tab-btn" onclick="switchTab('denaro-1')">Denaro (Riconoscimento)</button>
+        <button class="tab-btn" onclick="switchTab('denaro-2')">Denaro (Pagamento)</button>
+        <button class="tab-btn" onclick="switchTab('denaro-3')">Denaro (Resto)</button>
+    </div>
+
+    <!-- 1) FAVOLA LIVELLO ALTO -->
+    <div id="favola-alto" class="exercise-panel active">
+        <h2>Riordino Cronologico e Connettivi Temporali</h2>
+        <div class="meta-info">
+            <strong>Obiettivo Principale:</strong> Identificare inizio, sviluppo e conclusione. Causa ed effetto.<br>
+            <strong>Obiettivo Secondario:</strong> Riconoscere i connettivi temporali cliccando sulle parole corrette.
+        </div>
+        <p><strong>Fase 1:</strong> Trascina i blocchi con le frecce su/giù per riordinare la storia cronologicamente.</p>
+        
+        <ul class="sortable-list" id="story-sortable">
+            <li class="sortable-item" draggable="true" data-order="3" id="item-3">
+                <span class="arrow-btn" style="cursor:pointer; font-size:20px; margin-right:10px;">↕</span>
+                <div>
+                    <span class="word-clickable connective" onclick="toggleWord(this)">Infine,</span> arrivò il gelido inverno e la cicala, affamata, bussò alla formica chiedendo aiuto.
+                </div>
+            </li>
+            <li class="sortable-item" draggable="true" data-order="1" id="item-1">
+                <span class="arrow-btn" style="cursor:pointer; font-size:20px; margin-right:10px;">↕</span>
+                <div>
+                    <span class="word-clickable connective" onclick="toggleWord(this)">All'inizio,</span> durante l'estate, la formica lavorava duramente accumulando chicchi di grano per l'inverno.
+                </div>
+            </li>
+            <li class="sortable-item" draggable="true" data-order="2" id="item-2">
+                <span class="arrow-btn" style="cursor:pointer; font-size:20px; margin-right:10px;">↕</span>
+                <div>
+                    <span class="word-clickable connective" onclick="toggleWord(this)">Successivamente,</span> mentre la formica faticava, la cicala cantava felice senza preoccuparsi del futuro.
+                </div>
+            </li>
+        </ul>
+
+        <p style="margin-top:20px;"><strong>Fase 2:</strong> Clicca sopra le parole che indicano il tempo (connettivi temporali) per evidenziarle.</p>
+        
+        <button class="btn" onclick="checkFavolaAlto()">Verifica Risposte</button>
+        <div id="feedback-alto" class="feedback"></div>
+    </div>
+
+    <!-- 2) FAVOLA LIVELLO SEMPLICE -->
+    <div id="favola-basso" class="exercise-panel">
+        <h2>Associazione a Domande Guida</h2>
+        <div class="meta-info">
+            <strong>Obiettivo:</strong> Rintracciare informazioni con facilitatori e isolare connettivi temporali.
+        </div>
+        <p>Leggi le domande e seleziona la sequenza corretta associata ad ogni indicatore temporale.</p>
+
+        <div class="question-box">
+            <p><strong>1) Cosa succede PRIMA di tutto, all'inizio dell'estate?</strong></p>
+            <select id="q-basso-1">
+                <option value="">-- Scegli la risposta --</option>
+                <option value="inverno">La cicala ha freddo e non ha cibo.</option>
+                <option value="estate">La formica mette da parte il cibo lavorando duramente.</option>
+                <option value="canto">La cicala prende in giro la formica.</option>
+            </select>
+        </div>
+
+        <div class="question-box">
+            <p><strong>2) Cosa succede DOPO, mentre l'estate continua?</strong></p>
+            <select id="q-basso-2">
+                <option value="">-- Scegli la risposta --</option>
+                <option value="inverno">La cicala chiede aiuto disperata.</option>
+                <option value="estate">La cicala preferisce cantare e non pensa al domani.</option>
+                <option value="grano">La formica riempie tutto il formicaio.</option>
+            </select>
+        </div>
+
+        <div class="question-box">
+            <p><strong>3) Quale parola nella domanda 1 ti fa capire il tempo dell'azione?</strong></p>
+            <select id="q-basso-3">
+                <option value="">-- Scegli la risposta --</option>
+                <option value="no">succede</option>
+                <option value="yes">PRIMA</option>
+                <option value="no2">estate</option>
+            </select>
+        </div>
+
+        <button class="btn" onclick="checkFavolaBasso()">Verifica Risposte</button>
+        <div id="feedback-basso" class="feedback"></div>
+    </div>
+
+    <!-- 3) DENARO LIVELLO BASSO -->
+    <div id="denaro-1" class="exercise-panel">
+        <h2>Riconoscimento e Valore delle Monete</h2>
+        <div class="meta-info">
+            <strong>Obiettivo:</strong> Riconoscere, ordinare e catalogare le monete correnti.
+        </div>
+        <p>Inserisci il valore corretto per ciascuna moneta (es. 0.10, 0.50, 1.00, 2.00):</p>
+
+        <div class="coin-grid">
+            <div class="coin-card">
+                <div class="coin-img copper">10c</div>
+                <p>Moneta di rame piccola</p>
+                Valore (€): <input type="number" step="0.01" id="coin-val-1" placeholder="0.00">
+            </div>
+            <div class="coin-card">
+                <div class="coin-img silver">50c</div>
+                <p>Moneta dorata zigrinata</p>
+                Valore (€): <input type="number" step="0.01" id="coin-val-2" placeholder="0.00">
+            </div>
+            <div class="coin-card">
+                <div class="coin-img gold">1€</div>
+                <p>Moneta bicolore argento/oro</p>
+                Valore (€): <input type="number" step="0.01" id="coin-val-3" placeholder="0.00">
+            </div>
+            <div class="coin-card">
+                <div class="coin-img gold">2€</div>
+                <p>Moneta bicolore grande</p>
+                Valore (€): <input type="number" step="0.01" id="coin-val-4" placeholder="0.00">
+            </div>
+        </div>
+
+        <button class="btn" onclick="checkDenaro1()">Verifica Monete</button>
+        <div id="feedback-denaro1" class="feedback"></div>
+    </div>
+
+    <!-- 4) DENARO LIVELLO MEDIO -->
+    <div id="denaro-2" class="exercise-panel">
+        <h2>Paga il Prezzo Esatto</h2>
+        <div class="meta-info">
+            <strong>Obiettivo:</strong> Associare il prezzo alle monete e calcolare la somma esatta.
+        </div>
+        
+        <div class="shop-item">
+            <h3>Oggetto da comprare: Un quaderno di scuola 📓</h3>
+            <div class="item-price">Prezzo: € 2.60</div>
+        </div>
+
+        <p>Seleziona quante monete di ciascun tipo vuoi usare per pagare la cifra esatta:</p>
+        
+        <div class="coin-grid">
+            <div class="coin-card">
+                <div class="coin-img gold">2 €</div>
+                Quantità: <input type="number" min="0" value="0" id="pay-2e">
+            </div>
+            <div class="coin-card">
+                <div class="coin-img gold">1 €</div>
+                Quantità: <input type="number" min="0" value="0" id="pay-1e">
+            </div>
+            <div class="coin-card">
+                <div class="coin-img silver">50 c</div>
+                Quantità: <input type="number" min="0" value="0" id="pay-50c">
+            </div>
+            <div class="coin-card">
+                <div class="coin-img copper">10 c</div>
+                Quantità: <input type="number" min="0" value="0" id="pay-10c">
+            </div>
+        </div>
+
+        <button class="btn" onclick="checkDenaro2()">Invia Pagamento</button>
+        <div id="feedback-denaro2" class="feedback"></div>
+    </div>
+
+    <!-- 5) DENARO LIVELLO ALTO -->
+    <div id="denaro-3" class="exercise-panel">
+        <h2>Calcolo del Resto</h2>
+        <div class="meta-info">
+            <strong>Obiettivo:</strong> Calcolare la differenza tramite sottrazione per lo sviluppo dell'autonomia reale.
+        </div>
+
+        <div class="shop-item">
+            <h3>Oggetto da comprare: Un astuccio colorato ✏️</h3>
+            <div class="item-price">Prezzo dell'astuccio: € 3.50</div>
+            <p><strong>Tu paghi con una moneta da: € 5.00</strong></p>
+        </div>
+
+        <div class="payment-area">
+            <label for="resto-studente" style="font-weight: bold;">Quanto resto devi ricevere dal negoziante?</label>
+            <input type="number" step="0.01" id="resto-studente" style="padding: 12px; font-size:18px; text-align:center; border-radius:6px; border:1px solid var(--border);" placeholder="0.00">
+        </div>
+
+        <button class="btn" onclick="checkDenaro3()">Verifica Sottrazione</button>
+        <div id="feedback-denaro3" class="feedback"></div>
+    </div>
+</div>
+
+<script>
+    // Gestione dei Tab
+    function switchTab(tabId) {
+        document.querySelectorAll('.exercise-panel').forEach(panel => panel.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    // Toggle parola cliccata per connettivi
+    function toggleWord(element) {
+        element.classList.toggle('selected');
+    }
+
+    // Drag and Drop Semplificato con bottoni o ordinamento nativo simulato via click/bottoni
+    let draggedItem = null;
+    const items = document.querySelectorAll('.sortable-item');
+    
+    items.forEach(item => {
+        item.addEventListener('dragstart', function() {
+            draggedItem = item;
+            setTimeout(() => item.style.display = 'none', 0);
+        });
+
+        item.addEventListener('dragend', function() {
+            setTimeout(() => {
+                draggedItem.style.display = 'flex';
+                draggedItem = null;
+            }, 0);
+        });
+
+        item.addEventListener('dragover', function(e) {
+            e.preventDefault();
+        });
+
+        item.addEventListener('dragenter', function(e) {
+            e.preventDefault();
+        });
+
+        item.addEventListener('drop', function() {
+            if (this !== draggedItem) {
+                let allItems = Array.from(document.getElementById('story-sortable').children);
+                let draggedIdx = allItems.indexOf(draggedItem);
+                let targetIdx = allItems.indexOf(this);
+                
+                if (draggedIdx < targetIdx) {
+                    this.parentNode.insertBefore(draggedItem, this.nextSibling);
+                } else {
+                    this.parentNode.insertBefore(draggedItem, this);
+                }
+            }
+        });
+    });
+
+    // Validazione Favola Alto
+    function checkFavolaAlto() {
+        const currentOrder = Array.from(document.getElementById('story-sortable').children).map(item => item.getAttribute('data-order')).join('');
+        const clickedConnectives = document.querySelectorAll('.word-clickable.selected').length;
+        const totalConnectives = document.querySelectorAll('.word-clickable.connective').length;
+        
+        let feedback = document.getElementById('feedback-alto');
+        
+        if (currentOrder === "123" && clickedConnectives === totalConnectives) {
+            feedback.className = "feedback success";
+            feedback.innerHTML = "Bravissimo! Le sequenze sono in ordine cronologico corretto e hai trovato tutti i connettivi temporali!";
+        } else {
+            feedback.className = "feedback error";
+            feedback.innerHTML = "Controlla bene. Assicurati che la storia inizi con il blocco 'All'inizio' e di aver evidenziato tutte e tre le parole temporali di inizio frase.";
+        }
+    }
+
+    // Validazione Favola Basso
+    function checkFavolaBasso() {
+        const r1 = document.getElementById('q-basso-1').value;
+        const r2 = document.getElementById('q-basso-2').value;
+        const r3 = document.getElementById('q-basso-3').value;
+        let feedback = document.getElementById('feedback-basso');
+
+        if (r1 === 'estate' && r2 === 'estate' && r3 === 'yes') {
+            feedback.className = "feedback success";
+            feedback.innerHTML = "Ottimo lavoro! Hai risposto correttamente a tutte le domande guida rintracciando il tempo.";
+        } else {
+            feedback.className = "feedback error";
+            feedback.innerHTML = "Qualche risposta è incompleta o errata. Rileggi bene le domande e gli indicatori!";
+        }
+    }
+
+    // Validazione Denaro 1
+    function checkDenaro1() {
+        const v1 = parseFloat(document.getElementById('coin-val-1').value);
+        const v2 = parseFloat(document.getElementById('coin-val-2').value);
+        const v3 = parseFloat(document.getElementById('coin-val-3').value);
+        const v4 = parseFloat(document.getElementById('coin-val-4').value);
+        let feedback = document.getElementById('feedback-denaro1');
+
+        if (v1 === 0.1 && v2 === 0.5 && v3 === 1 && v4 === 2) {
+            feedback.className = "feedback success";
+            feedback.innerHTML = "Eccellente! Hai riconosciuto perfettamente il valore di tutte le monete.";
+        } else {
+            feedback.className = "feedback error";
+            feedback.innerHTML = "Controlla i valori inseriti. Ricorda i decimali per i centesimi (es. 0.10 e 0.50).";
+        }
+    }
+
+    // Validazione Denaro 2
+    function checkDenaro2() {
+        const q2 = parseInt(document.getElementById('pay-2e').value) || 0;
+        const q1 = parseInt(document.getElementById('pay-1e').value) || 0;
+        const q50 = parseInt(document.getElementById('pay-50c').value) || 0;
+        const q10 = parseInt(document.getElementById('pay-10c').value) || 0;
+
+        const totaleInviato = (q2 * 2) + (q1 * 1) + (q50 * 0.5) + (q10 * 0.1);
+        let feedback = document.getElementById('feedback-denaro2');
+
+        // Arrotondamento per evitare problemi con i decimali floating point
+        if (Math.abs(totaleInviato - 2.60) < 0.01) {
+            feedback.className = "feedback success";
+            feedback.innerHTML = `Pagamento riuscito! Hai composto esattamente € 2.60.`;
+        } else {
+            feedback.className = "feedback error";
+            feedback.innerHTML = `Il totale che hai inserito è € ${totaleInviato.toFixed(2)}. Riprova, devi raggiungere esattamente € 2.60.`;
+        }
+    }
+
+    // Validazione Denaro 3
+    function checkDenaro3() {
+        const restoStudente = parseFloat(document.getElementById('resto-studente').value);
+        let feedback = document.getElementById('feedback-denaro3');
+
+        if (Math.abs(restoStudente - 1.50) < 0.01) {
+            feedback.className = "feedback success";
+            feedback.innerHTML = "Corretto! 5.00 - 3.50 = 1.50. Il tuo resto è esatto!";
+        } else {
+            feedback.className = "feedback error";
+            feedback.innerHTML = "Il calcolo non è corretto. Fai una sottrazione: togli il prezzo (3.50) dai soldi che hai dato (5.00).";
+        }
+    }
+</script>
+
+</body>
+</html>
