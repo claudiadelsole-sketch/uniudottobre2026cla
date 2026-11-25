@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Percorso Inglese – LearningApps (PEI)</title>
+  <style>
+    /* =========================================================================
+       STILE E ACCESSIBILITÀ (PEI): interfaccia pulita, calma, alto contrasto,
+       font leggibile (Arial / Verdana / system-ui), nessuna animazione aggressiva.
+       ========================================================================= */
+    :root {
+      --bg-page: #f3f6fa;
+      --bg-card: #ffffff;
+      --bg-subtle: #eef2f7;
+      --text-main: #0f172a;
+      --text-muted: #334155;
+      --border-soft: #cbd5e1;
+      --border-strong: #64748b;
+      --primary: #1d4ed8;
+      --primary-hover: #1e40af;
+      --primary-soft: #dbeafe;
+      --success: #15803d;
+      --success-hover: #166534;
+      --success-soft: #dcfce7;
+      --warn: #b45309;
+      --warn-soft: #fef3c7;
+      --danger: #b91c1c;
+      --danger-soft: #fee2e2;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      font-family: Arial, Verdana, system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* Focus visibile e chiaro per navigazione da tastiera e lettori */
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Intestazione principale */
+    .site-header {
+      background-color: var(--bg-card);
+      border-bottom: 2px solid var(--border-soft);
+      padding: 18px 20px;
+    }
+
+    .header-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .badge-pei {
+      display: inline-block;
+      background-color: var(--primary-soft);
+      color: #1e3a8a;
+      border: 1px solid #93c5fd;
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .site-title {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .site-subtitle {
+      margin: 4px 0 0 0;
+      font-size: 15px;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    /* Pulsanti grandi e leggibili */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      border: 2px solid transparent;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-card);
+      color: var(--text-main);
+      border-color: var(--border-strong);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--bg-subtle);
+    }
+
+    .btn-success {
+      background-color: var(--success);
+      color: #ffffff;
+    }
+
+    .btn-success:hover {
+      background-color: var(--success-hover);
+    }
+
+    .btn-outline-success {
+      background-color: var(--success-soft);
+      color: #14532d;
+      border-color: #86efac;
+    }
+
+    .btn-outline-success:hover {
+      background-color: #bbf7d0;
+    }
+
+    .btn-danger-soft {
+      background-color: var(--danger-soft);
+      color: #7f1d1d;
+      border-color: #fca5a5;
+    }
+
+    .btn-danger-soft:hover {
+      background-color: #fecaca;
+    }
+
+    /* Contenitore principale */
+    .main-container {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 24px 18px 40px 18px;
+    }
+
+    /* Banner avvisi (senza alert/confirm) */
+    .notice-banner {
+      margin-bottom: 20px;
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--border-soft);
+      background-color: var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .notice-info {
+      background-color: var(--primary-soft);
+      border-color: #60a5fa;
+      color: #1e3a8a;
+    }
+
+    .notice-success {
+      background-color: var(--success-soft);
+      border-color: #4ade80;
+      color: #14532d;
+    }
+
+    .notice-warn {
+      background-color: var(--warn-soft);
+      border-color: #f59e0b;
+      color: #78350f;
+    }
+
+    .notice-close {
+      min-height: 36px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid currentColor;
+      background: #ffffff;
+      color: inherit;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* Card / Sezioni */
+    .card {
+      background-color: var(--bg-card);
+      border: 2px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 22px;
+    }
+
+    .card-title {
+      margin: 0 0 6px 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .card-desc {
+      margin: 0 0 16px 0;
+      font-size: 15px;
+      color: var(--text-muted);
+    }
+
+    /* Form dati alunno */
+    .student-form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .field-input {
+      min-height: 44px;
+      padding: 10px 12px;
+      border: 2px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      background-color: #ffffff;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 16px;
+    }
+
+    .field-input:disabled {
+      background-color: var(--bg-subtle);
+      color: var(--text-muted);
+    }
+
+    .student-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    .status-pill {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      border: 1px solid var(--border-soft);
+      background-color: var(--bg-subtle);
+      color: var(--text-main);
+    }
+
+    .pill-passed {
+      background-color: var(--success-soft);
+      border-color: #4ade80;
+      color: #14532d;
+    }
+
+    .pill-timeout {
+      background-color: var(--danger-soft);
+      border-color: #f87171;
+      color: #7f1d1d;
+    }
+
+    .pill-pending {
+      background-color: var(--warn-soft);
+      border-color: #fbbf24;
+      color: #78350f;
+    }
+
+    .pill-locked {
+      background-color: #e2e8f0;
+      border-color: #94a3b8;
+      color: #475569;
+    }
+
+    /* Schede (tab) dei 3 esercizi */
+    .tabs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 720px) {
+      .tabs-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .tab-btn {
+      width: 100%;
+      min-height: 76px;
+      padding: 14px 16px;
+      border-radius: var(--radius-lg);
+      border: 2px solid var(--border-strong);
+      background-color: var(--bg-card);
+      color: var(--text-main);
+      font-family: inherit;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .tab-btn:hover:not(.tab-locked) {
+      background-color: var(--bg-subtle);
+      border-color: var(--primary);
+    }
+
+    .tab-btn.tab-active {
+      background-color: var(--primary-soft);
+      border-color: var(--primary);
+      color: #1e3a8a;
+    }
+
+    .tab-btn.tab-locked {
+      background-color: #e2e8f0;
+      border-color: #cbd5e1;
+      color: #64748b;
+      cursor: not-allowed;
+    }
+
+    .tab-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .tab-heading {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .tab-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Pannello esercizio attivo */
+    .exercise-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .timers-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .timer-box {
+      padding: 8px 12px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-strong);
+      background-color: var(--bg-subtle);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .timer-countdown {
+      background-color: var(--warn-soft);
+      border-color: #d97706;
+      color: #78350f;
+    }
+
+    .timer-expired {
+      background-color: var(--danger-soft);
+      border-color: #dc2626;
+      color: #7f1d1d;
+    }
+
+    .iframe-wrapper {
+      width: 100%;
+      border: 2px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background-color: #f8fafc;
+    }
+
+    .iframe-wrapper iframe {
+      display: block;
+      width: 100%;
+      height: 500px;
+      border: 0;
+    }
+
+    .exercise-footer {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-soft);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .exercise-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    /* Area Docente */
+    .teacher-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .timer-config-card {
+      padding: 16px;
+      border: 2px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      background-color: var(--bg-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      border: 2px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      background-color: var(--bg-card);
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .checkbox-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Modale Report */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(15, 23, 42, 0.6);
+      z-index: 100;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 920px;
+      background-color: var(--bg-card);
+      border: 2px solid var(--border-strong);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin: 16px auto;
+    }
+
+    .modal-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+      border-bottom: 2px solid var(--border-soft);
+    }
+
+    .report-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      padding: 14px;
+      border-radius: var(--radius-md);
+      background-color: var(--primary-soft);
+      border: 1px solid #93c5fd;
+      margin-bottom: 18px;
+    }
+
+    .report-ex-card {
+      padding: 16px;
+      border: 2px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      background-color: #f8fafc;
+      margin-bottom: 14px;
+    }
+
+    .report-ex-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .report-list {
+      margin: 6px 0 0 0;
+      padding-left: 20px;
+    }
+
+    .report-footer {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 2px solid var(--border-soft);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .site-footer {
+      text-align: center;
+      padding: 18px;
+      font-size: 14px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-soft);
+      background-color: var(--bg-card);
+    }
+
+    /* Stampa / Salva PDF */
+    @media print {
+      body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .modal-backdrop {
+        position: static !important;
+        inset: auto !important;
+        background: transparent !important;
+        padding: 0 !important;
+        overflow: visible !important;
+        display: block !important;
+      }
+      .modal-card {
+        border: 1px solid #000000 !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 12px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- =====================================================================
+       INTESTAZIONE E NAVIGAZIONE PRINCIPALE
+       ===================================================================== -->
+  <header class="site-header no-print">
+    <div class="header-inner">
+      <div>
+        <span class="badge-pei">Inglese · Lessico quotidiano · 3ª Media (PEI)</span>
+        <h1 class="site-title">Percorso di Inglese con LearningApps</h1>
+        <p class="site-subtitle">Un esercizio alla volta, con tempi chiari e report finale.</p>
+      </div>
+      <div class="header-actions">
+        <button id="btn-view-student" type="button" class="btn btn-primary" onclick="switchArea('student')">
+          Area Alunno
+        </button>
+        <button id="btn-view-teacher" type="button" class="btn btn-secondary" onclick="switchArea('teacher')">
+          Area Docente
+        </button>
+        <button type="button" class="btn btn-outline-success" onclick="openReportModal()">
+          Report
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <!-- Banner notifiche accessibile -->
+    <div id="notice-banner" class="notice-banner notice-info hidden no-print" role="status" aria-live="polite">
+      <span id="notice-text"></span>
+      <button type="button" class="notice-close" onclick="hideNotice()">Chiudi</button>
+    </div>
+
+    <!-- =====================================================================
+         AREA ALUNNO
+         ===================================================================== -->
+    <section id="area-student" aria-label="Area Alunno">
+      <!-- Raccolta dati iniziale: Nome, Cognome, Classe -->
+      <div class="card no-print">
+        <h2 class="card-title">Dati dell’alunno</h2>
+        <p class="card-desc">Inserisci Nome, Cognome e Classe. I dati verranno salvati e riportati nel Report.</p>
+
+        <form id="student-form" onsubmit="saveStudentData(event)">
+          <div class="student-form-grid">
+            <div class="field-group">
+              <label for="input-nome" class="field-label">Nome</label>
+              <input id="input-nome" type="text" class="field-input" placeholder="Es. Marco" />
+            </div>
+            <div class="field-group">
+              <label for="input-cognome" class="field-label">Cognome</label>
+              <input id="input-cognome" type="text" class="field-input" placeholder="Es. Bianchi" />
+            </div>
+            <div class="field-group">
+              <label for="input-classe" class="field-label">Classe</label>
+              <input id="input-classe" type="text" class="field-input" placeholder="Es. 3B" />
+            </div>
+          </div>
+
+          <div class="student-meta-row">
+            <div>
+              <span id="student-summary-pill" class="status-pill">Dati non ancora salvati</span>
+              <span id="order-mode-caption" class="site-subtitle" style="margin-left: 8px;"></span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+              <button id="btn-save-student" type="submit" class="btn btn-primary">
+                Salva dati alunno
+              </button>
+              <button id="btn-edit-student" type="button" class="btn btn-secondary hidden" onclick="unlockStudentForm()">
+                Modifica dati
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- 3 Schede (tab) per i 3 esercizi LearningApps -->
+      <div class="tabs-grid no-print" role="tablist" aria-label="Schede degli esercizi">
+        <button id="tab-0" type="button" role="tab" aria-selected="true" class="tab-btn tab-active" onclick="selectTab(0)">
+          <div class="tab-top">
+            <span class="tab-heading">Scheda 1 · Base</span>
+            <span id="tab-pill-0" class="status-pill pill-pending">Non completato</span>
+          </div>
+          <span class="tab-sub">Esercizio 1 (Livello Base)</span>
+        </button>
+
+        <button id="tab-1" type="button" role="tab" aria-selected="false" class="tab-btn" onclick="selectTab(1)">
+          <div class="tab-top">
+            <span class="tab-heading">Scheda 2 · Intermedio</span>
+            <span id="tab-pill-1" class="status-pill pill-pending">Non completato</span>
+          </div>
+          <span class="tab-sub">Esercizio 2 (Livello Intermedio)</span>
+        </button>
+
+        <button id="tab-2" type="button" role="tab" aria-selected="false" class="tab-btn" onclick="selectTab(2)">
+          <div class="tab-top">
+            <span class="tab-heading">Scheda 3 · Impegnativo</span>
+            <span id="tab-pill-2" class="status-pill pill-pending">Non completato</span>
+          </div>
+          <span class="tab-sub">Esercizio 3 (Livello Più Impegnativo)</span>
+        </button>
+      </div>
+
+      <!-- Pannelli dei 3 esercizi (uno visibile alla volta) -->
+      <div id="exercise-panel-0" role="tabpanel" aria-labelledby="tab-0" class="card no-print">
+        <div class="exercise-header">
+          <div>
+            <h2 class="card-title">Esercizio 1 (Livello Base)</h2>
+            <p class="card-desc" style="margin-bottom: 0;">Riconoscere vocaboli inglesi di uso quotidiano in modo chiaro e guidato.</p>
+          </div>
+          <div class="timers-row">
+            <div id="elapsed-display-0" class="timer-box">Durata impiegata: 00:00 (0s)</div>
+            <div id="countdown-display-0" class="timer-box timer-countdown hidden">Timer: --:--</div>
+          </div>
+        </div>
+
+        <div class="iframe-wrapper">
+          <iframe
+            src="https://learningapps.org/watch?v=p1zna7ptt26"
+            allowfullscreen="true"
+            webkitallowfullscreen="true"
+            mozallowfullscreen="true"
+            title="Esercizio 1 (Livello Base) LearningApps"
+          ></iframe>
+        </div>
+
+        <div class="exercise-footer">
+          <div class="exercise-actions">
+            <button id="btn-complete-0" type="button" class="btn btn-success" onclick="toggleExerciseCompleted(0)">
+              Segna come Completato / Superato
+            </button>
+          </div>
+          <span id="status-text-0" class="status-pill pill-pending">Stato: Non completato</span>
+        </div>
+      </div>
+
+      <div id="exercise-panel-1" role="tabpanel" aria-labelledby="tab-1" class="card hidden no-print">
+        <div class="exercise-header">
+          <div>
+            <h2 class="card-title">Esercizio 2 (Livello Intermedio)</h2>
+            <p class="card-desc" style="margin-bottom: 0;">Associare parole inglesi quotidiane al contesto di frasi e situazioni comuni.</p>
+          </div>
+          <div class="timers-row">
+            <div id="elapsed-display-1" class="timer-box">Durata impiegata: 00:00 (0s)</div>
+            <div id="countdown-display-1" class="timer-box timer-countdown hidden">Timer: --:--</div>
+          </div>
+        </div>
+
+        <div class="iframe-wrapper">
+          <iframe
+            src="https://learningapps.org/watch?v=payquvob526"
+            allowfullscreen="true"
+            webkitallowfullscreen="true"
+            mozallowfullscreen="true"
+            title="Esercizio 2 (Livello Intermedio) LearningApps"
+          ></iframe>
+        </div>
+
+        <div class="exercise-footer">
+          <div class="exercise-actions">
+            <button id="btn-complete-1" type="button" class="btn btn-success" onclick="toggleExerciseCompleted(1)">
+              Segna come Completato / Superato
+            </button>
+          </div>
+          <span id="status-text-1" class="status-pill pill-pending">Stato: Non completato</span>
+        </div>
+      </div>
+
+      <div id="exercise-panel-2" role="tabpanel" aria-labelledby="tab-2" class="card hidden no-print">
+        <div class="exercise-header">
+          <div>
+            <h2 class="card-title">Esercizio 3 (Livello Più Impegnativo)</h2>
+            <p class="card-desc" style="margin-bottom: 0;">Consolidare il lessico quotidiano in contesti un poco più articolati.</p>
+          </div>
+          <div class="timers-row">
+            <div id="elapsed-display-2" class="timer-box">Durata impiegata: 00:00 (0s)</div>
+            <div id="countdown-display-2" class="timer-box timer-countdown hidden">Timer: --:--</div>
+          </div>
+        </div>
+
+        <div class="iframe-wrapper">
+          <iframe
+            src="https://learningapps.org/watch?v=pzbjksvwa26"
+            allowfullscreen="true"
+            webkitallowfullscreen="true"
+            mozallowfullscreen="true"
+            title="Esercizio 3 (Livello Più Impegnativo) LearningApps"
+          ></iframe>
+        </div>
+
+        <div class="exercise-footer">
+          <div class="exercise-actions">
+            <button id="btn-complete-2" type="button" class="btn btn-success" onclick="toggleExerciseCompleted(2)">
+              Segna come Completato / Superato
+            </button>
+          </div>
+          <span id="status-text-2" class="status-pill pill-pending">Stato: Non completato</span>
+        </div>
+      </div>
+
+      <!-- Barra finale per aprire il Report -->
+      <div class="card no-print" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px;">
+        <div>
+          <h2 class="card-title" style="margin-bottom: 2px;">Report del percorso</h2>
+          <p id="completed-counter-text" class="card-desc" style="margin-bottom: 0;">Esercizi completati: 0 su 3.</p>
+        </div>
+        <button type="button" class="btn btn-success" onclick="openReportModal()">
+          Report
+        </button>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         AREA DOCENTE PROTETTA DA PASSWORD
+         ===================================================================== -->
+    <section id="area-teacher" aria-label="Area Docente" class="hidden no-print">
+      <!-- Schermata login docente -->
+      <div id="teacher-login-card" class="card" style="max-width: 560px; margin: 0 auto 22px auto;">
+        <h2 class="card-title">Accesso Area Docente</h2>
+        <p class="card-desc">Inserisci la password per impostare modalità di svolgimento e timer.</p>
+        <p class="card-desc" style="background: var(--primary-soft); padding: 10px 12px; border-radius: 8px; color: #1e3a8a;">
+          Password predefinita: <strong id="login-psw-display">docente123</strong>
+        </p>
+
+        <form onsubmit="loginTeacher(event)">
+          <div class="field-group" style="margin-bottom: 14px;">
+            <label for="teacher-psw-input" class="field-label">Password docente</label>
+            <input id="teacher-psw-input" type="password" class="field-input" required placeholder="Digita la password" />
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <button type="submit" class="btn btn-primary">Sblocca Area Docente</button>
+            <button type="button" class="btn btn-secondary" onclick="switchArea('student')">Torna all’Area Alunno</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Pannello impostazioni docente -->
+      <div id="teacher-settings-card" class="card hidden">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px;">
+          <div>
+            <h2 class="card-title">Impostazioni Docente</h2>
+            <p class="card-desc" style="margin-bottom: 0;">Le impostazioni vengono salvate in <code>localStorage</code>.</p>
+          </div>
+          <button type="button" class="btn btn-secondary" onclick="logoutTeacher()">Blocca Area Docente</button>
+        </div>
+
+        <!-- (a) Modalità di svolgimento -->
+        <div style="margin-bottom: 22px;">
+          <h3 class="field-label" style="font-size: 16px; margin-bottom: 10px;">1. Modalità di svolgimento</h3>
+          <label class="radio-option">
+            <input type="radio" name="teacher-order" value="sequential" style="width: 18px; height: 18px; margin-top: 2px;" />
+            <div>
+              <strong>Sequenziale: dalla prima all’ultima</strong>
+              <div class="site-subtitle">Le schede 2 e 3 restano bloccate finché non viene segnato come completato l’esercizio precedente.</div>
+            </div>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="teacher-order" value="free" style="width: 18px; height: 18px; margin-top: 2px;" />
+            <div>
+              <strong>Libera: inizia da dove vuoi</strong>
+              <div class="site-subtitle">L’alunno può passare liberamente tra tutte e tre le schede in qualsiasi ordine.</div>
+            </div>
+          </label>
+        </div>
+
+        <!-- (b) Timer per singolo esercizio -->
+        <div style="margin-bottom: 22px;">
+          <h3 class="field-label" style="font-size: 16px; margin-bottom: 4px;">2. Timer differenziato per ciascuna App</h3>
+          <p class="card-desc" style="margin-bottom: 10px;">Scegli se attivare il conto alla rovescia e quanti secondi impostare per ogni esercizio.</p>
+
+          <div class="teacher-grid-3">
+            <div class="timer-config-card">
+              <strong>Esercizio 1 (Base)</strong>
+              <label class="checkbox-label">
+                <input id="cfg-timer-enabled-0" type="checkbox" style="width: 18px; height: 18px;" />
+                <span>Attiva timer</span>
+              </label>
+              <div class="field-group">
+                <label for="cfg-timer-sec-0" class="field-label">Secondi (es. 180)</label>
+                <input id="cfg-timer-sec-0" type="number" min="10" max="7200" step="5" class="field-input" />
+              </div>
+            </div>
+
+            <div class="timer-config-card">
+              <strong>Esercizio 2 (Intermedio)</strong>
+              <label class="checkbox-label">
+                <input id="cfg-timer-enabled-1" type="checkbox" style="width: 18px; height: 18px;" />
+                <span>Attiva timer</span>
+              </label>
+              <div class="field-group">
+                <label for="cfg-timer-sec-1" class="field-label">Secondi (es. 240)</label>
+                <input id="cfg-timer-sec-1" type="number" min="10" max="7200" step="5" class="field-input" />
+              </div>
+            </div>
+
+            <div class="timer-config-card">
+              <strong>Esercizio 3 (Più Impegnativo)</strong>
+              <label class="checkbox-label">
+                <input id="cfg-timer-enabled-2" type="checkbox" style="width: 18px; height: 18px;" />
+                <span>Attiva timer</span>
+              </label>
+              <div class="field-group">
+                <label for="cfg-timer-sec-2" class="field-label">Secondi (es. 300)</label>
+                <input id="cfg-timer-sec-2" type="number" min="10" max="7200" step="5" class="field-input" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Password modificabile -->
+        <div class="field-group" style="max-width: 420px; margin-bottom: 20px;">
+          <label for="cfg-new-psw" class="field-label">Modifica password docente (opzionale)</label>
+          <input id="cfg-new-psw" type="text" class="field-input" placeholder="Lascia vuoto per mantenere attuale" />
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+          <button type="button" class="btn btn-primary" onclick="saveTeacherSettings()">
+            Salva impostazioni
+          </button>
+          <button type="button" class="btn btn-danger-soft" onclick="resetProgressData()">
+            Azzera progressi e durate alunno
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =====================================================================
+       MODALE REPORT FINALE
+       ===================================================================== -->
+  <div id="report-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="report-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h2 id="report-title" class="card-title" style="margin-bottom: 2px;">Report Finale del Percorso</h2>
+          <p class="card-desc" style="margin-bottom: 0;">Riepilogo dati alunno, data/ora, tempi, obiettivi ed esito.</p>
+        </div>
+        <button type="button" class="btn btn-secondary no-print" onclick="closeReportModal()">Chiudi</button>
+      </div>
+
+      <div id="report-body"></div>
+
+      <div class="report-footer no-print">
+        <span id="copy-feedback" class="site-subtitle" style="font-weight: 700;"></span>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+          <button type="button" class="btn btn-secondary" onclick="copyReportText()">Copia Report</button>
+          <button type="button" class="btn btn-primary" onclick="window.print()">Stampa / Salva PDF</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer no-print">
+    Percorso di Inglese (3ª Media – PEI) · Esercizi LearningApps incorporati via iframe
+  </footer>
+
+  <script>
+    /* =========================================================================
+       STATO APPLICAZIONE, COSTANTI E PERSISTENZA IN LOCALSTORAGE
+       ========================================================================= */
+    const STORAGE_KEY = 'inglese_learningapps_pei_v2';
+
+    const EXERCISE_META = [
+      {
+        index: 0,
+        title: 'Esercizio 1 (Livello Base)',
+        shortTab: 'Scheda 1 · Base',
+        url: 'https://learningapps.org/watch?v=p1zna7ptt26',
+        primaryGoal: 'Riconoscere e comprendere il significato di vocaboli inglesi di uso quotidiano in contesti semplici e guidati.',
+        secondaryGoals: [
+          'Leggere con calma la consegna e le opzioni proposte senza fretta.',
+          'Avviare il percorso con fiducia nel livello base.',
+          'Mantenere l’attenzione sul singolo esercizio visualizzato.'
+        ]
+      },
+      {
+        index: 1,
+        title: 'Esercizio 2 (Livello Intermedio)',
+        shortTab: 'Scheda 2 · Intermedio',
+        url: 'https://learningapps.org/watch?v=payquvob526',
+        primaryGoal: 'Collegare vocaboli ed espressioni inglesi quotidiane al contesto della frase o della situazione.',
+        secondaryGoals: [
+          'Individuare gli indizi chiave all’interno della frase o della domanda.',
+          'Proseguire con continuità aumentando gradualmente la difficoltà.',
+          'Gestire in modo autonomo il tempo di svolgimento.'
+        ]
+      },
+      {
+        index: 2,
+        title: 'Esercizio 3 (Livello Più Impegnativo)',
+        shortTab: 'Scheda 3 · Impegnativo',
+        url: 'https://learningapps.org/watch?v=pzbjksvwa26',
+        primaryGoal: 'Comprendere e selezionare il lessico inglese quotidiano in contesti più articolati con distrattori più vicini.',
+        secondaryGoals: [
+          'Confrontare con attenzione le scelte disponibili prima di confermare.',
+          'Portare a termine il percorso graduale con autonomia e consapevolezza.',
+          'Valutare il proprio lavoro tramite il report finale.'
+        ]
+      }
+    ];
+
+    function createDefaultState() {
+      return {
+        student: {
+          nome: '',
+          cognome: '',
+          classe: '',
+          locked: false
+        },
+        teacher: {
+          password: 'docente123',
+          orderMode: 'sequential', // 'sequential' | 'free'
+          timers: [
+            { enabled: false, seconds: 180 },
+            { enabled: false, seconds: 240 },
+            { enabled: false, seconds: 300 }
+          ]
+        },
+        activeTab: 0,
+        teacherAuthenticated: false,
+        exercises: [
+          { completed: false, elapsedSeconds: 0, remainingSeconds: 180, timedOut: false },
+          { completed: false, elapsedSeconds: 0, remainingSeconds: 240, timedOut: false },
+          { completed: false, elapsedSeconds: 0, remainingSeconds: 300, timedOut: false }
+        ]
+      };
+    }
+
+    function loadAppState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return createDefaultState();
+        const parsed = JSON.parse(raw);
+        const def = createDefaultState();
+
+        const timers = [0, 1, 2].map((i) => ({
+          enabled: Boolean(parsed?.teacher?.timers?.[i]?.enabled),
+          seconds:
+            Number.isFinite(Number(parsed?.teacher?.timers?.[i]?.seconds)) &&
+            Number(parsed.teacher.timers[i].seconds) >= 10
+              ? Number(parsed.teacher.timers[i].seconds)
+              : def.teacher.timers[i].seconds
+        }));
+
+        const exercises = [0, 1, 2].map((i) => {
+          const ex = parsed?.exercises?.[i] || {};
+          const defaultRem = timers[i].seconds;
+          return {
+            completed: Boolean(ex.completed),
+            elapsedSeconds:
+              Number.isFinite(Number(ex.elapsedSeconds)) && Number(ex.elapsedSeconds) >= 0
+                ? Math.floor(Number(ex.elapsedSeconds))
+                : 0,
+            remainingSeconds:
+              Number.isFinite(Number(ex.remainingSeconds)) && Number(ex.remainingSeconds) >= 0
+                ? Math.floor(Number(ex.remainingSeconds))
+                : defaultRem,
+            timedOut: Boolean(ex.timedOut)
+          };
+        });
+
+        return {
+          student: {
+            nome: String(parsed?.student?.nome || ''),
+            cognome: String(parsed?.student?.cognome || ''),
+            classe: String(parsed?.student?.classe || ''),
+            locked: Boolean(parsed?.student?.locked)
+          },
+          teacher: {
+            password:
+              typeof parsed?.teacher?.password === 'string' && parsed.teacher.password.length > 0
+                ? parsed.teacher.password
+                : def.teacher.password,
+            orderMode: parsed?.teacher?.orderMode === 'free' ? 'free' : 'sequential',
+            timers
+          },
+          activeTab:
+            Number.isInteger(parsed?.activeTab) && parsed.activeTab >= 0 && parsed.activeTab <= 2
+              ? parsed.activeTab
+              : 0,
+          teacherAuthenticated: Boolean(parsed?.teacherAuthenticated),
+          exercises
+        };
+      } catch (err) {
+        console.error('Errore lettura localStorage:', err);
+        return createDefaultState();
+      }
+    }
+
+    function saveAppState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (err) {
+        console.error('Errore scrittura localStorage:', err);
+      }
+    }
+
+    let appState = loadAppState();
+    let currentArea = 'student';
+    let timerIntervalId = null;
+
+    /* =========================================================================
+       UTILITÀ DI FORMATTAZIONE E NOTIFICHE
+       ========================================================================= */
+    function escapeHtml(value) {
+      return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function formatMinSec(totalSec) {
+      const safe = Math.max(0, Math.floor(Number(totalSec) || 0));
+      const mins = Math.floor(safe / 60);
+      const secs = safe % 60;
+      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')} (${safe}s)`;
+    }
+
+    function formatClock(totalSec) {
+      const safe = Math.max(0, Math.floor(Number(totalSec) || 0));
+      const mins = Math.floor(safe / 60);
+      const secs = safe % 60;
+      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function formatNowDateTime() {
+      const now = new Date();
+      return now.toLocaleString('it-IT', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+    }
+
+    function showNotice(message, variant = 'info') {
+      const banner = document.getElementById('notice-banner');
+      const textEl = document.getElementById('notice-text');
+      if (!banner || !textEl) return;
+
+      textEl.textContent = message;
+      banner.className = `notice-banner notice-${variant} no-print`;
+      banner.classList.remove('hidden');
+    }
+
+    function hideNotice() {
+      const banner = document.getElementById('notice-banner');
+      if (banner) banner.classList.add('hidden');
+    }
+
+    /* =========================================================================
+       LOGICA DI SBLOCCO SEQUENZIALE E NAVIGAZIONE AREE / SCHEDE
+       ========================================================================= */
+    function isTabUnlocked(index) {
+      if (appState.teacher.orderMode === 'free') return true;
+      if (index === 0) return true;
+      return Boolean(appState.exercises[index - 1]?.completed);
+    }
+
+    function switchArea(area) {
+      currentArea = area;
+      const studentSection = document.getElementById('area-student');
+      const teacherSection = document.getElementById('area-teacher');
+      const btnStudent = document.getElementById('btn-view-student');
+      const btnTeacher = document.getElementById('btn-view-teacher');
+
+      if (area === 'teacher') {
+        studentSection.classList.add('hidden');
+        teacherSection.classList.remove('hidden');
+        btnTeacher.className = 'btn btn-primary';
+        btnStudent.className = 'btn btn-secondary';
+        renderTeacherSection();
+      } else {
+        teacherSection.classList.add('hidden');
+        studentSection.classList.remove('hidden');
+        btnStudent.className = 'btn btn-primary';
+        btnTeacher.className = 'btn btn-secondary';
+        renderStudentSection();
+      }
+    }
+
+    function selectTab(index) {
+      if (index < 0 || index > 2) return;
+      if (!isTabUnlocked(index)) {
+        showNotice(
+          `Modalità sequenziale attiva: completa prima l’Esercizio ${index} per sbloccare la Scheda ${index + 1}.`,
+          'warn'
+        );
+        return;
+      }
+      appState.activeTab = index;
+      saveAppState();
+      renderStudentSection();
+    }
+
+    /* =========================================================================
+       DATI ALUNNO E STATO COMPLETAMENTO ESERCIZI
+       ========================================================================= */
+    function saveStudentData(event) {
+      event.preventDefault();
+      const nome = (document.getElementById('input-nome')?.value || '').trim();
+      const cognome = (document.getElementById('input-cognome')?.value || '').trim();
+      const classe = (document.getElementById('input-classe')?.value || '').trim();
+
+      if (!nome || !cognome || !classe) {
+        showNotice('Compila tutti i campi: Nome, Cognome e Classe.', 'warn');
+        return;
+      }
+
+      appState.student.nome = nome;
+      appState.student.cognome = cognome;
+      appState.student.classe = classe;
+      appState.student.locked = true;
+      saveAppState();
+      renderStudentSection();
+      showNotice(`Dati salvati per ${nome} ${cognome} (Classe ${classe}).`, 'success');
+    }
+
+    function unlockStudentForm() {
+      appState.student.locked = false;
+      saveAppState();
+      renderStudentSection();
+    }
+
+    function toggleExerciseCompleted(index) {
+      if (index < 0 || index > 2) return;
+      const ex = appState.exercises[index];
+      const nextCompleted = !ex.completed;
+      ex.completed = nextCompleted;
+
+      if (nextCompleted) {
+        showNotice(
+          `Esercizio ${index + 1} segnato come Completato / Superato (durata registrata: ${formatMinSec(ex.elapsedSeconds)}).`,
+          'success'
+        );
+        // In modalità sequenziale, se completato e c'è una scheda successiva, passa alla successiva
+        if (appState.teacher.orderMode === 'sequential' && index < 2) {
+          appState.activeTab = index + 1;
+        }
+      } else {
+        showNotice(`Stato dell’Esercizio ${index + 1} aggiornato su "Non completato".`, 'info');
+      }
+
+      saveAppState();
+      renderStudentSection();
+    }
+
+    /* =========================================================================
+       TIMER PER SINGOLO ESERCIZIO E DURATA EFFETTIVA
+       ========================================================================= */
+    function startExerciseTimerLoop() {
+      if (timerIntervalId) clearInterval(timerIntervalId);
+
+      timerIntervalId = setInterval(() => {
+        if (currentArea !== 'student') return;
+        const modal = document.getElementById('report-modal');
+        if (modal && !modal.classList.contains('hidden')) return;
+
+        const idx = appState.activeTab;
+        if (idx < 0 || idx > 2) return;
+        if (!isTabUnlocked(idx)) return;
+
+        const ex = appState.exercises[idx];
+        const timerCfg = appState.teacher.timers[idx];
+
+        // Registra sempre la durata effettiva trascorsa nell'esercizio attivo
+        ex.elapsedSeconds = (ex.elapsedSeconds || 0) + 1;
+
+        // Se il timer è attivo per questo esercizio, gestisce il conto alla rovescia
+        if (timerCfg && timerCfg.enabled) {
+          if (typeof ex.remainingSeconds !== 'number') {
+            ex.remainingSeconds = timerCfg.seconds;
+          }
+          if (ex.remainingSeconds > 0) {
+            ex.remainingSeconds -= 1;
+            if (ex.remainingSeconds === 0 && !ex.timedOut) {
+              ex.timedOut = true;
+              showNotice(`Tempo scaduto per l’Esercizio ${idx + 1}.`, 'warn');
+            }
+          }
+        }
+
+        saveAppState();
+        updateExerciseTimerDisplays(idx);
+      }, 1000);
+    }
+
+    function updateExerciseTimerDisplays(idx) {
+      const ex = appState.exercises[idx];
+      const timerCfg = appState.teacher.timers[idx];
+      const elapsedEl = document.getElementById(`elapsed-display-${idx}`);
+      const countdownEl = document.getElementById(`countdown-display-${idx}`);
+
+      if (elapsedEl) {
+        elapsedEl.textContent = `Durata impiegata: ${formatMinSec(ex.elapsedSeconds)}`;
+      }
+
+      if (countdownEl) {
+        if (timerCfg && timerCfg.enabled) {
+          countdownEl.classList.remove('hidden');
+          const rem = typeof ex.remainingSeconds === 'number' ? ex.remainingSeconds : timerCfg.seconds;
+          countdownEl.textContent = `Timer: ${formatClock(rem)}`;
+          countdownEl.className = ex.timedOut ? 'timer-box timer-expired' : 'timer-box timer-countdown';
+        } else {
+          countdownEl.classList.add('hidden');
+        }
+      }
+    }
+
+    /* =========================================================================
+       RENDER AREA ALUNNO
+       ========================================================================= */
+    function getExerciseStatusLabel(ex) {
+      if (ex.completed) return 'Completato / Superato';
+      if (ex.timedOut) return 'Tempo scaduto';
+      return 'Non completato';
+    }
+
+    function getExercisePillClass(ex, isLocked) {
+      if (isLocked) return 'status-pill pill-locked';
+      if (ex.completed) return 'status-pill pill-passed';
+      if (ex.timedOut) return 'status-pill pill-timeout';
+      return 'status-pill pill-pending';
+    }
+
+    function renderStudentSection() {
+      const nomeInput = document.getElementById('input-nome');
+      const cognomeInput = document.getElementById('input-cognome');
+      const classeInput = document.getElementById('input-classe');
+      const btnSave = document.getElementById('btn-save-student');
+      const btnEdit = document.getElementById('btn-edit-student');
+      const summaryPill = document.getElementById('student-summary-pill');
+      const orderCaption = document.getElementById('order-mode-caption');
+
+      if (nomeInput) nomeInput.value = appState.student.nome;
+      if (cognomeInput) cognomeInput.value = appState.student.cognome;
+      if (classeInput) classeInput.value = appState.student.classe;
+
+      const locked = Boolean(appState.student.locked);
+      [nomeInput, cognomeInput, classeInput].forEach((inp) => {
+        if (inp) inp.disabled = locked;
+      });
+      if (btnSave) btnSave.classList.toggle('hidden', locked);
+      if (btnEdit) btnEdit.classList.toggle('hidden', !locked);
+
+      if (summaryPill) {
+        if (appState.student.nome || appState.student.cognome || appState.student.classe) {
+          summaryPill.textContent = `Alunno: ${appState.student.nome || '-'} ${appState.student.cognome || '-'} · Classe: ${appState.student.classe || '-'}`;
+          summaryPill.className = 'status-pill pill-passed';
+        } else {
+          summaryPill.textContent = 'Dati non ancora salvati';
+          summaryPill.className = 'status-pill';
+        }
+      }
+
+      if (orderCaption) {
+        orderCaption.textContent =
+          appState.teacher.orderMode === 'sequential'
+            ? 'Modalità: Sequenziale (dalla prima all’ultima)'
+            : 'Modalità: Libera (inizia da dove vuoi)';
+      }
+
+      // Se la scheda attiva risulta bloccata (es. dopo cambio da Libera a Sequenziale), torna alla prima sbloccata
+      if (!isTabUnlocked(appState.activeTab)) {
+        appState.activeTab = 0;
+        saveAppState();
+      }
+
+      for (let i = 0; i < 3; i++) {
+        const ex = appState.exercises[i];
+        const unlocked = isTabUnlocked(i);
+        const isActive = appState.activeTab === i;
+
+        const tabBtn = document.getElementById(`tab-${i}`);
+        const tabPill = document.getElementById(`tab-pill-${i}`);
+        const panel = document.getElementById(`exercise-panel-${i}`);
+        const btnComplete = document.getElementById(`btn-complete-${i}`);
+        const statusText = document.getElementById(`status-text-${i}`);
+
+        if (tabBtn) {
+          tabBtn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+          tabBtn.setAttribute('aria-disabled', unlocked ? 'false' : 'true');
+          tabBtn.className = 'tab-btn';
+          if (!unlocked) tabBtn.classList.add('tab-locked');
+          if (isActive) tabBtn.classList.add('tab-active');
+        }
+
+        if (tabPill) {
+          tabPill.textContent = !unlocked ? 'Bloccata' : getExerciseStatusLabel(ex);
+          tabPill.className = getExercisePillClass(ex, !unlocked);
+        }
+
+        if (panel) {
+          panel.classList.toggle('hidden', !isActive);
+        }
+
+        if (btnComplete) {
+          btnComplete.textContent = ex.completed
+            ? 'Annulla completamento (Segna Non completato)'
+            : 'Segna come Completato / Superato';
+          btnComplete.className = ex.completed ? 'btn btn-secondary' : 'btn btn-success';
+        }
+
+        if (statusText) {
+          statusText.textContent = `Stato: ${getExerciseStatusLabel(ex)}`;
+          statusText.className = getExercisePillClass(ex, false);
+        }
+
+        updateExerciseTimerDisplays(i);
+      }
+
+      const completedCount = appState.exercises.filter((e) => e.completed).length;
+      const counterText = document.getElementById('completed-counter-text');
+      if (counterText) {
+        counterText.textContent = `Esercizi completati: ${completedCount} su 3.`;
+      }
+    }
+
+    /* =========================================================================
+       AREA DOCENTE
+       ========================================================================= */
+    function loginTeacher(event) {
+      event.preventDefault();
+      const input = document.getElementById('teacher-psw-input');
+      const entered = input ? input.value : '';
+      if (entered === appState.teacher.password) {
+        appState.teacherAuthenticated = true;
+        if (input) input.value = '';
+        saveAppState();
+        renderTeacherSection();
+        showNotice('Accesso all’Area Docente sbloccato.', 'success');
+      } else {
+        showNotice('Password non corretta.', 'warn');
+      }
+    }
+
+    function logoutTeacher() {
+      appState.teacherAuthenticated = false;
+      saveAppState();
+      renderTeacherSection();
+    }
+
+    function renderTeacherSection() {
+      const pswHint = document.getElementById('login-psw-display');
+      if (pswHint) pswHint.textContent = appState.teacher.password;
+
+      const loginCard = document.getElementById('teacher-login-card');
+      const settingsCard = document.getElementById('teacher-settings-card');
+      if (!loginCard || !settingsCard) return;
+
+      if (!appState.teacherAuthenticated) {
+        loginCard.classList.remove('hidden');
+        settingsCard.classList.add('hidden');
+        return;
+      }
+
+      loginCard.classList.add('hidden');
+      settingsCard.classList.remove('hidden');
+
+      const radios = document.querySelectorAll('input[name="teacher-order"]');
+      radios.forEach((r) => {
+        r.checked = r.value === appState.teacher.orderMode;
+      });
+
+      for (let i = 0; i < 3; i++) {
+        const cfgEnabled = document.getElementById(`cfg-timer-enabled-${i}`);
+        const cfgSec = document.getElementById(`cfg-timer-sec-${i}`);
+        if (cfgEnabled) cfgEnabled.checked = Boolean(appState.teacher.timers[i].enabled);
+        if (cfgSec) cfgSec.value = appState.teacher.timers[i].seconds;
+      }
+    }
+
+    function saveTeacherSettings() {
+      const selectedOrder = document.querySelector('input[name="teacher-order"]:checked')?.value;
+      if (selectedOrder === 'sequential' || selectedOrder === 'free') {
+        appState.teacher.orderMode = selectedOrder;
+      }
+
+      for (let i = 0; i < 3; i++) {
+        const enabled = Boolean(document.getElementById(`cfg-timer-enabled-${i}`)?.checked);
+        const rawSec = parseInt(document.getElementById(`cfg-timer-sec-${i}`)?.value || '180', 10);
+        const seconds = Number.isFinite(rawSec) && rawSec >= 10 ? rawSec : 180;
+
+        appState.teacher.timers[i] = { enabled, seconds };
+        appState.exercises[i].remainingSeconds = seconds;
+        appState.exercises[i].timedOut = false;
+      }
+
+      const newPswInput = document.getElementById('cfg-new-psw');
+      const newPsw = (newPswInput?.value || '').trim();
+      if (newPsw.length > 0) {
+        appState.teacher.password = newPsw;
+        if (newPswInput) newPswInput.value = '';
+      }
+
+      saveAppState();
+      renderTeacherSection();
+      renderStudentSection();
+      showNotice('Impostazioni docente salvate in localStorage.', 'success');
+    }
+
+    function resetProgressData() {
+      appState.activeTab = 0;
+      appState.exercises = [0, 1, 2].map((i) => ({
+        completed: false,
+        elapsedSeconds: 0,
+        remainingSeconds: appState.teacher.timers[i].seconds,
+        timedOut: false
+      }));
+      saveAppState();
+      renderStudentSection();
+      showNotice('Progressi, stati e durate degli esercizi azzerati.', 'info');
+    }
+
+    /* =========================================================================
+       REPORT FINALE, COPIA E STAMPA / SALVA PDF
+       ========================================================================= */
+    function evaluateGoalOutcome(ex) {
+      if (ex.completed && !ex.timedOut) {
+        return 'Obiettivi raggiunti / superati (esercizio completato).';
+      }
+      if (ex.completed && ex.timedOut) {
+        return 'Esercizio completato; obiettivi raggiunti con tempo oltre il timer impostato.';
+      }
+      if (ex.timedOut) {
+        return 'Obiettivi non ancora superati (tempo scaduto prima del completamento).';
+      }
+      return 'Obiettivi non ancora superati (esercizio non completato).';
+    }
+
+    function buildReportData() {
+      const generatedAt = formatNowDateTime();
+      const nome = appState.student.nome || 'Non indicato';
+      const cognome = appState.student.cognome || 'Non indicato';
+      const classe = appState.student.classe || 'Non indicata';
+
+      const items = EXERCISE_META.map((meta, idx) => {
+        const ex = appState.exercises[idx];
+        return {
+          ...meta,
+          status: getExerciseStatusLabel(ex),
+          durationFormatted: formatMinSec(ex.elapsedSeconds),
+          goalOutcome: evaluateGoalOutcome(ex)
+        };
+      });
+
+      return { nome, cognome, classe, generatedAt, items };
+    }
+
+    function openReportModal() {
+      renderReportModal();
+      const modal = document.getElementById('report-modal');
+      const copyFeedback = document.getElementById('copy-feedback');
+      if (copyFeedback) copyFeedback.textContent = '';
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeReportModal() {
+      const modal = document.getElementById('report-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function renderReportModal() {
+      const container = document.getElementById('report-body');
+      if (!container) return;
+
+      const data = buildReportData();
+
+      const cardsHtml = data.items
+        .map((item) => {
+          const secondaryHtml = item.secondaryGoals
+            .map((g) => `<li>${escapeHtml(g)}</li>`)
+            .join('');
+
+          const ex = appState.exercises[item.index];
+          const pillClass = getExercisePillClass(ex, false);
+
+          return `
+            <div class="report-ex-card">
+              <div class="report-ex-top">
+                <h3 class="card-title" style="margin: 0; font-size: 17px;">${escapeHtml(item.title)}</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+                  <span class="status-pill">Durata: ${escapeHtml(item.durationFormatted)}</span>
+                  <span class="${pillClass}">Stato: ${escapeHtml(item.status)}</span>
+                </div>
+              </div>
+              <p style="margin: 6px 0;"><strong>Obiettivo Primario:</strong> ${escapeHtml(item.primaryGoal)}</p>
+              <div style="margin: 6px 0;">
+                <strong>Obiettivi Secondari:</strong>
+                <ul class="report-list">${secondaryHtml}</ul>
+              </div>
+              <p style="margin: 8px 0 0 0;"><strong>Esito superamento obiettivi:</strong> ${escapeHtml(item.goalOutcome)}</p>
+            </div>
+          `;
+        })
+        .join('');
+
+      container.innerHTML = `
+        <div class="report-meta-grid">
+          <div>
+            <div class="field-label">Nome</div>
+            <div>${escapeHtml(data.nome)}</div>
+          </div>
+          <div>
+            <div class="field-label">Cognome</div>
+            <div>${escapeHtml(data.cognome)}</div>
+          </div>
+          <div>
+            <div class="field-label">Classe</div>
+            <div>${escapeHtml(data.classe)}</div>
+          </div>
+          <div>
+            <div class="field-label">Data e ora generazione</div>
+            <div>${escapeHtml(data.generatedAt)}</div>
+          </div>
+        </div>
+        ${cardsHtml}
+      `;
+    }
+
+    function getPlainReportText() {
+      const data = buildReportData();
+      const lines = [
+        'REPORT FINALE – PERCORSO DI INGLESE (LEARNINGAPPS)',
+        `Nome: ${data.nome}`,
+        `Cognome: ${data.cognome}`,
+        `Classe: ${data.classe}`,
+        `Data e ora: ${data.generatedAt}`,
+        '============================================================'
+      ];
+
+      data.items.forEach((item) => {
+        lines.push(`${item.title}`);
+        lines.push(`- Stato: ${item.status}`);
+        lines.push(`- Durata impiegata: ${item.durationFormatted}`);
+        lines.push(`- Obiettivo Primario: ${item.primaryGoal}`);
+        lines.push(`- Obiettivi Secondari: ${item.secondaryGoals.join(' | ')}`);
+        lines.push(`- Esito superamento obiettivi: ${item.goalOutcome}`);
+        lines.push('');
+      });
+
+      return lines.join('\n');
+    }
+
+    function copyReportText() {
+      const plainText = getPlainReportText();
+      const feedbackEl = document.getElementById('copy-feedback');
+      let copied = false;
+
+      try {
+        const tempArea = document.createElement('textarea');
+        tempArea.value = plainText;
+        tempArea.setAttribute('readonly', '');
+        tempArea.style.position = 'fixed';
+        tempArea.style.opacity = '0';
+        document.body.appendChild(tempArea);
+        tempArea.select();
+        copied = document.execCommand('copy');
+        document.body.removeChild(tempArea);
+      } catch (err) {
+        console.error('Errore copia negli appunti:', err);
+        copied = false;
+      }
+
+      if (feedbackEl) {
+        feedbackEl.textContent = copied
+          ? 'Report copiato negli appunti.'
+          : 'Impossibile copiare automaticamente: puoi selezionare il testo del report.';
+      }
+    }
+
+    /* =========================================================================
+       INIZIALIZZAZIONE
+       ========================================================================= */
+    window.addEventListener('DOMContentLoaded', () => {
+      renderStudentSection();
+      renderTeacherSection();
+      startExerciseTimerLoop();
+    });
+  </script>
+</body>
+</html>
