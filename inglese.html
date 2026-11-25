@@ -3,16 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Percorso Inglese – LearningApps (PEI)</title>
+  <title>Percorso Interattivo di Inglese – LearningApps</title>
   <style>
     /* =========================================================================
-       STILE E ACCESSIBILITÀ (PEI): interfaccia pulita, calma, alto contrasto,
-       font leggibile (Arial / Verdana / system-ui), nessuna animazione aggressiva.
+       DESIGN TOKENS E STILE ACCESSIBILE AD ALTO CONTRASTO
        ========================================================================= */
     :root {
-      --bg-page: #f3f6fa;
+      --bg-page: #f4f7fb;
       --bg-card: #ffffff;
-      --bg-subtle: #eef2f7;
+      --bg-subtle: #edf2f8;
       --text-main: #0f172a;
       --text-muted: #334155;
       --border-soft: #cbd5e1;
@@ -29,6 +28,7 @@
       --danger-soft: #fee2e2;
       --radius-md: 10px;
       --radius-lg: 14px;
+      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
     }
 
     * {
@@ -42,13 +42,12 @@
       color: var(--text-main);
       font-family: Arial, Verdana, system-ui, -apple-system, sans-serif;
       font-size: 16px;
-      line-height: 1.6;
+      line-height: 1.55;
     }
 
-    /* Focus visibile e chiaro per navigazione da tastiera e lettori */
     button:focus-visible,
     input:focus-visible,
-    select:focus-visible {
+    textarea:focus-visible {
       outline: 3px solid var(--primary);
       outline-offset: 2px;
     }
@@ -57,15 +56,18 @@
       display: none !important;
     }
 
-    /* Intestazione principale */
+    /* =========================================================================
+       INTESTAZIONE E NAVIGAZIONE PRINCIPALE
+       ========================================================================= */
     .site-header {
       background-color: var(--bg-card);
       border-bottom: 2px solid var(--border-soft);
       padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
     }
 
     .header-inner {
-      max-width: 1060px;
+      max-width: 1100px;
       margin: 0 auto;
       display: flex;
       flex-wrap: wrap;
@@ -74,7 +76,7 @@
       gap: 16px;
     }
 
-    .badge-pei {
+    .brand-tag {
       display: inline-block;
       background-color: var(--primary-soft);
       color: #1e3a8a;
@@ -99,13 +101,15 @@
       color: var(--text-muted);
     }
 
-    .header-actions {
+    .mode-switch {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
     }
 
-    /* Pulsanti grandi e leggibili */
+    /* =========================================================================
+       PULSANTI E CONTROLLI
+       ========================================================================= */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -120,6 +124,7 @@
       font-weight: 700;
       cursor: pointer;
       text-decoration: none;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
     }
 
     .btn-primary {
@@ -150,14 +155,14 @@
       background-color: var(--success-hover);
     }
 
-    .btn-outline-success {
-      background-color: var(--success-soft);
-      color: #14532d;
-      border-color: #86efac;
+    .btn-warn {
+      background-color: var(--warn-soft);
+      color: #78350f;
+      border-color: #f59e0b;
     }
 
-    .btn-outline-success:hover {
-      background-color: #bbf7d0;
+    .btn-warn:hover {
+      background-color: #fde68a;
     }
 
     .btn-danger-soft {
@@ -170,17 +175,18 @@
       background-color: #fecaca;
     }
 
-    /* Contenitore principale */
-    .main-container {
-      max-width: 1060px;
+    /* =========================================================================
+       CONTENITORE PRINCIPALE E BANNER AVVISI
+       ========================================================================= */
+    .main-wrap {
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 24px 18px 40px 18px;
+      padding: 24px 18px 44px 18px;
     }
 
-    /* Banner avvisi (senza alert/confirm) */
     .notice-banner {
       margin-bottom: 20px;
-      padding: 14px 16px;
+      padding: 14px 18px;
       border-radius: var(--radius-md);
       border: 2px solid var(--border-soft);
       background-color: var(--bg-card);
@@ -189,7 +195,7 @@
       justify-content: space-between;
       gap: 12px;
       font-size: 15px;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .notice-info {
@@ -215,7 +221,7 @@
       padding: 6px 12px;
       border-radius: 8px;
       border: 1px solid currentColor;
-      background: #ffffff;
+      background-color: #ffffff;
       color: inherit;
       font-family: inherit;
       font-size: 13px;
@@ -224,13 +230,16 @@
       flex-shrink: 0;
     }
 
-    /* Card / Sezioni */
+    /* =========================================================================
+       CARD E FORM DATI ALUNNO
+       ========================================================================= */
     .card {
       background-color: var(--bg-card);
       border: 2px solid var(--border-soft);
       border-radius: var(--radius-lg);
-      padding: 20px;
+      padding: 22px;
       margin-bottom: 22px;
+      box-shadow: var(--shadow-sm);
     }
 
     .card-title {
@@ -246,11 +255,10 @@
       color: var(--text-muted);
     }
 
-    /* Form dati alunno */
-    .student-form-grid {
+    .form-grid-3 {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
+      gap: 16px;
       margin-bottom: 16px;
     }
 
@@ -266,8 +274,9 @@
       color: var(--text-main);
     }
 
-    .field-input {
-      min-height: 44px;
+    .field-input,
+    .field-textarea {
+      width: 100%;
       padding: 10px 12px;
       border: 2px solid var(--border-strong);
       border-radius: var(--radius-md);
@@ -277,23 +286,43 @@
       font-size: 16px;
     }
 
-    .field-input:disabled {
-      background-color: var(--bg-subtle);
-      color: var(--text-muted);
+    .field-input {
+      min-height: 44px;
     }
 
-    .student-meta-row {
+    .field-textarea {
+      min-height: 76px;
+      resize: vertical;
+    }
+
+    .student-summary-bar {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      padding-top: 12px;
-      border-top: 1px solid var(--border-soft);
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      background-color: var(--primary-soft);
+      border: 1px solid #93c5fd;
     }
 
-    .status-pill {
-      display: inline-block;
+    .student-summary-info {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      font-size: 15px;
+      color: #1e3a8a;
+    }
+
+    /* =========================================================================
+       BADGE DI STATO
+       ========================================================================= */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       padding: 5px 12px;
       border-radius: 999px;
       font-size: 13px;
@@ -303,22 +332,22 @@
       color: var(--text-main);
     }
 
-    .pill-passed {
+    .pill-success {
       background-color: var(--success-soft);
       border-color: #4ade80;
       color: #14532d;
     }
 
-    .pill-timeout {
-      background-color: var(--danger-soft);
-      border-color: #f87171;
-      color: #7f1d1d;
-    }
-
-    .pill-pending {
+    .pill-warn {
       background-color: var(--warn-soft);
       border-color: #fbbf24;
       color: #78350f;
+    }
+
+    .pill-danger {
+      background-color: var(--danger-soft);
+      border-color: #f87171;
+      color: #7f1d1d;
     }
 
     .pill-locked {
@@ -327,23 +356,25 @@
       color: #475569;
     }
 
-    /* Schede (tab) dei 3 esercizi */
-    .tabs-grid {
+    /* =========================================================================
+       SCHEDE (TAB) DEI 3 ESERCIZI
+       ========================================================================= */
+    .tabs-bar {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 12px;
       margin-bottom: 20px;
     }
 
-    @media (max-width: 720px) {
-      .tabs-grid {
+    @media (max-width: 760px) {
+      .tabs-bar {
         grid-template-columns: 1fr;
       }
     }
 
     .tab-btn {
       width: 100%;
-      min-height: 76px;
+      min-height: 78px;
       padding: 14px 16px;
       border-radius: var(--radius-lg);
       border: 2px solid var(--border-strong);
@@ -355,7 +386,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 6px;
+      gap: 8px;
     }
 
     .tab-btn:hover:not(.tab-locked) {
@@ -384,7 +415,7 @@
       width: 100%;
     }
 
-    .tab-heading {
+    .tab-title {
       font-size: 16px;
       font-weight: 700;
     }
@@ -394,46 +425,80 @@
       color: var(--text-muted);
     }
 
-    /* Pannello esercizio attivo */
-    .exercise-header {
+    /* =========================================================================
+       CONTENUTO SCHEDA ESERCIZIO, OBIETTIVI, TIMER E EMBED
+       ========================================================================= */
+    .exercise-top {
       display: flex;
       flex-wrap: wrap;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 14px;
-      padding-bottom: 14px;
+      gap: 16px;
+      padding-bottom: 16px;
       margin-bottom: 16px;
       border-bottom: 1px solid var(--border-soft);
     }
 
-    .timers-row {
+    .objectives-box {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .objective-item {
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-soft);
+      background-color: var(--bg-subtle);
+      font-size: 14px;
+    }
+
+    .objective-item strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--text-main);
+    }
+
+    .timers-cluster {
       display: flex;
       flex-wrap: wrap;
+      align-items: center;
       gap: 10px;
     }
 
-    .timer-box {
-      padding: 8px 12px;
+    .timer-badge {
+      padding: 8px 14px;
       border-radius: var(--radius-md);
-      border: 1px solid var(--border-strong);
+      border: 2px solid var(--border-strong);
       background-color: var(--bg-subtle);
       font-size: 14px;
       font-weight: 700;
     }
 
-    .timer-countdown {
+    .timer-countdown-active {
       background-color: var(--warn-soft);
       border-color: #d97706;
       color: #78350f;
     }
 
-    .timer-expired {
+    .timer-countdown-expired {
       background-color: var(--danger-soft);
       border-color: #dc2626;
       color: #7f1d1d;
     }
 
-    .iframe-wrapper {
+    .timeout-alert-box {
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      border-radius: var(--radius-md);
+      background-color: var(--danger-soft);
+      border: 2px solid #dc2626;
+      color: #7f1d1d;
+      font-weight: 700;
+    }
+
+    .embed-frame-wrap {
       width: 100%;
       border: 2px solid var(--border-soft);
       border-radius: var(--radius-md);
@@ -441,14 +506,14 @@
       background-color: #f8fafc;
     }
 
-    .iframe-wrapper iframe {
+    .embed-frame-wrap iframe {
       display: block;
       width: 100%;
-      height: 500px;
+      height: 520px;
       border: 0;
     }
 
-    .exercise-footer {
+    .exercise-actions-bar {
       margin-top: 18px;
       padding-top: 16px;
       border-top: 1px solid var(--border-soft);
@@ -459,35 +524,20 @@
       gap: 12px;
     }
 
-    .exercise-actions {
+    .action-buttons-group {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
     }
 
-    /* Area Docente */
-    .teacher-grid-3 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-      margin-top: 12px;
-    }
-
-    .timer-config-card {
-      padding: 16px;
-      border: 2px solid var(--border-soft);
-      border-radius: var(--radius-md);
-      background-color: var(--bg-subtle);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .radio-option {
+    /* =========================================================================
+       AREA DOCENTE
+       ========================================================================= */
+    .radio-card {
       display: flex;
       align-items: flex-start;
-      gap: 10px;
-      padding: 12px 14px;
+      gap: 12px;
+      padding: 14px;
       border: 2px solid var(--border-soft);
       border-radius: var(--radius-md);
       background-color: var(--bg-card);
@@ -495,7 +545,29 @@
       margin-bottom: 10px;
     }
 
-    .checkbox-label {
+    .radio-card:hover {
+      border-color: var(--primary);
+      background-color: var(--bg-subtle);
+    }
+
+    .teacher-ex-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .teacher-ex-box {
+      padding: 16px;
+      border: 2px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      background-color: var(--bg-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .checkbox-row {
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -504,12 +576,14 @@
       cursor: pointer;
     }
 
-    /* Modale Report */
-    .modal-backdrop {
+    /* =========================================================================
+       REPORT FINALE (MODALE / SEZIONE DEDICATA)
+       ========================================================================= */
+    .modal-overlay {
       position: fixed;
       inset: 0;
-      background-color: rgba(15, 23, 42, 0.6);
-      z-index: 100;
+      background-color: rgba(15, 23, 42, 0.65);
+      z-index: 200;
       padding: 20px;
       overflow-y: auto;
       display: flex;
@@ -517,17 +591,18 @@
       justify-content: center;
     }
 
-    .modal-card {
+    .report-dialog {
       width: 100%;
-      max-width: 920px;
+      max-width: 960px;
       background-color: var(--bg-card);
       border: 2px solid var(--border-strong);
       border-radius: var(--radius-lg);
       padding: 24px;
       margin: 16px auto;
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.25);
     }
 
-    .modal-header {
+    .report-header {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -538,48 +613,51 @@
       border-bottom: 2px solid var(--border-soft);
     }
 
-    .report-meta-grid {
+    .report-student-box {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
       gap: 12px;
-      padding: 14px;
+      padding: 16px;
       border-radius: var(--radius-md);
       background-color: var(--primary-soft);
       border: 1px solid #93c5fd;
+      margin-bottom: 20px;
+    }
+
+    .report-table-wrap {
+      width: 100%;
+      overflow-x: auto;
       margin-bottom: 18px;
     }
 
-    .report-ex-card {
-      padding: 16px;
-      border: 2px solid var(--border-soft);
-      border-radius: var(--radius-md);
-      background-color: #f8fafc;
-      margin-bottom: 14px;
+    .report-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
     }
 
-    .report-ex-top {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 10px;
+    .report-table th,
+    .report-table td {
+      border: 1px solid var(--border-strong);
+      padding: 12px;
+      text-align: left;
+      vertical-align: top;
     }
 
-    .report-list {
-      margin: 6px 0 0 0;
-      padding-left: 20px;
+    .report-table th {
+      background-color: var(--bg-subtle);
+      font-weight: 700;
+      color: var(--text-main);
     }
 
     .report-footer {
-      margin-top: 20px;
-      padding-top: 16px;
-      border-top: 2px solid var(--border-soft);
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
+      padding-top: 16px;
+      border-top: 2px solid var(--border-soft);
     }
 
     .site-footer {
@@ -591,16 +669,21 @@
       background-color: var(--bg-card);
     }
 
-    /* Stampa / Salva PDF */
+    /* =========================================================================
+       STILE DI STAMPA / SALVATAGGIO PDF
+       ========================================================================= */
     @media print {
       body {
         background-color: #ffffff !important;
         color: #000000 !important;
       }
-      .no-print {
+
+      .no-print,
+      iframe {
         display: none !important;
       }
-      .modal-backdrop {
+
+      .modal-overlay {
         position: static !important;
         inset: auto !important;
         background: transparent !important;
@@ -608,8 +691,10 @@
         overflow: visible !important;
         display: block !important;
       }
-      .modal-card {
+
+      .report-dialog {
         border: 1px solid #000000 !important;
+        box-shadow: none !important;
         max-width: 100% !important;
         margin: 0 !important;
         padding: 12px !important;
@@ -619,323 +704,198 @@
 </head>
 <body>
   <!-- =====================================================================
-       INTESTAZIONE E NAVIGAZIONE PRINCIPALE
+       1. INTESTAZIONE E NAVIGAZIONE PRINCIPALE
        ===================================================================== -->
   <header class="site-header no-print">
     <div class="header-inner">
       <div>
-        <span class="badge-pei">Inglese · Lessico quotidiano · 3ª Media (PEI)</span>
-        <h1 class="site-title">Percorso di Inglese con LearningApps</h1>
-        <p class="site-subtitle">Un esercizio alla volta, con tempi chiari e report finale.</p>
+        <span class="brand-tag">Disciplina: Inglese · Percorso Graduale LearningApps</span>
+        <h1 class="site-title">Percorso Interattivo di Inglese – LearningApps</h1>
+        <p class="site-subtitle">Completa i tre livelli di attività e genera il report finale al termine del percorso.</p>
       </div>
-      <div class="header-actions">
-        <button id="btn-view-student" type="button" class="btn btn-primary" onclick="switchArea('student')">
+      <nav class="mode-switch" aria-label="Cambio modalità">
+        <button id="nav-student-btn" type="button" class="btn btn-primary" onclick="switchMode('student')">
           Area Alunno
         </button>
-        <button id="btn-view-teacher" type="button" class="btn btn-secondary" onclick="switchArea('teacher')">
+        <button id="nav-teacher-btn" type="button" class="btn btn-secondary" onclick="switchMode('teacher')">
           Area Docente
         </button>
-        <button type="button" class="btn btn-outline-success" onclick="openReportModal()">
-          Report
-        </button>
-      </div>
+      </nav>
     </div>
   </header>
 
-  <main class="main-container">
-    <!-- Banner notifiche accessibile -->
-    <div id="notice-banner" class="notice-banner notice-info hidden no-print" role="status" aria-live="polite">
-      <span id="notice-text"></span>
+  <main class="main-wrap">
+    <!-- Banner di notifica accessibile -->
+    <div id="app-notice" class="notice-banner notice-info hidden no-print" role="status" aria-live="polite">
+      <span id="app-notice-text"></span>
       <button type="button" class="notice-close" onclick="hideNotice()">Chiudi</button>
     </div>
 
     <!-- =====================================================================
-         AREA ALUNNO
+         2. AREA ALUNNO
          ===================================================================== -->
-    <section id="area-student" aria-label="Area Alunno">
-      <!-- Raccolta dati iniziale: Nome, Cognome, Classe -->
+    <section id="section-student" aria-label="Area Alunno">
+      <!-- Dati dell'Alunno -->
       <div class="card no-print">
-        <h2 class="card-title">Dati dell’alunno</h2>
-        <p class="card-desc">Inserisci Nome, Cognome e Classe. I dati verranno salvati e riportati nel Report.</p>
+        <h2 class="card-title">Dati dell'Alunno</h2>
+        <p class="card-desc">Inserisci Nome, Cognome e Classe prima di iniziare il percorso didattico.</p>
 
-        <form id="student-form" onsubmit="saveStudentData(event)">
-          <div class="student-form-grid">
+        <!-- Form inserimento dati -->
+        <form id="student-form" onsubmit="handleStudentStart(event)">
+          <div class="form-grid-3">
             <div class="field-group">
-              <label for="input-nome" class="field-label">Nome</label>
-              <input id="input-nome" type="text" class="field-input" placeholder="Es. Marco" />
+              <label for="stu-nome" class="field-label">Nome *</label>
+              <input id="stu-nome" type="text" class="field-input" required placeholder="Es. Luca" />
             </div>
             <div class="field-group">
-              <label for="input-cognome" class="field-label">Cognome</label>
-              <input id="input-cognome" type="text" class="field-input" placeholder="Es. Bianchi" />
+              <label for="stu-cognome" class="field-label">Cognome *</label>
+              <input id="stu-cognome" type="text" class="field-input" required placeholder="Es. Rossi" />
             </div>
             <div class="field-group">
-              <label for="input-classe" class="field-label">Classe</label>
-              <input id="input-classe" type="text" class="field-input" placeholder="Es. 3B" />
+              <label for="stu-classe" class="field-label">Classe *</label>
+              <input id="stu-classe" type="text" class="field-input" required placeholder="Es. 3A" />
             </div>
           </div>
-
-          <div class="student-meta-row">
-            <div>
-              <span id="student-summary-pill" class="status-pill">Dati non ancora salvati</span>
-              <span id="order-mode-caption" class="site-subtitle" style="margin-left: 8px;"></span>
-            </div>
-            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-              <button id="btn-save-student" type="submit" class="btn btn-primary">
-                Salva dati alunno
-              </button>
-              <button id="btn-edit-student" type="button" class="btn btn-secondary hidden" onclick="unlockStudentForm()">
-                Modifica dati
-              </button>
-            </div>
+          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;">
+            <span id="mode-indicator-text" class="site-subtitle" style="font-weight: 700;"></span>
+            <button type="submit" class="btn btn-primary">Inizia il percorso</button>
           </div>
         </form>
+
+        <!-- Riepilogo compatto dell'alunno con opzione modifica -->
+        <div id="student-summary-box" class="student-summary-bar hidden">
+          <div class="student-summary-info">
+            <span><strong>Alunno:</strong> <span id="sum-fullname"></span></span>
+            <span><strong>Classe:</strong> <span id="sum-classe"></span></span>
+            <span id="sum-order-pill" class="pill"></span>
+          </div>
+          <button type="button" class="btn btn-secondary" onclick="editStudentInfo()">
+            Modifica dati
+          </button>
+        </div>
       </div>
 
-      <!-- 3 Schede (tab) per i 3 esercizi LearningApps -->
-      <div class="tabs-grid no-print" role="tablist" aria-label="Schede degli esercizi">
-        <button id="tab-0" type="button" role="tab" aria-selected="true" class="tab-btn tab-active" onclick="selectTab(0)">
+      <!-- 3 Schede (Tab) -->
+      <div class="tabs-bar no-print" role="tablist" aria-label="Schede degli esercizi">
+        <button id="tab-btn-0" type="button" role="tab" aria-selected="true" class="tab-btn tab-active" onclick="selectExerciseTab(0)">
           <div class="tab-top">
-            <span class="tab-heading">Scheda 1 · Base</span>
-            <span id="tab-pill-0" class="status-pill pill-pending">Non completato</span>
+            <span class="tab-title">Esercizio 1 (Livello 1)</span>
+            <span id="tab-status-0" class="pill pill-warn">Non completato</span>
           </div>
-          <span class="tab-sub">Esercizio 1 (Livello Base)</span>
+          <span class="tab-sub">Livello Base · Lessico quotidiano iniziale</span>
         </button>
 
-        <button id="tab-1" type="button" role="tab" aria-selected="false" class="tab-btn" onclick="selectTab(1)">
+        <button id="tab-btn-1" type="button" role="tab" aria-selected="false" class="tab-btn" onclick="selectExerciseTab(1)">
           <div class="tab-top">
-            <span class="tab-heading">Scheda 2 · Intermedio</span>
-            <span id="tab-pill-1" class="status-pill pill-pending">Non completato</span>
+            <span class="tab-title">Esercizio 2 (Livello 2)</span>
+            <span id="tab-status-1" class="pill pill-warn">Non completato</span>
           </div>
-          <span class="tab-sub">Esercizio 2 (Livello Intermedio)</span>
+          <span class="tab-sub">Livello Intermedio · Contesto e comprensione</span>
         </button>
 
-        <button id="tab-2" type="button" role="tab" aria-selected="false" class="tab-btn" onclick="selectTab(2)">
+        <button id="tab-btn-2" type="button" role="tab" aria-selected="false" class="tab-btn" onclick="selectExerciseTab(2)">
           <div class="tab-top">
-            <span class="tab-heading">Scheda 3 · Impegnativo</span>
-            <span id="tab-pill-2" class="status-pill pill-pending">Non completato</span>
+            <span class="tab-title">Esercizio 3 (Livello 3)</span>
+            <span id="tab-status-2" class="pill pill-warn">Non completato</span>
           </div>
-          <span class="tab-sub">Esercizio 3 (Livello Più Impegnativo)</span>
+          <span class="tab-sub">Livello Avanzato · Consolidamento</span>
         </button>
       </div>
 
-      <!-- Pannelli dei 3 esercizi (uno visibile alla volta) -->
-      <div id="exercise-panel-0" role="tabpanel" aria-labelledby="tab-0" class="card no-print">
-        <div class="exercise-header">
-          <div>
-            <h2 class="card-title">Esercizio 1 (Livello Base)</h2>
-            <p class="card-desc" style="margin-bottom: 0;">Riconoscere vocaboli inglesi di uso quotidiano in modo chiaro e guidato.</p>
-          </div>
-          <div class="timers-row">
-            <div id="elapsed-display-0" class="timer-box">Durata impiegata: 00:00 (0s)</div>
-            <div id="countdown-display-0" class="timer-box timer-countdown hidden">Timer: --:--</div>
-          </div>
-        </div>
+      <!-- Pannelli dei 3 esercizi -->
+      <div id="ex-panel-0" role="tabpanel" aria-labelledby="tab-btn-0" class="card no-print"></div>
+      <div id="ex-panel-1" role="tabpanel" aria-labelledby="tab-btn-1" class="card hidden no-print"></div>
+      <div id="ex-panel-2" role="tabpanel" aria-labelledby="tab-btn-2" class="card hidden no-print"></div>
 
-        <div class="iframe-wrapper">
-          <iframe
-            src="https://learningapps.org/watch?v=p1zna7ptt26"
-            allowfullscreen="true"
-            webkitallowfullscreen="true"
-            mozallowfullscreen="true"
-            title="Esercizio 1 (Livello Base) LearningApps"
-          ></iframe>
-        </div>
-
-        <div class="exercise-footer">
-          <div class="exercise-actions">
-            <button id="btn-complete-0" type="button" class="btn btn-success" onclick="toggleExerciseCompleted(0)">
-              Segna come Completato / Superato
-            </button>
-          </div>
-          <span id="status-text-0" class="status-pill pill-pending">Stato: Non completato</span>
-        </div>
-      </div>
-
-      <div id="exercise-panel-1" role="tabpanel" aria-labelledby="tab-1" class="card hidden no-print">
-        <div class="exercise-header">
-          <div>
-            <h2 class="card-title">Esercizio 2 (Livello Intermedio)</h2>
-            <p class="card-desc" style="margin-bottom: 0;">Associare parole inglesi quotidiane al contesto di frasi e situazioni comuni.</p>
-          </div>
-          <div class="timers-row">
-            <div id="elapsed-display-1" class="timer-box">Durata impiegata: 00:00 (0s)</div>
-            <div id="countdown-display-1" class="timer-box timer-countdown hidden">Timer: --:--</div>
-          </div>
-        </div>
-
-        <div class="iframe-wrapper">
-          <iframe
-            src="https://learningapps.org/watch?v=payquvob526"
-            allowfullscreen="true"
-            webkitallowfullscreen="true"
-            mozallowfullscreen="true"
-            title="Esercizio 2 (Livello Intermedio) LearningApps"
-          ></iframe>
-        </div>
-
-        <div class="exercise-footer">
-          <div class="exercise-actions">
-            <button id="btn-complete-1" type="button" class="btn btn-success" onclick="toggleExerciseCompleted(1)">
-              Segna come Completato / Superato
-            </button>
-          </div>
-          <span id="status-text-1" class="status-pill pill-pending">Stato: Non completato</span>
-        </div>
-      </div>
-
-      <div id="exercise-panel-2" role="tabpanel" aria-labelledby="tab-2" class="card hidden no-print">
-        <div class="exercise-header">
-          <div>
-            <h2 class="card-title">Esercizio 3 (Livello Più Impegnativo)</h2>
-            <p class="card-desc" style="margin-bottom: 0;">Consolidare il lessico quotidiano in contesti un poco più articolati.</p>
-          </div>
-          <div class="timers-row">
-            <div id="elapsed-display-2" class="timer-box">Durata impiegata: 00:00 (0s)</div>
-            <div id="countdown-display-2" class="timer-box timer-countdown hidden">Timer: --:--</div>
-          </div>
-        </div>
-
-        <div class="iframe-wrapper">
-          <iframe
-            src="https://learningapps.org/watch?v=pzbjksvwa26"
-            allowfullscreen="true"
-            webkitallowfullscreen="true"
-            mozallowfullscreen="true"
-            title="Esercizio 3 (Livello Più Impegnativo) LearningApps"
-          ></iframe>
-        </div>
-
-        <div class="exercise-footer">
-          <div class="exercise-actions">
-            <button id="btn-complete-2" type="button" class="btn btn-success" onclick="toggleExerciseCompleted(2)">
-              Segna come Completato / Superato
-            </button>
-          </div>
-          <span id="status-text-2" class="status-pill pill-pending">Stato: Non completato</span>
-        </div>
-      </div>
-
-      <!-- Barra finale per aprire il Report -->
-      <div class="card no-print" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px;">
+      <!-- Pulsante finale: Genera Report Finale -->
+      <div class="card no-print" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
         <div>
-          <h2 class="card-title" style="margin-bottom: 2px;">Report del percorso</h2>
-          <p id="completed-counter-text" class="card-desc" style="margin-bottom: 0;">Esercizi completati: 0 su 3.</p>
+          <h2 class="card-title" style="margin-bottom: 2px;">Conclusione dell'attività</h2>
+          <p id="overall-progress-label" class="card-desc" style="margin-bottom: 0;">Esercizi completati correttamente: 0 su 3.</p>
         </div>
-        <button type="button" class="btn btn-success" onclick="openReportModal()">
-          Report
+        <button type="button" class="btn btn-success" onclick="openFinalReport()">
+          Genera Report Finale
         </button>
       </div>
     </section>
 
     <!-- =====================================================================
-         AREA DOCENTE PROTETTA DA PASSWORD
+         4. AREA DOCENTE (PROTETTA DA PASSWORD)
          ===================================================================== -->
-    <section id="area-teacher" aria-label="Area Docente" class="hidden no-print">
-      <!-- Schermata login docente -->
-      <div id="teacher-login-card" class="card" style="max-width: 560px; margin: 0 auto 22px auto;">
+    <section id="section-teacher" aria-label="Area Docente" class="hidden no-print">
+      <!-- Schermata di accesso -->
+      <div id="teacher-auth-box" class="card" style="max-width: 540px; margin: 0 auto 22px auto;">
         <h2 class="card-title">Accesso Area Docente</h2>
-        <p class="card-desc">Inserisci la password per impostare modalità di svolgimento e timer.</p>
-        <p class="card-desc" style="background: var(--primary-soft); padding: 10px 12px; border-radius: 8px; color: #1e3a8a;">
-          Password predefinita: <strong id="login-psw-display">docente123</strong>
-        </p>
+        <p class="card-desc">Inserisci la password per configurare l'ordine di svolgimento, i timer e gli obiettivi didattici.</p>
 
-        <form onsubmit="loginTeacher(event)">
-          <div class="field-group" style="margin-bottom: 14px;">
-            <label for="teacher-psw-input" class="field-label">Password docente</label>
-            <input id="teacher-psw-input" type="password" class="field-input" required placeholder="Digita la password" />
+        <form onsubmit="handleTeacherLogin(event)">
+          <div class="field-group" style="margin-bottom: 8px;">
+            <label for="teacher-login-psw" class="field-label">Password docente</label>
+            <input id="teacher-login-psw" type="password" class="field-input" required placeholder="Inserisci password" />
           </div>
+          <p style="margin: 0 0 16px 0; font-size: 13px; color: var(--text-muted);">
+            Password predefinita per test: <strong id="teacher-psw-hint">docente123</strong>
+          </p>
+
           <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-            <button type="submit" class="btn btn-primary">Sblocca Area Docente</button>
-            <button type="button" class="btn btn-secondary" onclick="switchArea('student')">Torna all’Area Alunno</button>
+            <button type="submit" class="btn btn-primary">Accedi</button>
+            <button type="button" class="btn btn-secondary" onclick="switchMode('student')">Torna all'Area Alunno</button>
           </div>
         </form>
       </div>
 
       <!-- Pannello impostazioni docente -->
-      <div id="teacher-settings-card" class="card hidden">
-        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px;">
+      <div id="teacher-config-box" class="card hidden">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px;">
           <div>
             <h2 class="card-title">Impostazioni Docente</h2>
-            <p class="card-desc" style="margin-bottom: 0;">Le impostazioni vengono salvate in <code>localStorage</code>.</p>
+            <p class="card-desc" style="margin-bottom: 0;">Le modifiche vengono salvate automaticamente in <code>localStorage</code>.</p>
           </div>
-          <button type="button" class="btn btn-secondary" onclick="logoutTeacher()">Blocca Area Docente</button>
-        </div>
-
-        <!-- (a) Modalità di svolgimento -->
-        <div style="margin-bottom: 22px;">
-          <h3 class="field-label" style="font-size: 16px; margin-bottom: 10px;">1. Modalità di svolgimento</h3>
-          <label class="radio-option">
-            <input type="radio" name="teacher-order" value="sequential" style="width: 18px; height: 18px; margin-top: 2px;" />
-            <div>
-              <strong>Sequenziale: dalla prima all’ultima</strong>
-              <div class="site-subtitle">Le schede 2 e 3 restano bloccate finché non viene segnato come completato l’esercizio precedente.</div>
-            </div>
-          </label>
-          <label class="radio-option">
-            <input type="radio" name="teacher-order" value="free" style="width: 18px; height: 18px; margin-top: 2px;" />
-            <div>
-              <strong>Libera: inizia da dove vuoi</strong>
-              <div class="site-subtitle">L’alunno può passare liberamente tra tutte e tre le schede in qualsiasi ordine.</div>
-            </div>
-          </label>
-        </div>
-
-        <!-- (b) Timer per singolo esercizio -->
-        <div style="margin-bottom: 22px;">
-          <h3 class="field-label" style="font-size: 16px; margin-bottom: 4px;">2. Timer differenziato per ciascuna App</h3>
-          <p class="card-desc" style="margin-bottom: 10px;">Scegli se attivare il conto alla rovescia e quanti secondi impostare per ogni esercizio.</p>
-
-          <div class="teacher-grid-3">
-            <div class="timer-config-card">
-              <strong>Esercizio 1 (Base)</strong>
-              <label class="checkbox-label">
-                <input id="cfg-timer-enabled-0" type="checkbox" style="width: 18px; height: 18px;" />
-                <span>Attiva timer</span>
-              </label>
-              <div class="field-group">
-                <label for="cfg-timer-sec-0" class="field-label">Secondi (es. 180)</label>
-                <input id="cfg-timer-sec-0" type="number" min="10" max="7200" step="5" class="field-input" />
-              </div>
-            </div>
-
-            <div class="timer-config-card">
-              <strong>Esercizio 2 (Intermedio)</strong>
-              <label class="checkbox-label">
-                <input id="cfg-timer-enabled-1" type="checkbox" style="width: 18px; height: 18px;" />
-                <span>Attiva timer</span>
-              </label>
-              <div class="field-group">
-                <label for="cfg-timer-sec-1" class="field-label">Secondi (es. 240)</label>
-                <input id="cfg-timer-sec-1" type="number" min="10" max="7200" step="5" class="field-input" />
-              </div>
-            </div>
-
-            <div class="timer-config-card">
-              <strong>Esercizio 3 (Più Impegnativo)</strong>
-              <label class="checkbox-label">
-                <input id="cfg-timer-enabled-2" type="checkbox" style="width: 18px; height: 18px;" />
-                <span>Attiva timer</span>
-              </label>
-              <div class="field-group">
-                <label for="cfg-timer-sec-2" class="field-label">Secondi (es. 300)</label>
-                <input id="cfg-timer-sec-2" type="number" min="10" max="7200" step="5" class="field-input" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Password modificabile -->
-        <div class="field-group" style="max-width: 420px; margin-bottom: 20px;">
-          <label for="cfg-new-psw" class="field-label">Modifica password docente (opzionale)</label>
-          <input id="cfg-new-psw" type="text" class="field-input" placeholder="Lascia vuoto per mantenere attuale" />
-        </div>
-
-        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
-          <button type="button" class="btn btn-primary" onclick="saveTeacherSettings()">
-            Salva impostazioni
+          <button type="button" class="btn btn-secondary" onclick="logoutTeacherArea()">
+            Esci dall'Area Docente
           </button>
-          <button type="button" class="btn btn-danger-soft" onclick="resetProgressData()">
-            Azzera progressi e durate alunno
+        </div>
+
+        <!-- Ordine di svolgimento -->
+        <div style="margin-bottom: 24px;">
+          <h3 class="field-label" style="font-size: 16px; margin-bottom: 10px;">1. Ordine di svolgimento degli esercizi</h3>
+          <label class="radio-card">
+            <input type="radio" name="cfg-order-mode" value="sequential" style="width: 18px; height: 18px; margin-top: 2px;" />
+            <div>
+              <strong>Sequenziale obbligatorio (dal 1° al 3°, si passa al successivo solo se il precedente è risolto correttamente)</strong>
+              <div class="site-subtitle">Le schede 2 e 3 restano bloccate con lucchetto fino al completamento dell'esercizio precedente.</div>
+            </div>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="cfg-order-mode" value="free" style="width: 18px; height: 18px; margin-top: 2px;" />
+            <div>
+              <strong>Libero (l'alunno può iniziare da qualsiasi scheda)</strong>
+              <div class="site-subtitle">Tutte e tre le schede sono subito accessibili in qualsiasi ordine.</div>
+            </div>
+          </label>
+        </div>
+
+        <!-- Timer e obiettivi personalizzabili per ciascuna delle 3 App -->
+        <div style="margin-bottom: 24px;">
+          <h3 class="field-label" style="font-size: 16px; margin-bottom: 4px;">2. Timer differenziato e Obiettivi per ciascuna App</h3>
+          <p class="card-desc" style="margin-bottom: 10px;">Configura il timer in minuti e personalizza gli obiettivi primari e secondari riportati nel Report Finale.</p>
+
+          <div id="teacher-exercises-config" class="teacher-ex-grid"></div>
+        </div>
+
+        <!-- Cambio password docente -->
+        <div class="field-group" style="max-width: 420px; margin-bottom: 22px;">
+          <label for="cfg-teacher-psw" class="field-label">Cambia password Area Docente (opzionale)</label>
+          <input id="cfg-teacher-psw" type="text" class="field-input" placeholder="Lascia vuoto per mantenere quella attuale" />
+        </div>
+
+        <!-- Pulsanti azione docente -->
+        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+          <button type="button" class="btn btn-primary" onclick="saveTeacherConfig()">
+            Salva Impostazioni
+          </button>
+          <button type="button" class="btn btn-danger-soft" onclick="resetTeacherDefaults()">
+            Ripristina Predefiniti
           </button>
         </div>
       </div>
@@ -943,207 +903,205 @@
   </main>
 
   <!-- =====================================================================
-       MODALE REPORT FINALE
+       3. MODALE REPORT FINALE
        ===================================================================== -->
-  <div id="report-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="report-title">
-    <div class="modal-card">
-      <div class="modal-header">
+  <div id="report-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="report-modal-title">
+    <div class="report-dialog">
+      <div class="report-header">
         <div>
-          <h2 id="report-title" class="card-title" style="margin-bottom: 2px;">Report Finale del Percorso</h2>
-          <p class="card-desc" style="margin-bottom: 0;">Riepilogo dati alunno, data/ora, tempi, obiettivi ed esito.</p>
+          <h2 id="report-modal-title" class="card-title" style="margin-bottom: 2px;">Report Finale – Percorso di Inglese</h2>
+          <p class="card-desc" style="margin-bottom: 0;">Riepilogo completo dei dati alunno, tempi di svolgimento, esiti e obiettivi.</p>
         </div>
-        <button type="button" class="btn btn-secondary no-print" onclick="closeReportModal()">Chiudi</button>
+        <button type="button" class="btn btn-secondary no-print" onclick="closeFinalReport()">Chiudi</button>
       </div>
 
-      <div id="report-body"></div>
+      <div id="report-content-area"></div>
 
       <div class="report-footer no-print">
-        <span id="copy-feedback" class="site-subtitle" style="font-weight: 700;"></span>
+        <span id="report-copy-status" class="site-subtitle" style="font-weight: 700; color: var(--success);"></span>
         <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-          <button type="button" class="btn btn-secondary" onclick="copyReportText()">Copia Report</button>
-          <button type="button" class="btn btn-primary" onclick="window.print()">Stampa / Salva PDF</button>
+          <button type="button" class="btn btn-secondary" onclick="copyReportToClipboard()">
+            Copia Report negli Appunti
+          </button>
+          <button type="button" class="btn btn-primary" onclick="window.print()">
+            Stampa / Salva PDF
+          </button>
         </div>
       </div>
     </div>
   </div>
 
   <footer class="site-footer no-print">
-    Percorso di Inglese (3ª Media – PEI) · Esercizi LearningApps incorporati via iframe
+    Percorso Interattivo di Inglese – Esercizi incorporati da LearningApps
   </footer>
 
   <script>
     /* =========================================================================
-       STATO APPLICAZIONE, COSTANTI E PERSISTENZA IN LOCALSTORAGE
+       DATI BASE DEI TRE ESERCIZI LEARNINGAPPS (NELL'ORDINE ESATTO RICHIESTO)
        ========================================================================= */
-    const STORAGE_KEY = 'inglese_learningapps_pei_v2';
+    const STORAGE_KEY = 'percorso_inglese_learningapps_v3';
 
-    const EXERCISE_META = [
+    const APPS_CATALOG = [
       {
         index: 0,
-        title: 'Esercizio 1 (Livello Base)',
-        shortTab: 'Scheda 1 · Base',
-        url: 'https://learningapps.org/watch?v=p1zna7ptt26',
-        primaryGoal: 'Riconoscere e comprendere il significato di vocaboli inglesi di uso quotidiano in contesti semplici e guidati.',
-        secondaryGoals: [
-          'Leggere con calma la consegna e le opzioni proposte senza fretta.',
-          'Avviare il percorso con fiducia nel livello base.',
-          'Mantenere l’attenzione sul singolo esercizio visualizzato.'
-        ]
+        tabTitle: 'Esercizio 1 (Livello 1)',
+        title: 'Esercizio 1 – Livello Base',
+        appId: 'pzbjksvwa26',
+        url: 'https://learningapps.org/watch?v=pzbjksvwa26',
+        description: 'Primo livello del percorso: riconoscimento di vocaboli inglesi di uso quotidiano in forma semplice e chiara.',
+        defaultMinutes: 3,
+        defaultPrimaryGoal: 'Riconoscere e comprendere il significato di vocaboli inglesi di uso quotidiano in contesti semplici e guidati.',
+        defaultSecondaryGoal: 'Leggere con attenzione le consegne e gestire in autonomia il primo livello del percorso.'
       },
       {
         index: 1,
-        title: 'Esercizio 2 (Livello Intermedio)',
-        shortTab: 'Scheda 2 · Intermedio',
+        tabTitle: 'Esercizio 2 (Livello 2)',
+        title: 'Esercizio 2 – Livello Intermedio',
+        appId: 'payquvob526',
         url: 'https://learningapps.org/watch?v=payquvob526',
-        primaryGoal: 'Collegare vocaboli ed espressioni inglesi quotidiane al contesto della frase o della situazione.',
-        secondaryGoals: [
-          'Individuare gli indizi chiave all’interno della frase o della domanda.',
-          'Proseguire con continuità aumentando gradualmente la difficoltà.',
-          'Gestire in modo autonomo il tempo di svolgimento.'
-        ]
+        description: 'Secondo livello del percorso: collegamento del lessico inglese quotidiano al contesto di frasi e situazioni.',
+        defaultMinutes: 4,
+        defaultPrimaryGoal: 'Collegare vocaboli ed espressioni inglesi quotidiane al contesto della frase o della situazione proposta.',
+        defaultSecondaryGoal: 'Individuare gli indizi chiave nel testo per selezionare la risposta corretta con continuità.'
       },
       {
         index: 2,
-        title: 'Esercizio 3 (Livello Più Impegnativo)',
-        shortTab: 'Scheda 3 · Impegnativo',
-        url: 'https://learningapps.org/watch?v=pzbjksvwa26',
-        primaryGoal: 'Comprendere e selezionare il lessico inglese quotidiano in contesti più articolati con distrattori più vicini.',
-        secondaryGoals: [
-          'Confrontare con attenzione le scelte disponibili prima di confermare.',
-          'Portare a termine il percorso graduale con autonomia e consapevolezza.',
-          'Valutare il proprio lavoro tramite il report finale.'
-        ]
+        tabTitle: 'Esercizio 3 (Livello 3)',
+        title: 'Esercizio 3 – Livello Avanzato',
+        appId: 'p1zna7ptt26',
+        url: 'https://learningapps.org/watch?v=p1zna7ptt26',
+        description: 'Terzo livello del percorso: consolidamento della comprensione e dell’uso del lessico quotidiano in contesti più articolati.',
+        defaultMinutes: 5,
+        defaultPrimaryGoal: 'Comprendere e selezionare il lessico inglese quotidiano in contesti più articolati con distrattori più vicini.',
+        defaultSecondaryGoal: 'Confrontare con precisione le opzioni disponibili e portare a termine il percorso completo.'
       }
     ];
 
-    function createDefaultState() {
+    /* =========================================================================
+       STATO APPLICAZIONE E PERSISTENZA LOCALSTORAGE
+       ========================================================================= */
+    function buildDefaultState() {
       return {
         student: {
           nome: '',
           cognome: '',
           classe: '',
-          locked: false
+          started: false
         },
         teacher: {
           password: 'docente123',
           orderMode: 'sequential', // 'sequential' | 'free'
-          timers: [
-            { enabled: false, seconds: 180 },
-            { enabled: false, seconds: 240 },
-            { enabled: false, seconds: 300 }
-          ]
+          exercisesConfig: APPS_CATALOG.map((app) => ({
+            timerEnabled: false,
+            timerMinutes: app.defaultMinutes,
+            primaryGoal: app.defaultPrimaryGoal,
+            secondaryGoal: app.defaultSecondaryGoal
+          }))
         },
         activeTab: 0,
-        teacherAuthenticated: false,
-        exercises: [
-          { completed: false, elapsedSeconds: 0, remainingSeconds: 180, timedOut: false },
-          { completed: false, elapsedSeconds: 0, remainingSeconds: 240, timedOut: false },
-          { completed: false, elapsedSeconds: 0, remainingSeconds: 300, timedOut: false }
-        ]
+        teacherUnlocked: false,
+        progress: APPS_CATALOG.map((app) => ({
+          status: 'pending', // 'pending' | 'completed' | 'timeout'
+          elapsedSeconds: 0,
+          remainingSeconds: app.defaultMinutes * 60,
+          timerRunning: false,
+          timerExpired: false
+        }))
       };
     }
 
-    function loadAppState() {
+    function loadState() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return createDefaultState();
-        const parsed = JSON.parse(raw);
-        const def = createDefaultState();
+        if (!raw) return buildDefaultState();
+        const saved = JSON.parse(raw);
+        const def = buildDefaultState();
 
-        const timers = [0, 1, 2].map((i) => ({
-          enabled: Boolean(parsed?.teacher?.timers?.[i]?.enabled),
-          seconds:
-            Number.isFinite(Number(parsed?.teacher?.timers?.[i]?.seconds)) &&
-            Number(parsed.teacher.timers[i].seconds) >= 10
-              ? Number(parsed.teacher.timers[i].seconds)
-              : def.teacher.timers[i].seconds
-        }));
-
-        const exercises = [0, 1, 2].map((i) => {
-          const ex = parsed?.exercises?.[i] || {};
-          const defaultRem = timers[i].seconds;
+        const exercisesConfig = APPS_CATALOG.map((app, i) => {
+          const cfg = saved?.teacher?.exercisesConfig?.[i] || {};
+          const mins = Number(cfg.timerMinutes);
           return {
-            completed: Boolean(ex.completed),
-            elapsedSeconds:
-              Number.isFinite(Number(ex.elapsedSeconds)) && Number(ex.elapsedSeconds) >= 0
-                ? Math.floor(Number(ex.elapsedSeconds))
-                : 0,
-            remainingSeconds:
-              Number.isFinite(Number(ex.remainingSeconds)) && Number(ex.remainingSeconds) >= 0
-                ? Math.floor(Number(ex.remainingSeconds))
-                : defaultRem,
-            timedOut: Boolean(ex.timedOut)
+            timerEnabled: Boolean(cfg.timerEnabled),
+            timerMinutes: Number.isFinite(mins) && mins >= 1 && mins <= 120 ? Math.floor(mins) : app.defaultMinutes,
+            primaryGoal: typeof cfg.primaryGoal === 'string' && cfg.primaryGoal.trim() ? cfg.primaryGoal.trim() : app.defaultPrimaryGoal,
+            secondaryGoal: typeof cfg.secondaryGoal === 'string' && cfg.secondaryGoal.trim() ? cfg.secondaryGoal.trim() : app.defaultSecondaryGoal
+          };
+        });
+
+        const progress = APPS_CATALOG.map((app, i) => {
+          const pr = saved?.progress?.[i] || {};
+          const allowedStatus = ['pending', 'completed', 'timeout'];
+          const defaultSec = exercisesConfig[i].timerMinutes * 60;
+          return {
+            status: allowedStatus.includes(pr.status) ? pr.status : 'pending',
+            elapsedSeconds: Number.isFinite(Number(pr.elapsedSeconds)) && Number(pr.elapsedSeconds) >= 0 ? Math.floor(Number(pr.elapsedSeconds)) : 0,
+            remainingSeconds: Number.isFinite(Number(pr.remainingSeconds)) && Number(pr.remainingSeconds) >= 0 ? Math.floor(Number(pr.remainingSeconds)) : defaultSec,
+            timerRunning: Boolean(pr.timerRunning),
+            timerExpired: Boolean(pr.timerExpired)
           };
         });
 
         return {
           student: {
-            nome: String(parsed?.student?.nome || ''),
-            cognome: String(parsed?.student?.cognome || ''),
-            classe: String(parsed?.student?.classe || ''),
-            locked: Boolean(parsed?.student?.locked)
+            nome: String(saved?.student?.nome || ''),
+            cognome: String(saved?.student?.cognome || ''),
+            classe: String(saved?.student?.classe || ''),
+            started: Boolean(saved?.student?.started)
           },
           teacher: {
-            password:
-              typeof parsed?.teacher?.password === 'string' && parsed.teacher.password.length > 0
-                ? parsed.teacher.password
-                : def.teacher.password,
-            orderMode: parsed?.teacher?.orderMode === 'free' ? 'free' : 'sequential',
-            timers
+            password: typeof saved?.teacher?.password === 'string' && saved.teacher.password.length > 0 ? saved.teacher.password : def.teacher.password,
+            orderMode: saved?.teacher?.orderMode === 'free' ? 'free' : 'sequential',
+            exercisesConfig
           },
-          activeTab:
-            Number.isInteger(parsed?.activeTab) && parsed.activeTab >= 0 && parsed.activeTab <= 2
-              ? parsed.activeTab
-              : 0,
-          teacherAuthenticated: Boolean(parsed?.teacherAuthenticated),
-          exercises
+          activeTab: Number.isInteger(saved?.activeTab) && saved.activeTab >= 0 && saved.activeTab <= 2 ? saved.activeTab : 0,
+          teacherUnlocked: Boolean(saved?.teacherUnlocked),
+          progress
         };
       } catch (err) {
-        console.error('Errore lettura localStorage:', err);
-        return createDefaultState();
+        console.error('Errore caricamento stato:', err);
+        return buildDefaultState();
       }
     }
 
-    function saveAppState() {
+    function persistState() {
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       } catch (err) {
-        console.error('Errore scrittura localStorage:', err);
+        console.error('Errore salvataggio stato:', err);
       }
     }
 
-    let appState = loadAppState();
-    let currentArea = 'student';
-    let timerIntervalId = null;
+    let state = loadState();
+    let activeMode = 'student';
+    let masterTickInterval = null;
 
     /* =========================================================================
-       UTILITÀ DI FORMATTAZIONE E NOTIFICHE
+       FUNZIONI DI UTILITÀ
        ========================================================================= */
-    function escapeHtml(value) {
-      return String(value || '')
+    function escapeHtml(str) {
+      return String(str || '')
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;');
     }
 
-    function formatMinSec(totalSec) {
-      const safe = Math.max(0, Math.floor(Number(totalSec) || 0));
-      const mins = Math.floor(safe / 60);
-      const secs = safe % 60;
-      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')} (${safe}s)`;
+    function formatMMSS(totalSeconds) {
+      const sec = Math.max(0, Math.floor(Number(totalSeconds) || 0));
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
     }
 
-    function formatClock(totalSec) {
-      const safe = Math.max(0, Math.floor(Number(totalSec) || 0));
-      const mins = Math.floor(safe / 60);
-      const secs = safe % 60;
-      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    function formatDurationHuman(totalSeconds) {
+      const sec = Math.max(0, Math.floor(Number(totalSeconds) || 0));
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${String(m).padStart(2, '0')}m ${String(s).padStart(2, '0')}s`;
     }
 
-    function formatNowDateTime() {
-      const now = new Date();
-      return now.toLocaleString('it-IT', {
+    function formatCurrentDateTime() {
+      return new Date().toLocaleString('it-IT', {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric',
@@ -1153,470 +1111,590 @@
       });
     }
 
-    function showNotice(message, variant = 'info') {
-      const banner = document.getElementById('notice-banner');
-      const textEl = document.getElementById('notice-text');
-      if (!banner || !textEl) return;
-
-      textEl.textContent = message;
-      banner.className = `notice-banner notice-${variant} no-print`;
-      banner.classList.remove('hidden');
+    function showNotice(msg, type = 'info') {
+      const box = document.getElementById('app-notice');
+      const txt = document.getElementById('app-notice-text');
+      if (!box || !txt) return;
+      txt.textContent = msg;
+      box.className = `notice-banner notice-${type} no-print`;
+      box.classList.remove('hidden');
     }
 
     function hideNotice() {
-      const banner = document.getElementById('notice-banner');
-      if (banner) banner.classList.add('hidden');
+      const box = document.getElementById('app-notice');
+      if (box) box.classList.add('hidden');
     }
 
     /* =========================================================================
-       LOGICA DI SBLOCCO SEQUENZIALE E NAVIGAZIONE AREE / SCHEDE
+       NAVIGAZIONE TRA AREA ALUNNO E AREA DOCENTE
        ========================================================================= */
-    function isTabUnlocked(index) {
-      if (appState.teacher.orderMode === 'free') return true;
-      if (index === 0) return true;
-      return Boolean(appState.exercises[index - 1]?.completed);
-    }
+    function switchMode(mode) {
+      activeMode = mode;
+      const stuSec = document.getElementById('section-student');
+      const teaSec = document.getElementById('section-teacher');
+      const stuBtn = document.getElementById('nav-student-btn');
+      const teaBtn = document.getElementById('nav-teacher-btn');
 
-    function switchArea(area) {
-      currentArea = area;
-      const studentSection = document.getElementById('area-student');
-      const teacherSection = document.getElementById('area-teacher');
-      const btnStudent = document.getElementById('btn-view-student');
-      const btnTeacher = document.getElementById('btn-view-teacher');
-
-      if (area === 'teacher') {
-        studentSection.classList.add('hidden');
-        teacherSection.classList.remove('hidden');
-        btnTeacher.className = 'btn btn-primary';
-        btnStudent.className = 'btn btn-secondary';
-        renderTeacherSection();
+      if (mode === 'teacher') {
+        stuSec.classList.add('hidden');
+        teaSec.classList.remove('hidden');
+        teaBtn.className = 'btn btn-primary';
+        stuBtn.className = 'btn btn-secondary';
+        renderTeacherArea();
       } else {
-        teacherSection.classList.add('hidden');
-        studentSection.classList.remove('hidden');
-        btnStudent.className = 'btn btn-primary';
-        btnTeacher.className = 'btn btn-secondary';
-        renderStudentSection();
+        teaSec.classList.add('hidden');
+        stuSec.classList.remove('hidden');
+        stuBtn.className = 'btn btn-primary';
+        teaBtn.className = 'btn btn-secondary';
+        renderStudentArea();
       }
     }
 
-    function selectTab(index) {
+    /* =========================================================================
+       DATI DELL'ALUNNO
+       ========================================================================= */
+    function handleStudentStart(event) {
+      event.preventDefault();
+      const nome = (document.getElementById('stu-nome')?.value || '').trim();
+      const cognome = (document.getElementById('stu-cognome')?.value || '').trim();
+      const classe = (document.getElementById('stu-classe')?.value || '').trim();
+
+      if (!nome || !cognome || !classe) {
+        showNotice('Compila tutti i campi obbligatori: Nome, Cognome e Classe.', 'warn');
+        return;
+      }
+
+      state.student = { nome, cognome, classe, started: true };
+
+      // Avvio automatico del timer della scheda corrente se abilitato dal docente
+      const idx = state.activeTab;
+      if (state.teacher.exercisesConfig[idx].timerEnabled && !state.progress[idx].timerExpired) {
+        state.progress[idx].timerRunning = true;
+      }
+
+      persistState();
+      renderStudentArea();
+      showNotice(`Percorso avviato per ${nome} ${cognome} (Classe ${classe}).`, 'success');
+    }
+
+    function editStudentInfo() {
+      state.student.started = false;
+      persistState();
+      renderStudentArea();
+    }
+
+    /* =========================================================================
+       LOGICA SCHEDE, SBLOCCO SEQUENZIALE E STATO ESERCIZI
+       ========================================================================= */
+    function isExerciseUnlocked(index) {
+      if (state.teacher.orderMode === 'free') return true;
+      if (index === 0) return true;
+      return state.progress[index - 1].status === 'completed';
+    }
+
+    function selectExerciseTab(index) {
       if (index < 0 || index > 2) return;
-      if (!isTabUnlocked(index)) {
+      if (!isExerciseUnlocked(index)) {
         showNotice(
-          `Modalità sequenziale attiva: completa prima l’Esercizio ${index} per sbloccare la Scheda ${index + 1}.`,
+          `Ordine sequenziale attivo: completa prima correttamente l'Esercizio ${index} per sbloccare l'Esercizio ${index + 1}.`,
           'warn'
         );
         return;
       }
-      appState.activeTab = index;
-      saveAppState();
-      renderStudentSection();
-    }
 
-    /* =========================================================================
-       DATI ALUNNO E STATO COMPLETAMENTO ESERCIZI
-       ========================================================================= */
-    function saveStudentData(event) {
-      event.preventDefault();
-      const nome = (document.getElementById('input-nome')?.value || '').trim();
-      const cognome = (document.getElementById('input-cognome')?.value || '').trim();
-      const classe = (document.getElementById('input-classe')?.value || '').trim();
+      state.activeTab = index;
 
-      if (!nome || !cognome || !classe) {
-        showNotice('Compila tutti i campi: Nome, Cognome e Classe.', 'warn');
-        return;
+      // Avvio automatico del timer all'apertura della scheda se abilitato e non ancora scaduto
+      const cfg = state.teacher.exercisesConfig[index];
+      const pr = state.progress[index];
+      if (cfg.timerEnabled && !pr.timerExpired && pr.status !== 'completed') {
+        pr.timerRunning = true;
       }
 
-      appState.student.nome = nome;
-      appState.student.cognome = cognome;
-      appState.student.classe = classe;
-      appState.student.locked = true;
-      saveAppState();
-      renderStudentSection();
-      showNotice(`Dati salvati per ${nome} ${cognome} (Classe ${classe}).`, 'success');
+      persistState();
+      renderStudentArea();
     }
 
-    function unlockStudentForm() {
-      appState.student.locked = false;
-      saveAppState();
-      renderStudentSection();
+    function startExerciseCountdown(index) {
+      const cfg = state.teacher.exercisesConfig[index];
+      const pr = state.progress[index];
+      if (!cfg.timerEnabled) return;
+      if (pr.remainingSeconds <= 0) {
+        pr.remainingSeconds = cfg.timerMinutes * 60;
+        pr.timerExpired = false;
+        if (pr.status === 'timeout') pr.status = 'pending';
+      }
+      pr.timerRunning = true;
+      persistState();
+      renderStudentArea();
     }
 
-    function toggleExerciseCompleted(index) {
-      if (index < 0 || index > 2) return;
-      const ex = appState.exercises[index];
-      const nextCompleted = !ex.completed;
-      ex.completed = nextCompleted;
+    function markExerciseCompleted(index) {
+      const pr = state.progress[index];
+      pr.status = 'completed';
+      pr.timerRunning = false;
 
-      if (nextCompleted) {
+      if (state.teacher.orderMode === 'sequential' && index < 2) {
+        state.activeTab = index + 1;
+        const nextCfg = state.teacher.exercisesConfig[index + 1];
+        const nextPr = state.progress[index + 1];
+        if (nextCfg.timerEnabled && !nextPr.timerExpired) {
+          nextPr.timerRunning = true;
+        }
         showNotice(
-          `Esercizio ${index + 1} segnato come Completato / Superato (durata registrata: ${formatMinSec(ex.elapsedSeconds)}).`,
+          `Esercizio ${index + 1} completato correttamente! Scheda ${index + 2} sbloccata.`,
           'success'
         );
-        // In modalità sequenziale, se completato e c'è una scheda successiva, passa alla successiva
-        if (appState.teacher.orderMode === 'sequential' && index < 2) {
-          appState.activeTab = index + 1;
-        }
       } else {
-        showNotice(`Stato dell’Esercizio ${index + 1} aggiornato su "Non completato".`, 'info');
+        showNotice(`Esercizio ${index + 1} segnato come completato correttamente.`, 'success');
       }
 
-      saveAppState();
-      renderStudentSection();
+      persistState();
+      renderStudentArea();
+    }
+
+    function resetExerciseAttempt(index) {
+      const cfg = state.teacher.exercisesConfig[index];
+      const pr = state.progress[index];
+      pr.status = 'pending';
+      pr.elapsedSeconds = 0;
+      pr.remainingSeconds = cfg.timerMinutes * 60;
+      pr.timerExpired = false;
+      pr.timerRunning = Boolean(cfg.timerEnabled);
+
+      persistState();
+      renderStudentArea();
+      showNotice(`Esercizio ${index + 1} reimpostato su "Non completato" per un nuovo tentativo.`, 'info');
     }
 
     /* =========================================================================
-       TIMER PER SINGOLO ESERCIZIO E DURATA EFFETTIVA
+       CRONOMETRO INTERNO AUTOMATICO + TIMER CONTO ALLA ROVESCIA
        ========================================================================= */
-    function startExerciseTimerLoop() {
-      if (timerIntervalId) clearInterval(timerIntervalId);
+    function startMasterClock() {
+      if (masterTickInterval) clearInterval(masterTickInterval);
 
-      timerIntervalId = setInterval(() => {
-        if (currentArea !== 'student') return;
-        const modal = document.getElementById('report-modal');
-        if (modal && !modal.classList.contains('hidden')) return;
+      masterTickInterval = setInterval(() => {
+        if (activeMode !== 'student') return;
+        const reportModal = document.getElementById('report-modal');
+        if (reportModal && !reportModal.classList.contains('hidden')) return;
 
-        const idx = appState.activeTab;
-        if (idx < 0 || idx > 2) return;
-        if (!isTabUnlocked(idx)) return;
+        const idx = state.activeTab;
+        if (!isExerciseUnlocked(idx)) return;
 
-        const ex = appState.exercises[idx];
-        const timerCfg = appState.teacher.timers[idx];
+        const cfg = state.teacher.exercisesConfig[idx];
+        const pr = state.progress[idx];
 
-        // Registra sempre la durata effettiva trascorsa nell'esercizio attivo
-        ex.elapsedSeconds = (ex.elapsedSeconds || 0) + 1;
+        // 1. Cronometro interno automatico: misura sempre il tempo effettivo trascorso sull'esercizio attivo
+        pr.elapsedSeconds += 1;
 
-        // Se il timer è attivo per questo esercizio, gestisce il conto alla rovescia
-        if (timerCfg && timerCfg.enabled) {
-          if (typeof ex.remainingSeconds !== 'number') {
-            ex.remainingSeconds = timerCfg.seconds;
+        // 2. Timer conto alla rovescia se abilitato dal docente e avviato
+        if (cfg.timerEnabled && pr.timerRunning && !pr.timerExpired) {
+          if (pr.remainingSeconds > 0) {
+            pr.remainingSeconds -= 1;
           }
-          if (ex.remainingSeconds > 0) {
-            ex.remainingSeconds -= 1;
-            if (ex.remainingSeconds === 0 && !ex.timedOut) {
-              ex.timedOut = true;
-              showNotice(`Tempo scaduto per l’Esercizio ${idx + 1}.`, 'warn');
+          if (pr.remainingSeconds <= 0) {
+            pr.remainingSeconds = 0;
+            pr.timerRunning = false;
+            pr.timerExpired = true;
+            if (pr.status !== 'completed') {
+              pr.status = 'timeout';
             }
+            showNotice(`Tempo scaduto per l'Esercizio ${idx + 1}!`, 'warn');
+            renderStudentArea();
           }
         }
 
-        saveAppState();
-        updateExerciseTimerDisplays(idx);
+        persistState();
+        updateLiveTimerDOM(idx);
       }, 1000);
     }
 
-    function updateExerciseTimerDisplays(idx) {
-      const ex = appState.exercises[idx];
-      const timerCfg = appState.teacher.timers[idx];
-      const elapsedEl = document.getElementById(`elapsed-display-${idx}`);
-      const countdownEl = document.getElementById(`countdown-display-${idx}`);
+    function updateLiveTimerDOM(idx) {
+      const cfg = state.teacher.exercisesConfig[idx];
+      const pr = state.progress[idx];
 
-      if (elapsedEl) {
-        elapsedEl.textContent = `Durata impiegata: ${formatMinSec(ex.elapsedSeconds)}`;
+      const chronoEl = document.getElementById(`live-chrono-${idx}`);
+      if (chronoEl) {
+        chronoEl.textContent = `Tempo effettivo: ${formatDurationHuman(pr.elapsedSeconds)}`;
       }
 
-      if (countdownEl) {
-        if (timerCfg && timerCfg.enabled) {
-          countdownEl.classList.remove('hidden');
-          const rem = typeof ex.remainingSeconds === 'number' ? ex.remainingSeconds : timerCfg.seconds;
-          countdownEl.textContent = `Timer: ${formatClock(rem)}`;
-          countdownEl.className = ex.timedOut ? 'timer-box timer-expired' : 'timer-box timer-countdown';
-        } else {
-          countdownEl.classList.add('hidden');
-        }
+      const countEl = document.getElementById(`live-countdown-${idx}`);
+      if (countEl && cfg.timerEnabled) {
+        countEl.textContent = pr.timerExpired
+          ? 'Tempo scaduto (00:00)'
+          : `Tempo rimanente: ${formatMMSS(pr.remainingSeconds)}`;
+        countEl.className = pr.timerExpired
+          ? 'timer-badge timer-countdown-expired'
+          : 'timer-badge timer-countdown-active';
       }
     }
 
     /* =========================================================================
        RENDER AREA ALUNNO
        ========================================================================= */
-    function getExerciseStatusLabel(ex) {
-      if (ex.completed) return 'Completato / Superato';
-      if (ex.timedOut) return 'Tempo scaduto';
-      return 'Non completato';
+    function getStatusInfo(pr, unlocked) {
+      if (!unlocked) {
+        return { label: '🔒 Bloccata', pillClass: 'pill pill-locked' };
+      }
+      if (pr.status === 'completed') {
+        return { label: 'Completato', pillClass: 'pill pill-success' };
+      }
+      if (pr.status === 'timeout') {
+        return { label: 'Tempo scaduto', pillClass: 'pill pill-danger' };
+      }
+      return { label: 'Non completato', pillClass: 'pill pill-warn' };
     }
 
-    function getExercisePillClass(ex, isLocked) {
-      if (isLocked) return 'status-pill pill-locked';
-      if (ex.completed) return 'status-pill pill-passed';
-      if (ex.timedOut) return 'status-pill pill-timeout';
-      return 'status-pill pill-pending';
-    }
+    function renderStudentArea() {
+      const formEl = document.getElementById('student-form');
+      const summaryEl = document.getElementById('student-summary-box');
+      const orderModeText =
+        state.teacher.orderMode === 'sequential'
+          ? 'Modalità: Sequenziale obbligatorio (dal 1° al 3°)'
+          : 'Modalità: Libera (puoi iniziare da qualsiasi scheda)';
 
-    function renderStudentSection() {
-      const nomeInput = document.getElementById('input-nome');
-      const cognomeInput = document.getElementById('input-cognome');
-      const classeInput = document.getElementById('input-classe');
-      const btnSave = document.getElementById('btn-save-student');
-      const btnEdit = document.getElementById('btn-edit-student');
-      const summaryPill = document.getElementById('student-summary-pill');
-      const orderCaption = document.getElementById('order-mode-caption');
-
-      if (nomeInput) nomeInput.value = appState.student.nome;
-      if (cognomeInput) cognomeInput.value = appState.student.cognome;
-      if (classeInput) classeInput.value = appState.student.classe;
-
-      const locked = Boolean(appState.student.locked);
-      [nomeInput, cognomeInput, classeInput].forEach((inp) => {
-        if (inp) inp.disabled = locked;
-      });
-      if (btnSave) btnSave.classList.toggle('hidden', locked);
-      if (btnEdit) btnEdit.classList.toggle('hidden', !locked);
-
-      if (summaryPill) {
-        if (appState.student.nome || appState.student.cognome || appState.student.classe) {
-          summaryPill.textContent = `Alunno: ${appState.student.nome || '-'} ${appState.student.cognome || '-'} · Classe: ${appState.student.classe || '-'}`;
-          summaryPill.className = 'status-pill pill-passed';
-        } else {
-          summaryPill.textContent = 'Dati non ancora salvati';
-          summaryPill.className = 'status-pill';
-        }
+      if (state.student.started) {
+        formEl.classList.add('hidden');
+        summaryEl.classList.remove('hidden');
+        document.getElementById('sum-fullname').textContent = `${state.student.nome} ${state.student.cognome}`;
+        document.getElementById('sum-classe').textContent = state.student.classe;
+        document.getElementById('sum-order-pill').textContent = orderModeText;
+      } else {
+        summaryEl.classList.add('hidden');
+        formEl.classList.remove('hidden');
+        document.getElementById('stu-nome').value = state.student.nome;
+        document.getElementById('stu-cognome').value = state.student.cognome;
+        document.getElementById('stu-classe').value = state.student.classe;
+        document.getElementById('mode-indicator-text').textContent = orderModeText;
       }
 
-      if (orderCaption) {
-        orderCaption.textContent =
-          appState.teacher.orderMode === 'sequential'
-            ? 'Modalità: Sequenziale (dalla prima all’ultima)'
-            : 'Modalità: Libera (inizia da dove vuoi)';
+      if (!isExerciseUnlocked(state.activeTab)) {
+        state.activeTab = 0;
+        persistState();
       }
 
-      // Se la scheda attiva risulta bloccata (es. dopo cambio da Libera a Sequenziale), torna alla prima sbloccata
-      if (!isTabUnlocked(appState.activeTab)) {
-        appState.activeTab = 0;
-        saveAppState();
-      }
+      APPS_CATALOG.forEach((app, idx) => {
+        const unlocked = isExerciseUnlocked(idx);
+        const isCurrent = state.activeTab === idx;
+        const cfg = state.teacher.exercisesConfig[idx];
+        const pr = state.progress[idx];
+        const statusInfo = getStatusInfo(pr, unlocked);
 
-      for (let i = 0; i < 3; i++) {
-        const ex = appState.exercises[i];
-        const unlocked = isTabUnlocked(i);
-        const isActive = appState.activeTab === i;
-
-        const tabBtn = document.getElementById(`tab-${i}`);
-        const tabPill = document.getElementById(`tab-pill-${i}`);
-        const panel = document.getElementById(`exercise-panel-${i}`);
-        const btnComplete = document.getElementById(`btn-complete-${i}`);
-        const statusText = document.getElementById(`status-text-${i}`);
-
+        // Aggiorna pulsante Tab
+        const tabBtn = document.getElementById(`tab-btn-${idx}`);
+        const tabStatus = document.getElementById(`tab-status-${idx}`);
         if (tabBtn) {
-          tabBtn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+          tabBtn.setAttribute('aria-selected', isCurrent ? 'true' : 'false');
           tabBtn.setAttribute('aria-disabled', unlocked ? 'false' : 'true');
           tabBtn.className = 'tab-btn';
           if (!unlocked) tabBtn.classList.add('tab-locked');
-          if (isActive) tabBtn.classList.add('tab-active');
+          if (isCurrent) tabBtn.classList.add('tab-active');
+        }
+        if (tabStatus) {
+          tabStatus.textContent = statusInfo.label;
+          tabStatus.className = statusInfo.pillClass;
         }
 
-        if (tabPill) {
-          tabPill.textContent = !unlocked ? 'Bloccata' : getExerciseStatusLabel(ex);
-          tabPill.className = getExercisePillClass(ex, !unlocked);
-        }
+        // Aggiorna pannello esercizio
+        const panel = document.getElementById(`ex-panel-${idx}`);
+        if (!panel) return;
+        panel.classList.toggle('hidden', !isCurrent);
 
-        if (panel) {
-          panel.classList.toggle('hidden', !isActive);
-        }
+        const timerControlsHtml = cfg.timerEnabled
+          ? `
+            <span id="live-countdown-${idx}" class="timer-badge ${pr.timerExpired ? 'timer-countdown-expired' : 'timer-countdown-active'}">
+              ${pr.timerExpired ? 'Tempo scaduto (00:00)' : `Tempo rimanente: ${formatMMSS(pr.remainingSeconds)}`}
+            </span>
+            ${
+              !pr.timerRunning && !pr.timerExpired
+                ? `<button type="button" class="btn btn-warn" onclick="startExerciseCountdown(${idx})">Avvia Timer</button>`
+                : ''
+            }
+          `
+          : '';
 
-        if (btnComplete) {
-          btnComplete.textContent = ex.completed
-            ? 'Annulla completamento (Segna Non completato)'
-            : 'Segna come Completato / Superato';
-          btnComplete.className = ex.completed ? 'btn btn-secondary' : 'btn btn-success';
-        }
+        const timeoutBannerHtml = pr.timerExpired
+          ? `<div class="timeout-alert-box" role="alert">
+               Tempo scaduto per questo esercizio (${cfg.timerMinutes} min). Puoi comunque cliccare su "Non completato / Riprova" per riavviare il tentativo.
+             </div>`
+          : '';
 
-        if (statusText) {
-          statusText.textContent = `Stato: ${getExerciseStatusLabel(ex)}`;
-          statusText.className = getExercisePillClass(ex, false);
-        }
+        panel.innerHTML = `
+          <div class="exercise-top">
+            <div>
+              <h2 class="card-title">${escapeHtml(app.title)}</h2>
+              <p class="card-desc" style="margin-bottom: 0;">${escapeHtml(app.description)}</p>
+            </div>
+            <div class="timers-cluster">
+              <span id="live-chrono-${idx}" class="timer-badge">Tempo effettivo: ${formatDurationHuman(pr.elapsedSeconds)}</span>
+              ${timerControlsHtml}
+            </div>
+          </div>
 
-        updateExerciseTimerDisplays(i);
-      }
+          <div class="objectives-box">
+            <div class="objective-item">
+              <strong>Obiettivo Primario:</strong>
+              <span>${escapeHtml(cfg.primaryGoal)}</span>
+            </div>
+            <div class="objective-item">
+              <strong>Obiettivo Secondario:</strong>
+              <span>${escapeHtml(cfg.secondaryGoal)}</span>
+            </div>
+          </div>
 
-      const completedCount = appState.exercises.filter((e) => e.completed).length;
-      const counterText = document.getElementById('completed-counter-text');
-      if (counterText) {
-        counterText.textContent = `Esercizi completati: ${completedCount} su 3.`;
+          ${timeoutBannerHtml}
+
+          <div class="embed-frame-wrap">
+            <iframe
+              src="${escapeHtml(app.url)}"
+              allowfullscreen="true"
+              webkitallowfullscreen="true"
+              mozallowfullscreen="true"
+              title="${escapeHtml(app.title)} - LearningApps"
+            ></iframe>
+          </div>
+
+          <div class="exercise-actions-bar">
+            <div class="action-buttons-group">
+              <button type="button" class="btn btn-success" onclick="markExerciseCompleted(${idx})">
+                Ho completato correttamente questo esercizio
+              </button>
+              <button type="button" class="btn btn-secondary" onclick="resetExerciseAttempt(${idx})">
+                Non completato / Riprova
+              </button>
+            </div>
+            <span class="${statusInfo.pillClass}">Stato attuale: ${escapeHtml(statusInfo.label)}</span>
+          </div>
+        `;
+      });
+
+      const completedCount = state.progress.filter((p) => p.status === 'completed').length;
+      const overallLabel = document.getElementById('overall-progress-label');
+      if (overallLabel) {
+        overallLabel.textContent = `Esercizi completati correttamente: ${completedCount} su 3.`;
       }
     }
 
     /* =========================================================================
        AREA DOCENTE
        ========================================================================= */
-    function loginTeacher(event) {
+    function handleTeacherLogin(event) {
       event.preventDefault();
-      const input = document.getElementById('teacher-psw-input');
-      const entered = input ? input.value : '';
-      if (entered === appState.teacher.password) {
-        appState.teacherAuthenticated = true;
+      const input = document.getElementById('teacher-login-psw');
+      const val = input ? input.value : '';
+      if (val === state.teacher.password) {
+        state.teacherUnlocked = true;
         if (input) input.value = '';
-        saveAppState();
-        renderTeacherSection();
-        showNotice('Accesso all’Area Docente sbloccato.', 'success');
+        persistState();
+        renderTeacherArea();
+        showNotice('Accesso all’Area Docente effettuato.', 'success');
       } else {
-        showNotice('Password non corretta.', 'warn');
+        showNotice('Password errata. Riprova.', 'warn');
       }
     }
 
-    function logoutTeacher() {
-      appState.teacherAuthenticated = false;
-      saveAppState();
-      renderTeacherSection();
+    function logoutTeacherArea() {
+      state.teacherUnlocked = false;
+      persistState();
+      renderTeacherArea();
     }
 
-    function renderTeacherSection() {
-      const pswHint = document.getElementById('login-psw-display');
-      if (pswHint) pswHint.textContent = appState.teacher.password;
+    function renderTeacherArea() {
+      const hint = document.getElementById('teacher-psw-hint');
+      if (hint) hint.textContent = state.teacher.password;
 
-      const loginCard = document.getElementById('teacher-login-card');
-      const settingsCard = document.getElementById('teacher-settings-card');
-      if (!loginCard || !settingsCard) return;
+      const authBox = document.getElementById('teacher-auth-box');
+      const cfgBox = document.getElementById('teacher-config-box');
+      if (!authBox || !cfgBox) return;
 
-      if (!appState.teacherAuthenticated) {
-        loginCard.classList.remove('hidden');
-        settingsCard.classList.add('hidden');
+      if (!state.teacherUnlocked) {
+        authBox.classList.remove('hidden');
+        cfgBox.classList.add('hidden');
         return;
       }
 
-      loginCard.classList.add('hidden');
-      settingsCard.classList.remove('hidden');
+      authBox.classList.add('hidden');
+      cfgBox.classList.remove('hidden');
 
-      const radios = document.querySelectorAll('input[name="teacher-order"]');
-      radios.forEach((r) => {
-        r.checked = r.value === appState.teacher.orderMode;
+      document.querySelectorAll('input[name="cfg-order-mode"]').forEach((radio) => {
+        radio.checked = radio.value === state.teacher.orderMode;
       });
 
-      for (let i = 0; i < 3; i++) {
-        const cfgEnabled = document.getElementById(`cfg-timer-enabled-${i}`);
-        const cfgSec = document.getElementById(`cfg-timer-sec-${i}`);
-        if (cfgEnabled) cfgEnabled.checked = Boolean(appState.teacher.timers[i].enabled);
-        if (cfgSec) cfgSec.value = appState.teacher.timers[i].seconds;
-      }
+      const container = document.getElementById('teacher-exercises-config');
+      if (!container) return;
+
+      container.innerHTML = APPS_CATALOG.map((app, i) => {
+        const cfg = state.teacher.exercisesConfig[i];
+        return `
+          <div class="teacher-ex-box">
+            <strong>${escapeHtml(app.tabTitle)} (${escapeHtml(app.appId)})</strong>
+
+            <label class="checkbox-row">
+              <input id="cfg-timer-on-${i}" type="checkbox" ${cfg.timerEnabled ? 'checked' : ''} style="width: 18px; height: 18px;" />
+              <span>Attiva timer</span>
+            </label>
+
+            <div class="field-group">
+              <label for="cfg-timer-min-${i}" class="field-label">Durata timer (minuti)</label>
+              <input id="cfg-timer-min-${i}" type="number" min="1" max="120" value="${cfg.timerMinutes}" class="field-input" />
+            </div>
+
+            <div class="field-group">
+              <label for="cfg-goal-prim-${i}" class="field-label">Obiettivo primario</label>
+              <textarea id="cfg-goal-prim-${i}" class="field-textarea">${escapeHtml(cfg.primaryGoal)}</textarea>
+            </div>
+
+            <div class="field-group">
+              <label for="cfg-goal-sec-${i}" class="field-label">Obiettivo secondario</label>
+              <textarea id="cfg-goal-sec-${i}" class="field-textarea">${escapeHtml(cfg.secondaryGoal)}</textarea>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
-    function saveTeacherSettings() {
-      const selectedOrder = document.querySelector('input[name="teacher-order"]:checked')?.value;
+    function saveTeacherConfig() {
+      const selectedOrder = document.querySelector('input[name="cfg-order-mode"]:checked')?.value;
       if (selectedOrder === 'sequential' || selectedOrder === 'free') {
-        appState.teacher.orderMode = selectedOrder;
+        state.teacher.orderMode = selectedOrder;
       }
 
-      for (let i = 0; i < 3; i++) {
-        const enabled = Boolean(document.getElementById(`cfg-timer-enabled-${i}`)?.checked);
-        const rawSec = parseInt(document.getElementById(`cfg-timer-sec-${i}`)?.value || '180', 10);
-        const seconds = Number.isFinite(rawSec) && rawSec >= 10 ? rawSec : 180;
+      APPS_CATALOG.forEach((app, i) => {
+        const timerEnabled = Boolean(document.getElementById(`cfg-timer-on-${i}`)?.checked);
+        const rawMin = parseInt(document.getElementById(`cfg-timer-min-${i}`)?.value || String(app.defaultMinutes), 10);
+        const timerMinutes = Number.isFinite(rawMin) && rawMin >= 1 && rawMin <= 120 ? rawMin : app.defaultMinutes;
 
-        appState.teacher.timers[i] = { enabled, seconds };
-        appState.exercises[i].remainingSeconds = seconds;
-        appState.exercises[i].timedOut = false;
-      }
+        const primaryGoal = (document.getElementById(`cfg-goal-prim-${i}`)?.value || '').trim() || app.defaultPrimaryGoal;
+        const secondaryGoal = (document.getElementById(`cfg-goal-sec-${i}`)?.value || '').trim() || app.defaultSecondaryGoal;
 
-      const newPswInput = document.getElementById('cfg-new-psw');
-      const newPsw = (newPswInput?.value || '').trim();
+        state.teacher.exercisesConfig[i] = {
+          timerEnabled,
+          timerMinutes,
+          primaryGoal,
+          secondaryGoal
+        };
+
+        // Aggiorna il tempo residuo se l'esercizio non è ancora completato
+        if (state.progress[i].status !== 'completed') {
+          state.progress[i].remainingSeconds = timerMinutes * 60;
+          state.progress[i].timerExpired = false;
+          state.progress[i].timerRunning = false;
+          if (state.progress[i].status === 'timeout') {
+            state.progress[i].status = 'pending';
+          }
+        }
+      });
+
+      const newPsw = (document.getElementById('cfg-teacher-psw')?.value || '').trim();
       if (newPsw.length > 0) {
-        appState.teacher.password = newPsw;
-        if (newPswInput) newPswInput.value = '';
+        state.teacher.password = newPsw;
+        document.getElementById('cfg-teacher-psw').value = '';
       }
 
-      saveAppState();
-      renderTeacherSection();
-      renderStudentSection();
-      showNotice('Impostazioni docente salvate in localStorage.', 'success');
+      persistState();
+      renderTeacherArea();
+      renderStudentArea();
+      showNotice('Impostazioni salvate correttamente in localStorage.', 'success');
     }
 
-    function resetProgressData() {
-      appState.activeTab = 0;
-      appState.exercises = [0, 1, 2].map((i) => ({
-        completed: false,
-        elapsedSeconds: 0,
-        remainingSeconds: appState.teacher.timers[i].seconds,
-        timedOut: false
-      }));
-      saveAppState();
-      renderStudentSection();
-      showNotice('Progressi, stati e durate degli esercizi azzerati.', 'info');
+    function resetTeacherDefaults() {
+      const fresh = buildDefaultState();
+      state.teacher = fresh.teacher;
+      state.progress = fresh.progress;
+      state.activeTab = 0;
+      persistState();
+      renderTeacherArea();
+      renderStudentArea();
+      showNotice('Impostazioni predefinite e progressi ripristinati.', 'info');
     }
 
     /* =========================================================================
-       REPORT FINALE, COPIA E STAMPA / SALVA PDF
+       3. REPORT FINALE (VISUALIZZAZIONE, COPIA NEGLI APPUNTI, STAMPA / PDF)
        ========================================================================= */
-    function evaluateGoalOutcome(ex) {
-      if (ex.completed && !ex.timedOut) {
-        return 'Obiettivi raggiunti / superati (esercizio completato).';
-      }
-      if (ex.completed && ex.timedOut) {
-        return 'Esercizio completato; obiettivi raggiunti con tempo oltre il timer impostato.';
-      }
-      if (ex.timedOut) {
-        return 'Obiettivi non ancora superati (tempo scaduto prima del completamento).';
-      }
-      return 'Obiettivi non ancora superati (esercizio non completato).';
-    }
+    function buildReportSnapshot() {
+      const generatedAt = formatCurrentDateTime();
+      const nome = state.student.nome || 'Non inserito';
+      const cognome = state.student.cognome || 'Non inserito';
+      const classe = state.student.classe || 'Non inserita';
 
-    function buildReportData() {
-      const generatedAt = formatNowDateTime();
-      const nome = appState.student.nome || 'Non indicato';
-      const cognome = appState.student.cognome || 'Non indicato';
-      const classe = appState.student.classe || 'Non indicata';
+      const rows = APPS_CATALOG.map((app, i) => {
+        const cfg = state.teacher.exercisesConfig[i];
+        const pr = state.progress[i];
 
-      const items = EXERCISE_META.map((meta, idx) => {
-        const ex = appState.exercises[idx];
+        const outcomeLabel =
+          pr.status === 'completed'
+            ? 'Completato'
+            : pr.status === 'timeout'
+            ? 'Tempo scaduto'
+            : 'Non completato';
+
+        const timerStatusLabel = !cfg.timerEnabled
+          ? 'Timer disattivato'
+          : pr.timerExpired
+          ? `Scaduto (limite ${cfg.timerMinutes} min)`
+          : `Attivo (limite ${cfg.timerMinutes} min · residui ${formatMMSS(pr.remainingSeconds)})`;
+
+        const goalPassed = pr.status === 'completed';
+
         return {
-          ...meta,
-          status: getExerciseStatusLabel(ex),
-          durationFormatted: formatMinSec(ex.elapsedSeconds),
-          goalOutcome: evaluateGoalOutcome(ex)
+          title: app.title,
+          appId: app.appId,
+          url: app.url,
+          duration: formatDurationHuman(pr.elapsedSeconds),
+          timerStatus: timerStatusLabel,
+          outcome: outcomeLabel,
+          outcomeClass:
+            pr.status === 'completed'
+              ? 'pill pill-success'
+              : pr.status === 'timeout'
+              ? 'pill pill-danger'
+              : 'pill pill-warn',
+          primaryGoal: cfg.primaryGoal,
+          secondaryGoal: cfg.secondaryGoal,
+          goalStatusLabel: goalPassed ? 'Superato' : 'Non superato',
+          goalStatusClass: goalPassed ? 'pill pill-success' : 'pill pill-warn'
         };
       });
 
-      return { nome, cognome, classe, generatedAt, items };
+      return { nome, cognome, classe, generatedAt, rows };
     }
 
-    function openReportModal() {
-      renderReportModal();
-      const modal = document.getElementById('report-modal');
-      const copyFeedback = document.getElementById('copy-feedback');
+    function openFinalReport() {
+      const data = buildReportSnapshot();
+      const container = document.getElementById('report-content-area');
+      const copyFeedback = document.getElementById('report-copy-status');
       if (copyFeedback) copyFeedback.textContent = '';
-      if (modal) modal.classList.remove('hidden');
-    }
 
-    function closeReportModal() {
-      const modal = document.getElementById('report-modal');
-      if (modal) modal.classList.add('hidden');
-    }
-
-    function renderReportModal() {
-      const container = document.getElementById('report-body');
-      if (!container) return;
-
-      const data = buildReportData();
-
-      const cardsHtml = data.items
-        .map((item) => {
-          const secondaryHtml = item.secondaryGoals
-            .map((g) => `<li>${escapeHtml(g)}</li>`)
-            .join('');
-
-          const ex = appState.exercises[item.index];
-          const pillClass = getExercisePillClass(ex, false);
-
-          return `
-            <div class="report-ex-card">
-              <div class="report-ex-top">
-                <h3 class="card-title" style="margin: 0; font-size: 17px;">${escapeHtml(item.title)}</h3>
-                <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
-                  <span class="status-pill">Durata: ${escapeHtml(item.durationFormatted)}</span>
-                  <span class="${pillClass}">Stato: ${escapeHtml(item.status)}</span>
-                </div>
-              </div>
-              <p style="margin: 6px 0;"><strong>Obiettivo Primario:</strong> ${escapeHtml(item.primaryGoal)}</p>
-              <div style="margin: 6px 0;">
-                <strong>Obiettivi Secondari:</strong>
-                <ul class="report-list">${secondaryHtml}</ul>
-              </div>
-              <p style="margin: 8px 0 0 0;"><strong>Esito superamento obiettivi:</strong> ${escapeHtml(item.goalOutcome)}</p>
-            </div>
-          `;
-        })
+      const tableRowsHtml = data.rows
+        .map(
+          (r) => `
+          <tr>
+            <td>
+              <strong>${escapeHtml(r.title)}</strong><br />
+              <small style="color: var(--text-muted);">ID: ${escapeHtml(r.appId)}<br />${escapeHtml(r.url)}</small>
+            </td>
+            <td>
+              <strong>${escapeHtml(r.duration)}</strong><br />
+              <small style="color: var(--text-muted);">${escapeHtml(r.timerStatus)}</small>
+            </td>
+            <td>
+              <span class="${r.outcomeClass}">${escapeHtml(r.outcome)}</span>
+            </td>
+            <td>
+              <div style="margin-bottom: 6px;">${escapeHtml(r.primaryGoal)}</div>
+              <span class="${r.goalStatusClass}">${escapeHtml(r.goalStatusLabel)}</span>
+            </td>
+            <td>
+              <div style="margin-bottom: 6px;">${escapeHtml(r.secondaryGoal)}</div>
+              <span class="${r.goalStatusClass}">${escapeHtml(r.goalStatusLabel)}</span>
+            </td>
+          </tr>
+        `
+        )
         .join('');
 
       container.innerHTML = `
-        <div class="report-meta-grid">
+        <div class="report-student-box">
           <div>
             <div class="field-label">Nome</div>
             <div>${escapeHtml(data.nome)}</div>
@@ -1630,72 +1708,86 @@
             <div>${escapeHtml(data.classe)}</div>
           </div>
           <div>
-            <div class="field-label">Data e ora generazione</div>
+            <div class="field-label">Data e ora svolgimento</div>
             <div>${escapeHtml(data.generatedAt)}</div>
           </div>
         </div>
-        ${cardsHtml}
+
+        <div class="report-table-wrap">
+          <table class="report-table">
+            <thead>
+              <tr>
+                <th>Esercizio e Link/ID</th>
+                <th>Durata e Stato Timer</th>
+                <th>Esito Svolgimento</th>
+                <th>Obiettivo Primario</th>
+                <th>Obiettivo Secondario</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tableRowsHtml}
+            </tbody>
+          </table>
+        </div>
       `;
+
+      document.getElementById('report-modal').classList.remove('hidden');
     }
 
-    function getPlainReportText() {
-      const data = buildReportData();
+    function closeFinalReport() {
+      document.getElementById('report-modal').classList.add('hidden');
+    }
+
+    function copyReportToClipboard() {
+      const data = buildReportSnapshot();
       const lines = [
-        'REPORT FINALE – PERCORSO DI INGLESE (LEARNINGAPPS)',
-        `Nome: ${data.nome}`,
-        `Cognome: ${data.cognome}`,
-        `Classe: ${data.classe}`,
+        'REPORT FINALE – PERCORSO INTERATTIVO DI INGLESE (LEARNINGAPPS)',
+        `Alunno: ${data.nome} ${data.cognome} | Classe: ${data.classe}`,
         `Data e ora: ${data.generatedAt}`,
-        '============================================================'
+        '------------------------------------------------------------------------'
       ];
 
-      data.items.forEach((item) => {
-        lines.push(`${item.title}`);
-        lines.push(`- Stato: ${item.status}`);
-        lines.push(`- Durata impiegata: ${item.durationFormatted}`);
-        lines.push(`- Obiettivo Primario: ${item.primaryGoal}`);
-        lines.push(`- Obiettivi Secondari: ${item.secondaryGoals.join(' | ')}`);
-        lines.push(`- Esito superamento obiettivi: ${item.goalOutcome}`);
+      data.rows.forEach((r) => {
+        lines.push(`${r.title} (${r.url})`);
+        lines.push(`  - Durata effettiva: ${r.duration} | Timer: ${r.timerStatus}`);
+        lines.push(`  - Esito svolgimento: ${r.outcome}`);
+        lines.push(`  - Obiettivo Primario: ${r.primaryGoal} [${r.goalStatusLabel}]`);
+        lines.push(`  - Obiettivo Secondario: ${r.secondaryGoal} [${r.goalStatusLabel}]`);
         lines.push('');
       });
 
-      return lines.join('\n');
-    }
-
-    function copyReportText() {
-      const plainText = getPlainReportText();
-      const feedbackEl = document.getElementById('copy-feedback');
-      let copied = false;
+      const textToCopy = lines.join('\n');
+      let success = false;
 
       try {
-        const tempArea = document.createElement('textarea');
-        tempArea.value = plainText;
-        tempArea.setAttribute('readonly', '');
-        tempArea.style.position = 'fixed';
-        tempArea.style.opacity = '0';
-        document.body.appendChild(tempArea);
-        tempArea.select();
-        copied = document.execCommand('copy');
-        document.body.removeChild(tempArea);
+        const helper = document.createElement('textarea');
+        helper.value = textToCopy;
+        helper.setAttribute('readonly', '');
+        helper.style.position = 'fixed';
+        helper.style.opacity = '0';
+        document.body.appendChild(helper);
+        helper.select();
+        success = document.execCommand('copy');
+        document.body.removeChild(helper);
       } catch (err) {
-        console.error('Errore copia negli appunti:', err);
-        copied = false;
+        console.error('Errore durante la copia:', err);
       }
 
-      if (feedbackEl) {
-        feedbackEl.textContent = copied
-          ? 'Report copiato negli appunti.'
-          : 'Impossibile copiare automaticamente: puoi selezionare il testo del report.';
+      const statusEl = document.getElementById('report-copy-status');
+      if (statusEl) {
+        statusEl.textContent = success
+          ? 'Report copiato negli appunti!'
+          : 'Copia automatica non disponibile: seleziona il testo della tabella.';
       }
     }
 
     /* =========================================================================
-       INIZIALIZZAZIONE
+       AVVIO INIZIALE
        ========================================================================= */
     window.addEventListener('DOMContentLoaded', () => {
-      renderStudentSection();
-      renderTeacherSection();
-      startExerciseTimerLoop();
+      renderStudentArea();
+      renderTeacherArea();
+      startMasterClock();
     });
   </script>
 </body>
