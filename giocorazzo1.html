@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Turbo Razzo: Sfida di Digitazione (BES Friendly)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #fdf8ee;
+      --surface-color: #ffffff;
+      --text-color: #1e293b;
+      --muted-text: #475569;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --accent: #f59e0b;
+      --success: #16a34a;
+      --error: #dc2626;
+      --border-color: #cbd5e1;
+      --font-main: 'Atkinson Hyperlegible', 'Lexend', Arial, sans-serif;
+      --letter-spacing: 0.06em;
+      --word-spacing: 0.16em;
+      --font-scale: 1;
+    }
+
+    body.theme-yellow {
+      --bg-color: #fef9c3;
+      --surface-color: #fefce8;
+      --text-color: #1c1917;
+      --muted-text: #44403c;
+      --border-color: #d6d3d1;
+    }
+
+    body.theme-dark {
+      --bg-color: #0f172a;
+      --surface-color: #1e293b;
+      --text-color: #f8fafc;
+      --muted-text: #cbd5e1;
+      --border-color: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      letter-spacing: var(--letter-spacing);
+      word-spacing: var(--word-spacing);
+      line-height: 1.6;
+      transition: background-color 0.25s ease, color 0.25s ease;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 980px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Header */
+    header {
+      background: var(--surface-color);
+      border: 2px solid var(--border-color);
+      border-radius: 20px;
+      padding: 16px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      font-size: 2.2rem;
+      background: #dbeafe;
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand h1 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .brand p {
+      font-size: 0.9rem;
+      color: var(--muted-text);
+    }
+
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    button {
+      font-family: var(--font-main);
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      border: none;
+      border-radius: 14px;
+      font-weight: 700;
+      transition: transform 0.1s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .btn-report {
+      background-color: #10b981;
+      color: #ffffff;
+      padding: 12px 18px;
+      font-size: 1rem;
+      box-shadow: 0 4px 0 #059669;
+    }
+
+    .btn-report:hover {
+      background-color: #059669;
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      border: 2px solid var(--border-color);
+      padding: 10px 14px;
+      font-size: 0.95rem;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--primary);
+    }
+
+    /* Accessibility & Game Settings Bar */
+    .controls-panel {
+      background: var(--surface-color);
+      border: 2px solid var(--border-color);
+      border-radius: 20px;
+      padding: 16px 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .control-group label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--muted-text);
+      text-transform: uppercase;
+    }
+
+    select, input[type="text"] {
+      font-family: var(--font-main);
+      font-size: 1rem;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 2px solid var(--border-color);
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-weight: 600;
+    }
+
+    .theme-pills {
+      display: flex;
+      gap: 8px;
+    }
+
+    .theme-pill {
+      flex: 1;
+      padding: 8px;
+      border-radius: 10px;
+      border: 2px solid var(--border-color);
+      font-size: 0.85rem;
+      justify-content: center;
+    }
+
+    .theme-pill.active {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
+    }
+
+    /* Rocket Track */
+    .track-card {
+      background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
+      color: #ffffff;
+      border-radius: 20px;
+      padding: 16px 24px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 6px 16px rgba(30, 58, 138, 0.2);
+    }
+
+    .track-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .stats-badges {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .space-lane {
+      background: rgba(255, 255, 255, 0.12);
+      height: 44px;
+      border-radius: 22px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      border: 2px dashed rgba(255, 255, 255, 0.3);
+    }
+
+    .rocket-avatar {
+      position: absolute;
+      left: 12px;
+      font-size: 2rem;
+      transition: left 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+      user-select: none;
+    }
+
+    .planet-goal {
+      margin-left: auto;
+      font-size: 1.9rem;
+      user-select: none;
+    }
+
+    /* Main Typing Arena */
+    .typing-arena {
+      background: var(--surface-color);
+      border: 3px solid var(--primary);
+      border-radius: 24px;
+      padding: 28px 24px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      position: relative;
+    }
+
+    .prompt-hint {
+      font-size: 1rem;
+      color: var(--muted-text);
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .target-display {
+      font-size: calc(2.1rem * var(--font-scale));
+      font-weight: 700;
+      margin: 16px 0 24px 0;
+      padding: 18px;
+      background: var(--bg-color);
+      border-radius: 16px;
+      border: 2px solid var(--border-color);
+      min-height: 92px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 2px;
+      user-select: none;
+    }
+
+    .char {
+      padding: 2px 4px;
+      border-radius: 6px;
+      transition: all 0.1s ease;
+    }
+
+    .char.correct {
+      color: var(--success);
+      background-color: rgba(22, 163, 74, 0.12);
+    }
+
+    .char.current {
+      background-color: #fde047;
+      color: #0f172a;
+      border-bottom: 4px solid var(--primary);
+      transform: scale(1.08);
+    }
+
+    .char.incorrect {
+      color: #ffffff;
+      background-color: var(--error);
+      animation: gentleShake 0.25s ease;
+    }
+
+    @keyframes gentleShake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      75% { transform: translateX(4px); }
+    }
+
+    .typing-input-wrapper {
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    #typingInput {
+      width: 100%;
+      font-size: 1.5rem;
+      text-align: center;
+      padding: 14px 20px;
+      border-radius: 16px;
+      border: 3px solid var(--border-color);
+      outline: none;
+      background: var(--surface-color);
+      color: var(--text-color);
+    }
+
+    #typingInput:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+    }
+
+    .feedback-banner {
+      min-height: 32px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    /* Visual Virtual Keyboard with Finger Color Coding */
+    .keyboard-container {
+      background: var(--surface-color);
+      border: 2px solid var(--border-color);
+      border-radius: 20px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .keyboard-legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    #virtualKeyboard {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+      align-items: center;
+    }
+
+    .kb-row {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .key {
+      min-width: 44px;
+      height: 46px;
+      border-radius: 10px;
+      border: 2px solid rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: #1e293b;
+      transition: transform 0.1s, box-shadow 0.1s;
+      user-select: none;
+      cursor: pointer;
+    }
+
+    .key:hover {
+      filter: brightness(0.96);
+    }
+
+    .key.space {
+      min-width: 240px;
+    }
+
+    /* Finger Colors (Pastel & High Contrast) */
+    .f-pinky  { background-color: #fbcfe8; }
+    .f-ring   { background-color: #fed7aa; }
+    .f-middle { background-color: #fef08a; }
+    .f-index-l{ background-color: #bbf7d0; }
+    .f-index-r{ background-color: #bae6fd; }
+    .f-thumb  { background-color: #e2e8f0; }
+
+    .key.pressed {
+      transform: translateY(2px) scale(0.96);
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.25);
+    }
+
+    .key.next-key {
+      transform: translateY(-4px) scale(1.1);
+      border: 3px solid #2563eb;
+      box-shadow: 0 6px 14px rgba(37, 99, 235, 0.45);
+      z-index: 2;
+    }
+
+    .key.next-key.pressed {
+      transform: translateY(-1px) scale(1.04);
+    }
+
+    /* Modal for Report */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 100;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      background: var(--surface-color);
+      color: var(--text-color);
+      border-radius: 24px;
+      max-width: 560px;
+      width: 100%;
+      padding: 28px;
+      border: 3px solid var(--primary);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .report-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .report-stat {
+      background: var(--bg-color);
+      border: 2px solid var(--border-color);
+      border-radius: 14px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .report-stat .val {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .report-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 8px;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: #ffffff;
+      padding: 12px 18px;
+      font-size: 1rem;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+
+    @media (max-width: 700px) {
+      .key { min-width: 30px; height: 38px; font-size: 0.85rem; }
+      .key.space { min-width: 140px; }
+      .target-display { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header>
+      <div class="brand">
+        <div class="brand-icon">🚀</div>
+        <div>
+          <h1>Turbo Razzo: Sfida di Digitazione</h1>
+          <p>Allenamento spaziale ad alta leggibilità per le scuole medie</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button class="btn-secondary" id="toggleVoiceBtn" title="Attiva o disattiva la voce guida">
+          🔊 Voce: <span id="voiceStatus">ON</span>
+        </button>
+        <button class="btn-secondary" id="fontSizeBtn" title="Cambia dimensione testo">
+          🔍 Testo: <span id="fontSizeLabel">Normale</span>
+        </button>
+        <button class="btn-report" id="openReportBtn">
+          📊 Salva Report
+        </button>
+      </div>
+    </header>
+
+    <!-- Settings Bar -->
+    <section class="controls-panel" aria-label="Impostazioni di gioco e accessibilità">
+      <div class="control-group">
+        <label for="studentName">👤 Nome Studente</label>
+        <input type="text" id="studentName" placeholder="Scrivi il tuo nome..." value="Esploratore Spaziale" />
+      </div>
+
+      <div class="control-group">
+        <label for="levelSelect">🎯 Livello di Difficoltà</label>
+        <select id="levelSelect">
+          <option value="1">Livello 1: Lettere e Sillabe</option>
+          <option value="2" selected>Livello 2: Parole Semplici</option>
+          <option value="3">Livello 3: Parole con Accenti e Doppie</option>
+          <option value="4">Livello 4: Frasi Brevi Simpatiche</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label for="timerSelect">⏱️ Modalità Timer</label>
+        <select id="timerSelect">
+          <option value="0">Senza fretta (Cronometro libero)</option>
+          <option value="60" selected>Sfida 1 Minuto (60s)</option>
+          <option value="120">Sfida 2 Minuti (120s)</option>
+          <option value="180">Sfida 3 Minuti (180s)</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label>🎨 Sfondo Riposante (BES)</label>
+        <div class="theme-pills">
+          <button class="theme-pill active" data-theme="cream" style="background:#fdf8ee; color:#1e293b;">Crema</button>
+          <button class="theme-pill" data-theme="yellow" style="background:#fef9c3; color:#1c1917;">Giallo</button>
+          <button class="theme-pill" data-theme="dark" style="background:#0f172a; color:#f8fafc;">Notte</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rocket Progress Track -->
+    <section class="track-card">
+      <div class="track-header">
+        <div>
+          <strong id="missionTitle">Missione: Raggiungi il Pianeta Stella!</strong>
+        </div>
+        <div class="stats-badges">
+          <div class="badge">⏱️ <span id="timerDisplay">01:00</span></div>
+          <div class="badge">⭐ Punti: <span id="scoreDisplay">0</span></div>
+          <div class="badge">🎯 Precisione: <span id="accuracyDisplay">100%</span></div>
+          <div class="badge">⚡ Velocità: <span id="wpmDisplay">0</span> par/min</div>
+        </div>
+      </div>
+      <div class="space-lane">
+        <div class="rocket-avatar" id="rocketAvatar">🚀</div>
+        <div class="planet-goal" id="planetGoal">🪐</div>
+      </div>
+    </section>
+
+    <!-- Typing Arena -->
+    <main class="typing-arena">
+      <div class="prompt-hint">
+        <span>Scrivi la parola o frase qui sotto:</span>
+        <button class="btn-secondary" id="speakWordBtn" style="padding: 6px 12px; font-size: 0.85rem;">
+          🗣️ Ascolta
+        </button>
+        <button class="btn-secondary" id="resetGameBtn" style="padding: 6px 12px; font-size: 0.85rem;">
+          🔄 Ricomincia
+        </button>
+      </div>
+
+      <div class="target-display" id="targetDisplay" aria-live="polite"></div>
+
+      <div class="typing-input-wrapper">
+        <input
+          type="text"
+          id="typingInput"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          placeholder="Clicca qui e inizia a digitare..."
+        />
+        <div class="feedback-banner" id="feedbackBanner">
+          Pronto al decollo! Premi il primo tasto per avviare il timer.
+        </div>
+      </div>
+    </main>
+
+    <!-- Visual Virtual Keyboard -->
+    <section class="keyboard-container" aria-label="Tastiera guidata">
+      <div class="keyboard-legend">
+        <span class="legend-item"><span class="dot f-pinky"></span>Mignolo</span>
+        <span class="legend-item"><span class="dot f-ring"></span>Anulare</span>
+        <span class="legend-item"><span class="dot f-middle"></span>Medio</span>
+        <span class="legend-item"><span class="dot f-index-l"></span>Indice Sx</span>
+        <span class="legend-item"><span class="dot f-index-r"></span>Indice Dx</span>
+        <span class="legend-item"><span class="dot f-thumb"></span>Pollice</span>
+      </div>
+      <div id="virtualKeyboard"></div>
+    </section>
+  </div>
+
+  <!-- Report Modal -->
+  <div class="modal-backdrop" id="reportModal">
+    <div class="modal-card">
+      <h2>📊 Report Missione di Digitazione</h2>
+      <p id="reportStudentSummary">Ottimo lavoro! Ecco i risultati della tua sessione:</p>
+
+      <div class="report-grid">
+        <div class="report-stat">
+          <div>Parole Completate</div>
+          <div class="val" id="repWords">0</div>
+        </div>
+        <div class="report-stat">
+          <div>Precisione</div>
+          <div class="val" id="repAccuracy">100%</div>
+        </div>
+        <div class="report-stat">
+          <div>Velocità Media</div>
+          <div class="val" id="repWpm">0 par/min</div>
+        </div>
+        <div class="report-stat">
+          <div>Tempo di Gioco</div>
+          <div class="val" id="repTime">0s</div>
+        </div>
+      </div>
+
+      <div id="repErrorsBox" style="background: var(--bg-color); padding: 12px; border-radius: 12px; border: 1px solid var(--border-color); font-size: 0.95rem;">
+        <strong>Lettere da allenare:</strong> <span id="repHardKeys">Nessuna, percorso perfetto! 🌟</span>
+      </div>
+
+      <div class="report-actions">
+        <button class="btn-secondary" id="closeReportBtn">Continua a giocare</button>
+        <button class="btn-secondary" id="downloadTxtBtn">📄 Scarica .TXT</button>
+        <button class="btn-primary" id="downloadHtmlReportBtn">🏅 Scarica Scheda Attestato (.HTML)</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const CONTENT_BANK = {
+      1: [
+        "ba", "be", "bi", "bo", "bu", "ca", "co", "cu", "che", "chi",
+        "fa", "fe", "fi", "fo", "fu", "ga", "go", "gu", "ghe", "ghi",
+        "la", "le", "li", "lo", "lu", "ma", "me", "mi", "mo", "mu",
+        "pa", "pe", "pi", "po", "pu", "sa", "se", "si", "so", "su",
+        "ta", "te", "ti", "to", "tu", "va", "ve", "vi", "vo", "vu"
+      ],
+      2: [
+        "razzo", "stella", "pianeta", "luna", "sole", "nuvola", "bosco",
+        "fiume", "libro", "zaino", "banco", "penna", "quaderno", "amico",
+        "scuola", "musica", "sport", "delfino", "tigre", "aquila", "treno",
+        "bici", "vela", "ponte", "torre", "isola", "mare", "monte", "vento"
+      ],
+      3: [
+        "città", "perché", "però", "così", "più", "già", "può", "caffè",
+        "università", "felicità", "velocità", "libertà", "avventura",
+        "astronauta", "telescopio", "galassia", "costellazione", "stella cadente",
+        "arcobaleno", "farfalla", "scoiattolo", "tartaruga", "coccodrillo",
+        "meraviglia", "coraggio", "fantasia", "scoperta", "laboratorio"
+      ],
+      4: [
+        "Il razzo parte verso la luna.",
+        "Oggi imparo a scrivere veloce.",
+        "Ogni errore aiuta a migliorare.",
+        "La costellazione brilla nel cielo.",
+        "Il delfino nuota tra le onde blu.",
+        "Leggere un buon libro apre la mente.",
+        "La musica rende felice la giornata.",
+        "Con calma e pazienza si arriva lontano.",
+        "Il telescopio osserva pianeti lontani.",
+        "Siamo una squadra spaziale fortissima!"
+      ]
+    };
+
+    const KEYBOARD_LAYOUT = [
+      [
+        { k: 'q', f: 'f-pinky' }, { k: 'w', f: 'f-ring' }, { k: 'e', f: 'f-middle' },
+        { k: 'r', f: 'f-index-l' }, { k: 't', f: 'f-index-l' }, { k: 'y', f: 'f-index-r' },
+        { k: 'u', f: 'f-index-r' }, { k: 'i', f: 'f-middle' }, { k: 'o', f: 'f-ring' },
+        { k: 'p', f: 'f-pinky' }, { k: 'è', f: 'f-pinky' }
+      ],
+      [
+        { k: 'a', f: 'f-pinky' }, { k: 's', f: 'f-ring' }, { k: 'd', f: 'f-middle' },
+        { k: 'f', f: 'f-index-l' }, { k: 'g', f: 'f-index-l' }, { k: 'h', f: 'f-index-r' },
+        { k: 'j', f: 'f-index-r' }, { k: 'k', f: 'f-middle' }, { k: 'l', f: 'f-ring' },
+        { k: 'ò', f: 'f-pinky' }, { k: 'à', f: 'f-pinky' }, { k: 'ù', f: 'f-pinky' }
+      ],
+      [
+        { k: 'z', f: 'f-pinky' }, { k: 'x', f: 'f-ring' }, { k: 'c', f: 'f-middle' },
+        { k: 'v', f: 'f-index-l' }, { k: 'b', f: 'f-index-l' }, { k: 'n', f: 'f-index-r' },
+        { k: 'm', f: 'f-index-r' }, { k: ',', f: 'f-middle' }, { k: '.', f: 'f-ring' },
+        { k: 'ì', f: 'f-pinky' }
+      ],
+      [
+        { k: ' ', label: 'SPAZIO', f: 'f-thumb space' }
+      ]
+    ];
+
+    let state = {
+      level: 2,
+      timerMode: 60,
+      timeLeft: 60,
+      elapsedSeconds: 0,
+      timerRunning: false,
+      timerInterval: null,
+      nextWordTimeout: null,
+      currentTarget: "",
+      wordsCompleted: 0,
+      totalKeystrokes: 0,
+      correctKeystrokes: 0,
+      errorMap: {},
+      voiceEnabled: true,
+      fontScaleIndex: 0,
+      prevTypedLength: 0
+    };
+
+    const FONT_SCALES = [
+      { label: "Normale", val: 1 },
+      { label: "Grande", val: 1.2 },
+      { label: "Extra", val: 1.4 }
+    ];
+
+    const targetDisplay = document.getElementById("targetDisplay");
+    const typingInput = document.getElementById("typingInput");
+    const feedbackBanner = document.getElementById("feedbackBanner");
+    const timerDisplay = document.getElementById("timerDisplay");
+    const scoreDisplay = document.getElementById("scoreDisplay");
+    const accuracyDisplay = document.getElementById("accuracyDisplay");
+    const wpmDisplay = document.getElementById("wpmDisplay");
+    const rocketAvatar = document.getElementById("rocketAvatar");
+    const virtualKeyboard = document.getElementById("virtualKeyboard");
+    const reportModal = document.getElementById("reportModal");
+
+    function normalizeForKey(char) {
+      const lower = char.toLowerCase();
+      if (lower === "é") return "è";
+      return lower;
+    }
+
+    function findKeyElement(char) {
+      if (!char) return null;
+      const normalized = normalizeForKey(char);
+      const keys = document.querySelectorAll("#virtualKeyboard .key");
+      for (const el of keys) {
+        if (el.dataset.key === normalized) {
+          return el;
+        }
+      }
+      return null;
+    }
+
+    function insertVirtualChar(char) {
+      if (typingInput.disabled || reportModal.classList.contains("open")) return;
+      typingInput.focus();
+      const start = typingInput.selectionStart ?? typingInput.value.length;
+      const end = typingInput.selectionEnd ?? typingInput.value.length;
+      const currentVal = typingInput.value;
+      typingInput.value = currentVal.slice(0, start) + char + currentVal.slice(end);
+      const nextPos = start + char.length;
+      typingInput.setSelectionRange(nextPos, nextPos);
+      typingInput.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+
+    function buildKeyboard() {
+      virtualKeyboard.innerHTML = "";
+      KEYBOARD_LAYOUT.forEach(row => {
+        const rowDiv = document.createElement("div");
+        rowDiv.className = "kb-row";
+        row.forEach(item => {
+          const keyDiv = document.createElement("button");
+          keyDiv.type = "button";
+          keyDiv.className = `key ${item.f}`;
+          keyDiv.dataset.key = item.k;
+          keyDiv.textContent = item.label || item.k.toUpperCase();
+          keyDiv.addEventListener("mousedown", (e) => {
+            e.preventDefault();
+            keyDiv.classList.add("pressed");
+            insertVirtualChar(item.k);
+          });
+          keyDiv.addEventListener("mouseup", () => keyDiv.classList.remove("pressed"));
+          keyDiv.addEventListener("mouseleave", () => keyDiv.classList.remove("pressed"));
+          keyDiv.addEventListener("touchstart", (e) => {
+            e.preventDefault();
+            keyDiv.classList.add("pressed");
+            insertVirtualChar(item.k);
+          }, { passive: false });
+          keyDiv.addEventListener("touchend", () => keyDiv.classList.remove("pressed"));
+          rowDiv.appendChild(keyDiv);
+        });
+        virtualKeyboard.appendChild(rowDiv);
+      });
+    }
+
+    function highlightNextKey(char) {
+      document.querySelectorAll("#virtualKeyboard .key").forEach(k => k.classList.remove("next-key"));
+      const targetKey = findKeyElement(char);
+      if (targetKey) {
+        targetKey.classList.add("next-key");
+      }
+    }
+
+    function speakText(text) {
+      if (!state.voiceEnabled || !("speechSynthesis" in window)) return;
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "it-IT";
+      utterance.rate = 0.92;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function nextChallenge() {
+      clearTimeout(state.nextWordTimeout);
+      const list = CONTENT_BANK[state.level];
+      let candidate = list[Math.floor(Math.random() * list.length)];
+      if (candidate === state.currentTarget && list.length > 1) {
+        candidate = list[(list.indexOf(candidate) + 1) % list.length];
+      }
+      state.currentTarget = candidate;
+      state.prevTypedLength = 0;
+      typingInput.value = "";
+      renderTarget();
+      speakText(candidate);
+    }
+
+    function renderTarget() {
+      const typed = typingInput.value;
+      targetDisplay.innerHTML = "";
+      let hasError = false;
+
+      for (let i = 0; i < state.currentTarget.length; i++) {
+        const span = document.createElement("span");
+        span.className = "char";
+        const expectedChar = state.currentTarget[i];
+        span.textContent = expectedChar === " " ? "␣" : expectedChar;
+
+        if (i < typed.length) {
+          if (typed[i] === expectedChar) {
+            span.classList.add("correct");
+          } else {
+            span.classList.add("incorrect");
+            hasError = true;
+          }
+        } else if (i === typed.length) {
+          span.classList.add("current");
+          highlightNextKey(expectedChar);
+        }
+        targetDisplay.appendChild(span);
+      }
+
+      if (typed.length >= state.currentTarget.length) {
+        highlightNextKey(null);
+      }
+
+      if (hasError) {
+        feedbackBanner.textContent = "Ops! Controlla la lettera evidenziata in rosso e correggila.";
+        feedbackBanner.style.color = "var(--error)";
+      } else if (state.timerRunning) {
+        feedbackBanner.textContent = "Ottimo ritmo! Continua così 🚀";
+        feedbackBanner.style.color = "var(--primary)";
+      }
+    }
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60).toString().padStart(2, "0");
+      const s = (sec % 60).toString().padStart(2, "0");
+      return `${m}:${s}`;
+    }
+
+    function startTimer() {
+      if (state.timerRunning) return;
+      state.timerRunning = true;
+      state.timerInterval = setInterval(() => {
+        state.elapsedSeconds++;
+        if (state.timerMode > 0) {
+          state.timeLeft--;
+          timerDisplay.textContent = formatTime(Math.max(0, state.timeLeft));
+          if (state.timeLeft <= 0) {
+            finishSession();
+          }
+        } else {
+          timerDisplay.textContent = formatTime(state.elapsedSeconds);
+        }
+        updateStats();
+      }, 1000);
+    }
+
+    function stopTimer() {
+      state.timerRunning = false;
+      clearInterval(state.timerInterval);
+    }
+
+    function updateStats() {
+      scoreDisplay.textContent = state.wordsCompleted * 10;
+      const acc = state.totalKeystrokes === 0
+        ? 100
+        : Math.round((state.correctKeystrokes / state.totalKeystrokes) * 100);
+      accuracyDisplay.textContent = `${acc}%`;
+
+      const minutes = Math.max(state.elapsedSeconds / 60, 1 / 60);
+      const wpm = state.elapsedSeconds > 1 ? Math.round((state.correctKeystrokes / 5) / minutes) : 0;
+      wpmDisplay.textContent = state.elapsedSeconds > 1 ? wpm : 0;
+
+      const pct = Math.min(88, (state.wordsCompleted % 10) * 9.5 + 4);
+      rocketAvatar.style.left = `${pct}%`;
+    }
+
+    function finishSession() {
+      stopTimer();
+      clearTimeout(state.nextWordTimeout);
+      typingInput.disabled = true;
+      feedbackBanner.textContent = "🎉 Tempo scaduto! Missione completata!";
+      speakText("Tempo scaduto! Ottimo lavoro!");
+      openReportModal();
+    }
+
+    function resetGame() {
+      stopTimer();
+      clearTimeout(state.nextWordTimeout);
+      state.timerMode = parseInt(document.getElementById("timerSelect").value, 10);
+      state.timeLeft = state.timerMode;
+      state.elapsedSeconds = 0;
+      state.wordsCompleted = 0;
+      state.totalKeystrokes = 0;
+      state.correctKeystrokes = 0;
+      state.errorMap = {};
+      state.prevTypedLength = 0;
+
+      timerDisplay.textContent = state.timerMode > 0 ? formatTime(state.timeLeft) : "00:00";
+      typingInput.disabled = false;
+      typingInput.value = "";
+      feedbackBanner.textContent = "Pronto al decollo! Premi il primo tasto per avviare il timer.";
+      feedbackBanner.style.color = "var(--primary)";
+      updateStats();
+      nextChallenge();
+      typingInput.focus();
+    }
+
+    typingInput.addEventListener("input", () => {
+      if (typingInput.disabled) return;
+      const typed = typingInput.value;
+
+      if (!state.timerRunning && typed.length > 0) {
+        startTimer();
+      }
+
+      if (typed.length > state.prevTypedLength) {
+        const idx = typed.length - 1;
+        if (idx < state.currentTarget.length) {
+          state.totalKeystrokes++;
+          const expected = state.currentTarget[idx];
+          const actual = typed[idx];
+          if (actual === expected) {
+            state.correctKeystrokes++;
+          } else {
+            const keyLabel = expected === " " ? "SPAZIO" : expected.toUpperCase();
+            state.errorMap[keyLabel] = (state.errorMap[keyLabel] || 0) + 1;
+          }
+        }
+      }
+      state.prevTypedLength = typed.length;
+
+      renderTarget();
+      updateStats();
+
+      if (typed === state.currentTarget) {
+        state.wordsCompleted++;
+        updateStats();
+        feedbackBanner.textContent = "⭐ Perfetto! Prossimo obiettivo!";
+        feedbackBanner.style.color = "var(--success)";
+        typingInput.disabled = true;
+        state.nextWordTimeout = setTimeout(() => {
+          typingInput.disabled = false;
+          nextChallenge();
+          typingInput.focus();
+        }, 280);
+      }
+    });
+
+    // Physical keyboard visual feedback + automatic focus recovery
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && reportModal.classList.contains("open")) {
+        reportModal.classList.remove("open");
+        if (!typingInput.disabled) typingInput.focus();
+        return;
+      }
+
+      const keyEl = findKeyElement(e.key);
+      if (keyEl) {
+        keyEl.classList.add("pressed");
+      }
+
+      const activeTag = document.activeElement ? document.activeElement.tagName : "";
+      const isFormControl = ["INPUT", "SELECT", "TEXTAREA", "BUTTON"].includes(activeTag);
+      if (
+        !reportModal.classList.contains("open") &&
+        !typingInput.disabled &&
+        !isFormControl &&
+        !e.ctrlKey &&
+        !e.metaKey &&
+        !e.altKey &&
+        e.key.length === 1
+      ) {
+        typingInput.focus();
+      }
+    });
+
+    document.addEventListener("keyup", (e) => {
+      const keyEl = findKeyElement(e.key);
+      if (keyEl) {
+        keyEl.classList.remove("pressed");
+      }
+    });
+
+    window.addEventListener("blur", () => {
+      document.querySelectorAll("#virtualKeyboard .key.pressed").forEach(k => k.classList.remove("pressed"));
+    });
+
+    document.getElementById("levelSelect").addEventListener("change", (e) => {
+      state.level = parseInt(e.target.value, 10);
+      resetGame();
+    });
+
+    document.getElementById("timerSelect").addEventListener("change", () => {
+      resetGame();
+    });
+
+    document.getElementById("resetGameBtn").addEventListener("click", resetGame);
+
+    document.getElementById("speakWordBtn").addEventListener("click", () => {
+      speakText(state.currentTarget);
+      if (!typingInput.disabled) typingInput.focus();
+    });
+
+    document.getElementById("toggleVoiceBtn").addEventListener("click", () => {
+      state.voiceEnabled = !state.voiceEnabled;
+      document.getElementById("voiceStatus").textContent = state.voiceEnabled ? "ON" : "OFF";
+      if (!typingInput.disabled) typingInput.focus();
+    });
+
+    document.getElementById("fontSizeBtn").addEventListener("click", () => {
+      state.fontScaleIndex = (state.fontScaleIndex + 1) % FONT_SCALES.length;
+      const chosen = FONT_SCALES[state.fontScaleIndex];
+      document.documentElement.style.setProperty("--font-scale", chosen.val);
+      document.getElementById("fontSizeLabel").textContent = chosen.label;
+      if (!typingInput.disabled) typingInput.focus();
+    });
+
+    document.querySelectorAll(".theme-pill").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".theme-pill").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        document.body.className = "";
+        if (btn.dataset.theme === "yellow") document.body.classList.add("theme-yellow");
+        if (btn.dataset.theme === "dark") document.body.classList.add("theme-dark");
+        if (!typingInput.disabled) typingInput.focus();
+      });
+    });
+
+    function getReportData() {
+      const student = document.getElementById("studentName").value.trim() || "Esploratore Spaziale";
+      const levelText = document.getElementById("levelSelect").selectedOptions[0].text;
+      const acc = state.totalKeystrokes === 0
+        ? 100
+        : Math.round((state.correctKeystrokes / state.totalKeystrokes) * 100);
+      const minutes = Math.max(state.elapsedSeconds / 60, 1 / 60);
+      const wpm = state.elapsedSeconds > 1 ? Math.round((state.correctKeystrokes / 5) / minutes) : 0;
+
+      const sortedErrors = Object.entries(state.errorMap)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5)
+        .map(([k, count]) => `${k} (${count}x)`);
+
+      const dateStr = new Date().toLocaleDateString("it-IT", {
+        day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit"
+      });
+
+      return {
+        student,
+        levelText,
+        words: state.wordsCompleted,
+        accuracy: acc,
+        wpm,
+        elapsed: state.elapsedSeconds,
+        hardKeys: sortedErrors.length ? sortedErrors.join(", ") : "Nessuna, percorso perfetto!",
+        dateStr
+      };
+    }
+
+    function openReportModal() {
+      stopTimer();
+      const data = getReportData();
+      document.getElementById("reportStudentSummary").textContent =
+        `Studente: ${data.student} • ${data.levelText}`;
+      document.getElementById("repWords").textContent = data.words;
+      document.getElementById("repAccuracy").textContent = `${data.accuracy}%`;
+      document.getElementById("repWpm").textContent = `${data.wpm} par/min`;
+      document.getElementById("repTime").textContent = `${data.elapsed}s`;
+      document.getElementById("repHardKeys").textContent = data.hardKeys;
+      reportModal.classList.add("open");
+    }
+
+    document.getElementById("openReportBtn").addEventListener("click", openReportModal);
+    document.getElementById("closeReportBtn").addEventListener("click", () => {
+      reportModal.classList.remove("open");
+      if (!typingInput.disabled) typingInput.focus();
+    });
+
+    function triggerDownload(filename, content, mimeType) {
+      const blob = new Blob([content], { type: mimeType });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    document.getElementById("downloadTxtBtn").addEventListener("click", () => {
+      const d = getReportData();
+      const txt = [
+        "==========================================",
+        "  TURBO RAZZO - REPORT DI DIGITAZIONE",
+        "==========================================",
+        `Data: ${d.dateStr}`,
+        `Studente: ${d.student}`,
+        `Livello: ${d.levelText}`,
+        "------------------------------------------",
+        `Parole/Frasi completate: ${d.words}`,
+        `Precisione: ${d.accuracy}%`,
+        `Velocità media: ${d.wpm} parole/minuto`,
+        `Tempo di allenamento: ${d.elapsed} secondi`,
+        `Tasti da ripassare: ${d.hardKeys}`,
+        "=========================================="
+      ].join("\n");
+      const safeName = d.student.toLowerCase().replace(/[^a-z0-9]/g, "_");
+      triggerDownload(`report_digitazione_${safeName}.txt`, txt, "text/plain;charset=utf-8");
+    });
+
+    document.getElementById("downloadHtmlReportBtn").addEventListener("click", () => {
+      const d = getReportData();
+      const badgeTitle = d.accuracy >= 90 ? "🏅 Pilota Stellare di Precisione" : "🚀 Esploratore Spaziale in Crescita";
+      const htmlReport = `<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Attestato Digitazione - ${d.student}</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #fdf8ee; color: #1e293b; padding: 40px; text-align: center; }
+    .card { max-width: 650px; margin: 0 auto; background: #fff; border: 4px solid #2563eb; border-radius: 24px; padding: 32px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
+    h1 { color: #2563eb; margin-bottom: 8px; }
+    .badge { display: inline-block; background: #fef08a; padding: 10px 20px; border-radius: 999px; font-weight: bold; margin: 16px 0; font-size: 1.1rem; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+    .box { background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 14px; padding: 16px; }
+    .box strong { display: block; font-size: 1.6rem; color: #2563eb; margin-top: 6px; }
+    .footer { margin-top: 24px; font-size: 0.9rem; color: #64748b; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div style="font-size: 3rem;">🚀</div>
+    <h1>Attestato di Missione Spaziale</h1>
+    <p>Rilasciato a <strong>${d.student}</strong> il ${d.dateStr}</p>
+    <div class="badge">${badgeTitle}</div>
+    <p><strong>Percorso:</strong> ${d.levelText}</p>
+    <div class="grid">
+      <div class="box">Parole Completate<strong>${d.words}</strong></div>
+      <div class="box">Precisione<strong>${d.accuracy}%</strong></div>
+      <div class="box">Velocità<strong>${d.wpm} par/min</strong></div>
+      <div class="box">Tempo di Volo<strong>${d.elapsed} sec</strong></div>
+    </div>
+    <p><strong>Tasti da allenare:</strong> ${d.hardKeys}</p>
+    <div class="footer">Turbo Razzo: Sfida di Digitazione • Scheda didattica stampabile</div>
+  </div>
+</body>
+</html>`;
+      const safeName = d.student.toLowerCase().replace(/[^a-z0-9]/g, "_");
+      triggerDownload(`attestato_digitazione_${safeName}.html`, htmlReport, "text/html;charset=utf-8");
+    });
+
+    buildKeyboard();
+    resetGame();
+  </script>
+</body>
+</html>
